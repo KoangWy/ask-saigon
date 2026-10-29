@@ -6,6 +6,8 @@
 
 [Live demo](https://ask-saigon.vercel.app) · [Try the demo script](docs/demo-script.md) · [Architecture](docs/architecture.md)
 
+**Current iPhone 13 screenshots**
+
 | Start exploring | TikTok and a place | Price check | A day plan |
 | --- | --- | --- | --- |
 | ![Ask Saigon landing page](docs/images/home.png) | ![TikTok result and place card](docs/images/tiktok.png) | ![Cyclo price reference card](docs/images/price.png) | ![Itinerary sheet](docs/images/itinerary.png) |
