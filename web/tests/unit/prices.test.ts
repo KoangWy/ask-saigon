@@ -1,0 +1,3 @@
+import { describe, expect, it } from 'vitest';
+import { getPriceReference } from '../../lib/tools';
+describe('reference prices',()=>{it('computes verdicts from the quoted amount',()=>{expect(getPriceReference({item:'cyclo',user_price_vnd:250000})).toMatchObject({verdict:'fair'});expect(getPriceReference({item:'cyclo',user_price_vnd:300000})).toMatchObject({verdict:'a_bit_high'});expect(getPriceReference({item:'cyclo',user_price_vnd:400000})).toMatchObject({verdict:'too_high'});});it('does not invent a quote or an unknown reference',()=>{expect(getPriceReference({item:'cyclo'})).not.toHaveProperty('verdict');expect(getPriceReference({item:'unknown'})).toEqual({found:false});});});
