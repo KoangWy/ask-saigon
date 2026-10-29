@@ -6,7 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "predev": "pnpm build-data",
+    "prebuild": "pnpm build-data",
+    "pretest": "pnpm build-data",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "build-data": "tsx scripts/build-data",
+    "smoke:live": "tsx scripts/smoke-live.ts"
   },
   "dependencies": {
     "csv-parse": "^7.0.3",

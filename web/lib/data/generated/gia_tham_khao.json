@@ -1,0 +1,98 @@
+[
+  {
+    "id": "cyclo",
+    "hang_muc": "xích lô",
+    "ten_khac": "cyclo",
+    "don_vi": "",
+    "gia_tu": "",
+    "gia_den": "",
+    "meo_vi": "",
+    "meo_en": "",
+    "nguon": "https://vietnam.travel/",
+    "ngay_kiem": "2026-10-30"
+  },
+  {
+    "id": "taxi",
+    "hang_muc": "taxi",
+    "ten_khac": "cab",
+    "don_vi": "",
+    "gia_tu": "",
+    "gia_den": "",
+    "meo_vi": "",
+    "meo_en": "",
+    "nguon": "https://vietnam.travel/",
+    "ngay_kiem": "2026-10-30"
+  },
+  {
+    "id": "bike",
+    "hang_muc": "xe ôm công nghệ",
+    "ten_khac": "ride-hailing bike",
+    "don_vi": "",
+    "gia_tu": "",
+    "gia_den": "",
+    "meo_vi": "",
+    "meo_en": "",
+    "nguon": "https://vietnam.travel/",
+    "ngay_kiem": "2026-10-30"
+  },
+  {
+    "id": "coconut",
+    "hang_muc": "nước dừa",
+    "ten_khac": "coconut",
+    "don_vi": "",
+    "gia_tu": "",
+    "gia_den": "",
+    "meo_vi": "",
+    "meo_en": "",
+    "nguon": "https://vietnam.travel/",
+    "ngay_kiem": "2026-10-30"
+  },
+  {
+    "id": "pho",
+    "hang_muc": "phở",
+    "ten_khac": "pho",
+    "don_vi": "",
+    "gia_tu": "",
+    "gia_den": "",
+    "meo_vi": "",
+    "meo_en": "",
+    "nguon": "https://vietnam.travel/",
+    "ngay_kiem": "2026-10-30"
+  },
+  {
+    "id": "banhmi",
+    "hang_muc": "bánh mì",
+    "ten_khac": "banh mi",
+    "don_vi": "",
+    "gia_tu": "",
+    "gia_den": "",
+    "meo_vi": "",
+    "meo_en": "",
+    "nguon": "https://vietnam.travel/",
+    "ngay_kiem": "2026-10-30"
+  },
+  {
+    "id": "coffee",
+    "hang_muc": "cà phê",
+    "ten_khac": "coffee",
+    "don_vi": "",
+    "gia_tu": "",
+    "gia_den": "",
+    "meo_vi": "",
+    "meo_en": "",
+    "nguon": "https://vietnam.travel/",
+    "ngay_kiem": "2026-10-30"
+  },
+  {
+    "id": "water",
+    "hang_muc": "nước",
+    "ten_khac": "water",
+    "don_vi": "",
+    "gia_tu": "",
+    "gia_den": "",
+    "meo_vi": "",
+    "meo_en": "",
+    "nguon": "https://vietnam.travel/",
+    "ngay_kiem": "2026-10-30"
+  }
+]

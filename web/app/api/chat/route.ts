@@ -1,0 +1,5 @@
+import { ChatRequestSchema, ReplySchema } from '../../../lib/schema';
+import { routeChat } from '../../../lib/router';
+export const runtime='nodejs';
+export const maxDuration=60;
+export async function POST(req:Request) { const origin=req.headers.get('origin'); if(origin&&origin!==new URL(req.url).origin)return Response.json({error:'Forbidden'},{status:403}); const start=Date.now(); let body:unknown; try{body=await req.json();}catch{return Response.json({error:'Invalid JSON'},{status:400});} const parsed=ChatRequestSchema.safeParse(body);if(!parsed.success)return Response.json({error:'Invalid request'},{status:400}); if(parsed.data.input.kind==='image'&&Buffer.from(parsed.data.input.data_b64,'base64').length>4*1024*1024)return Response.json({error:'Image too large'},{status:413}); const reply=await routeChat(parsed.data,req.headers.get('x-forwarded-for')?.split(',')[0]?.trim()??'unknown');console.log(JSON.stringify({event:'chat',kind:parsed.data.input.kind,source:reply.source,duration_ms:Date.now()-start}));return Response.json(ReplySchema.parse(reply)); }

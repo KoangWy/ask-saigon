@@ -1,0 +1,5 @@
+export type Coordinates = { lat: number; lng: number };
+export function inServiceArea(p: Coordinates): boolean { return p.lat >= 10.755 && p.lat <= 10.800 && p.lng >= 106.665 && p.lng <= 106.712; }
+export function haversine(a: Coordinates,b: Coordinates): number { const rad = Math.PI/180, dlat=(b.lat-a.lat)*rad, dlng=(b.lng-a.lng)*rad; const h=Math.sin(dlat/2)**2+Math.cos(a.lat*rad)*Math.cos(b.lat*rad)*Math.sin(dlng/2)**2; return 12742000*Math.asin(Math.min(1,Math.sqrt(h))); }
+export function travelEstimate(a: Coordinates,b: Coordinates) { const distance_m=Math.round(haversine(a,b)*1.3); const mode: 'walking'|'driving'=distance_m<1000?'walking':'driving'; return {distance_m, mode, minutes:Math.ceil(mode==='walking'?distance_m/80:5+distance_m/333), estimated:true as const}; }
+export function mapsUrl(p: Coordinates, placeId?: string, mode: 'walking'|'driving'='walking'): string { const q=new URLSearchParams({api:'1',destination:`${p.lat},${p.lng}`,travelmode:mode}); if(placeId) q.set('destination_place_id',placeId); return `https://www.google.com/maps/dir/?${q}`; }
