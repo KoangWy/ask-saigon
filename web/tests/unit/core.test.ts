@@ -1,7 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import { openingStatus, parseHours } from '../../lib/hours';
 import { haversine, travelEstimate } from '../../lib/geo';
-import { canned } from '../../lib/canned';
-import { ReplySchema, SampleIdSchema } from '../../lib/schema';
+import found from '../../lib/canned/tiktok-found';
+import noname from '../../lib/canned/tiktok-noname';
+import closed from '../../lib/canned/tiktok-closed';
+import menu1 from '../../lib/canned/menu-1';
+import menu2 from '../../lib/canned/menu-2';
+import price from '../../lib/canned/price-cyclo';
+import nearby from '../../lib/canned/nearby-benthanh';
+import plan from '../../lib/canned/plan-d1-night';
+import { ReplySchema } from '../../lib/schema';
 import { readTiktok } from '../../lib/tools';
-describe('core',()=>{it('handles overnight hours in Vietnam time',()=>{expect(openingStatus('daily 17:00-02:00',new Date('2026-10-30T18:00:00Z')).open_now).toBe(true);expect(openingStatus('daily 17:00-02:00',new Date('2026-10-30T06:00:00Z')).open_now).toBe(false);});it('rejects invalid hours',()=>expect(()=>parseHours('daily 25:00-02:00')).toThrow());it('estimates travel',()=>{const a={lat:10.77,lng:106.69},b={lat:10.771,lng:106.69};expect(haversine(a,b)).toBeGreaterThan(100);expect(travelEstimate(a,b).mode).toBe('walking');});it('validates every canned reply',()=>{for(const id of SampleIdSchema.options)expect(ReplySchema.safeParse(canned(id)).success).toBe(true);});it('rejects non TikTok hosts',async()=>{await expect(readTiktok('https://tiktok.com.example.com/video')).rejects.toThrow();});});
+describe('core',()=>{it('handles overnight hours in Vietnam time',()=>{expect(openingStatus('daily 17:00-02:00',new Date('2026-10-30T18:00:00Z')).open_now).toBe(true);expect(openingStatus('daily 17:00-02:00',new Date('2026-10-30T06:00:00Z')).open_now).toBe(false);});it('rejects invalid hours',()=>expect(()=>parseHours('daily 25:00-02:00')).toThrow());it('estimates travel',()=>{const a={lat:10.77,lng:106.69},b={lat:10.771,lng:106.69};expect(haversine(a,b)).toBeGreaterThan(100);expect(travelEstimate(a,b).mode).toBe('walking');});it('validates every canned reply',()=>{for(const reply of [found,noname,closed,menu1,menu2,price,nearby,plan])expect(ReplySchema.safeParse(reply).success).toBe(true);});it('rejects non TikTok hosts',async()=>{await expect(readTiktok('https://tiktok.com.example.com/video')).rejects.toThrow();});});
