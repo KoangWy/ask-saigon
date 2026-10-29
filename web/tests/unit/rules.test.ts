@@ -32,3 +32,9 @@ it('changes the real plan-d1-night plan when rain hits its first outdoor stop',(
  expect(result.reason).toContain(`${String(hour).padStart(2,'0')}:${String(minute).padStart(2,'0')}`);
  expect(result.after).not.toEqual(result.before);
 });
+
+it('calculates the planned budget from stop costs in thousand VND',async()=>{
+ const {budget}=await import('../../lib/rules');
+ const plan:Itinerary={date:'2026-10-30',budget:800,total_cost:79.775,days:[{stops:[{place_id:'x',name:'X',arrive:'10:00',leave:'11:00',est_cost:20},{place_id:'y',name:'Y',arrive:'11:00',leave:'12:00',est_cost:30}],legs:[]}]};
+ expect(budget(plan)).toMatchObject({spent:736,planned:50,warning:true});
+});
