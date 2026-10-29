@@ -3,12 +3,12 @@
     "id": "cyclo",
     "hang_muc": "xích lô",
     "ten_khac": "cyclo",
-    "don_vi": "",
-    "gia_tu": "",
-    "gia_den": "",
-    "meo_vi": "",
-    "meo_en": "",
-    "nguon": "https://vietnam.travel/",
+    "don_vi": "hour",
+    "gia_tu": "150",
+    "gia_den": "250",
+    "meo_vi": "Thỏa thuận giá và thời gian trước khi đi.",
+    "meo_en": "Agree on the price and duration before boarding.",
+    "nguon": "https://amazing-vietnam.net/plan-your-trip/transportation/local-transport-in-vietnam/",
     "ngay_kiem": "2026-10-30"
   },
   {
