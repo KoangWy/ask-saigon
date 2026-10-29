@@ -10,5 +10,5 @@ test('record the demo journey',async({page})=>{
   await page.locator('.quick-replies').getByRole('button',{name:'Nearby',exact:true}).click(); await expect(page.locator('[data-card-type="place_cards"]').last()).toBeVisible(); await page.waitForTimeout(2000); await hold();
   await page.getByRole('button',{name:'Plan my day in District 1, I love night food, budget 800k'}).click(); await expect(page.locator('[data-card-type="itinerary"]')).toBeVisible(); await page.getByRole('button',{name:'Your itinerary'}).click(); await page.waitForTimeout(2000); await hold(); await page.getByRole('button',{name:'Your itinerary'}).click();
   await page.getByRole('button',{name:'Simulated ▾'}).click(); await page.getByRole('button',{name:'Rain',exact:true}).click(); await expect(page.locator('[data-card-type="replan"]')).toBeVisible(); await page.waitForTimeout(2000); await hold(); await page.getByRole('button',{name:'Accept',exact:true}).click();
-  await page.goto('/business'); await page.waitForTimeout(2000); await hold(); for(let i=0;i<4;i++){await page.mouse.wheel(0,600);await page.waitForTimeout(2000)}
+  await page.goto('/business'); await page.waitForTimeout(2000); await hold(); for(let i=0;i<4;i++){await page.mouse.wheel(0,600);await page.waitForTimeout(2000)} await page.waitForTimeout(3000);
 });
