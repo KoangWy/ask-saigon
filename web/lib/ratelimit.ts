@@ -1,2 +1,2 @@
 const requests=new Map<string,number[]>(); let day='',count=0;
-export function allowAi(ip:string,now=Date.now()):boolean {const today=new Date(now).toISOString().slice(0,10);if(today!==day){day=today;count=0;}const recent=(requests.get(ip)??[]).filter(t=>t>now-600000);if(recent.length>=15||count>=Number(process.env.AI_DAILY_CAP??300))return false;recent.push(now);requests.set(ip,recent);count++;return true;}
+export function allowAi(ip:string,now=Date.now()):boolean {const today=new Date(now+7*3600000).toISOString().slice(0,10);if(today!==day){day=today;count=0;}const recent=(requests.get(ip)??[]).filter(t=>t>now-600000);if(recent.length>=15||count>=Number(process.env.AI_DAILY_CAP??300))return false;recent.push(now);requests.set(ip,recent);count++;return true;}
