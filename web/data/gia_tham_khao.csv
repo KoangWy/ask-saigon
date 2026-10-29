@@ -1,9 +1,14 @@
 id,hang_muc,ten_khac,don_vi,gia_tu,gia_den,meo_vi,meo_en,nguon,ngay_kiem
-cyclo,xích lô,cyclo,hour,150,250,Thỏa thuận giá và thời gian trước khi đi.,Agree on the price and duration before boarding.,https://amazing-vietnam.net/plan-your-trip/transportation/local-transport-in-vietnam/,2026-10-30
-taxi,taxi,cab,,,,,,https://vietnam.travel/,2026-10-30
-bike,xe ôm công nghệ,ride-hailing bike,,,,,,https://vietnam.travel/,2026-10-30
-coconut,nước dừa,coconut,,,,,,https://vietnam.travel/,2026-10-30
-pho,phở,pho,,,,,,https://vietnam.travel/,2026-10-30
-banhmi,bánh mì,banh mi,,,,,,https://vietnam.travel/,2026-10-30
-coffee,cà phê,coffee,,,,,,https://vietnam.travel/,2026-10-30
-water,nước,water,,,,,,https://vietnam.travel/,2026-10-30
+cyclo,xích lô,cyclo;pedicab,hour,70,100,Thỏa thuận tổng giá và thời lượng trước khi đi.,Agree the total price and duration before riding.,https://www.roughguides.com/vietnam/ho-chi-minh-city-and-around/,2026-10-30
+taxi,taxi 4/5 chỗ,cab;metered taxi,km,13.5,18.4,Cước thay đổi theo mẫu xe; kiểm tra đồng hồ/giá công bố.,Fare varies by vehicle; check the posted meter or fare.,https://vinasun.vn/tin-chi-tiet/vinasun-taxi-dieu-chinh-gia-cuoc-tu-ngay-14072026,2026-10-30
+ride_bike,GrabBike tiếng Anh,GrabBike;ride-hailing bike;xe ôm công nghệ,minimum fare (first 2 km),15.955,15.955,Mức tối thiểu công bố cho tùy chọn tài xế nói tiếng Anh tại TP.HCM; giá có thể biến động theo cung cầu.,Published minimum for the English-speaking driver option in HCMC; demand-based pricing may change the fare.,https://www.grab.com/vn/en/blog/copy-of-grab-trien-khai-thu-nghiem-tinh-nang-dat-xe-nhom/,2026-10-30
+ride_car,GrabCar 4-seat,ride-hailing car;GrabCar,first 2 km,25,25,Mức tối thiểu cơ bản; giá linh động theo cung cầu và thời điểm.,Base minimum; dynamic pricing can change the displayed fare.,https://www.grab.com/vn/en/transport/car/,2026-10-30
+coconut,dừa tươi,fresh coconut,coconut,20,50,Giá tham khảo; hỏi giá trước khi mua.,Reference range; confirm the price before buying.,https://www.vietnamtourism.com/en/how-much-to-budget-for-food-per-day-in-vietnam,2026-10-30
+pho,phở,pho;noodle soup,bowl,30,70,"Khoảng giá một món ăn đường phố, giá quán thay đổi.",General street-meal range; restaurant prices vary.,https://www.vietnamtourism.com/en/how-much-to-budget-for-food-per-day-in-vietnam,2026-10-30
+banhmi,bánh mì,banh mi;Vietnamese baguette,sandwich,15,45,Khoảng giá phụ thuộc nhân và khu vực.,Range varies by filling and location.,https://www.vietnamtourism.com/en/how-much-to-budget-for-food-per-day-in-vietnam,2026-10-30
+coffee,cà phê sữa đá,iced milk coffee;Vietnamese iced coffee,glass,12,35,Giá tham khảo cho quán bình dân và cà phê vợt; địa điểm du lịch có thể cao hơn.,Reference range for local and sock-filter coffee; tourist venues may charge more.,https://govietnam.travel/en/food/ca-phe-sua-da-sai-gon/,2026-10-30
+metro,vé Metro số 1,Metro Line 1;single journey metro ticket,single trip,6,20,Tiền mặt 7–20k; phương thức không tiền mặt 6–19k tùy quãng đường.,Cash fares are 7–20k; cashless fares are 6–19k by distance.,https://tphcm.chinhphu.vn/chot-gia-ve-di-tau-dien-metro-so-1-101241121125611214.htm,2026-10-30
+ticket_palace,vé người lớn Dinh Độc Lập,Independence Palace adult ticket,person,40,80,Vé Dinh 40k; vé tổng hợp Dinh và nhà trưng bày 80k.,Palace-only ticket is 40k; combined Palace and exhibition admission is 80k.,https://dinhdoclap.gov.vn/en/visiting-hours/,2026-10-30
+ticket_war,vé người lớn Bảo tàng Chứng tích Chiến tranh,War Remnants Museum adult ticket,person,60,60,Giá người lớn cập nhật 01/10/2026; xác nhận tại trang bán vé trước khi đi.,Adult rate updated 1 Oct 2026; confirm on the museum ticket page before visiting.,https://saigon-scene.com/war-remnants-museum/,2026-10-30
+water,nước đóng chai,bottled water;water,bottle,5,20,Giá tham khảo tùy quy cách và điểm bán.,Reference range varies by size and venue.,https://www.vietnamtourism.com/en/how-much-to-budget-for-food-per-day-in-vietnam,2026-10-30
+ticket_finearts,vé người lớn Bảo tàng Mỹ thuật,Fine Arts Museum adult ticket,person,30,30,Giá vé người lớn niêm yết tại trang bảo tàng.,Adult admission listed by the museum.,https://hcmcmuseumoffinearts.wixsite.com/mysite/hours-and-admission,2026-10-30
