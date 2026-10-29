@@ -4,9 +4,14 @@ name: CI
   push:
   pull_request:
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   checks:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     defaults:
       run:
         working-directory: web
@@ -25,6 +30,7 @@ jobs:
       - run: pnpm build
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm test:e2e
+        timeout-minutes: 12
         env:
           AI_MODE: 'off'
       - name: Upload Playwright results on failure
