@@ -7,7 +7,7 @@ export type Lang = keyof typeof strings;
 export const pageVi: Record<string, string> = {
  'For business':'Dành cho doanh nghiệp','Try the demo':'Dùng thử','YOUR LOCAL COMPANION · HỒ CHÍ MINH CITY':'NGƯỜI BẠN ĐỒNG HÀNH · THÀNH PHỐ HỒ CHÍ MINH',
  'A better way to':'Một cách tuyệt hơn để','meet Saigon.':'gặp gỡ Sài Gòn.','Ask anything. Find your way through Ho Chi Minh City with local knowledge you can trace.':'Hỏi bất cứ điều gì. Khám phá Thành phố Hồ Chí Minh với thông tin địa phương có nguồn rõ ràng.',
- 'Try it for yourself':'Dùng thử ngay','Built for curious travelers.':'Dành cho những người thích khám phá.','Grounded in local sources.':'Dựa trên nguồn thông tin địa phương.',
+ 'Try it for yourself':'Dùng thử ngay','Watch the 90-second demo':'Xem demo 90 giây','Built for curious travelers.':'Dành cho những người thích khám phá.','Grounded in local sources.':'Dựa trên nguồn thông tin địa phương.',
  'A LITTLE LOCAL':'MỘT CHÚT','KNOW-HOW':'HIỂU BIẾT ĐỊA PHƯƠNG','YOUR NEXT GOOD FIND':'ĐIỂM ĐẾN TIẾP THEO','Where to next?':'Đi đâu tiếp theo?','Good food, good stories, and room to wander. ↗':'Món ngon, chuyện hay và những hành trình mới. ↗',
  'THE CITY, MADE CLEARER':'THÀNH PHỐ DỄ HIỂU HƠN','Less guessing.':'Bớt đoán mò.','More going.':'Thêm khám phá.','A little local context goes a long way. Start with a question and make the day your own.':'Một chút hiểu biết địa phương tạo nên khác biệt. Bắt đầu bằng một câu hỏi và tự tạo hành trình của bạn.',
  '01 / LOCAL KNOWLEDGE':'01 / HIỂU BIẾT ĐỊA PHƯƠNG','Know the city':'Hiểu thành phố','Explore local places with sources and checked dates, so you know where the information comes from.':'Khám phá địa điểm với nguồn và ngày kiểm tra rõ ràng.',
