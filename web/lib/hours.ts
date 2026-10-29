@@ -9,7 +9,7 @@ export function parseHours(input: string): HoursRange[] {
     const startDay = days.indexOf(match[1].toLowerCase());
     const selected = match[1].toLowerCase() === 'daily' ? days.map((_, i) => i) : [startDay];
     if (match[2]) { let d = startDay; const end = days.indexOf(match[2].toLowerCase()); while (d !== end) { d = (d + 1) % 7; selected.push(d); } }
-    if (match[3] === 'closed') continue;
+    if (match[3].toLowerCase() === 'closed') continue;
     for (const span of match[3].split(',')) {
       const [a,b] = span.trim().split('-').map(t => { const [h,m] = t.split(':').map(Number); if (h > 23 || m > 59) throw new Error('invalid time'); return h * 60 + m; });
       ranges.push({days: selected, start: a, end: b});
