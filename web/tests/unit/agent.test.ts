@@ -21,3 +21,18 @@ it('uses the real found TikTok sample and leads with its verified place result',
  expect(fetchMock).toHaveBeenCalledTimes(1);
  expect(String(fetchMock.mock.calls[0][0])).toContain('https://www.tiktok.com/oembed');
 });
+
+it('normalizes menu prices from VND while preserving thousand-VND values',async()=>{
+ const item={name_vi:'Phở',name_en:'Pho',how_to_eat:'',tags:[],order_phrase_vi:'Phở',price:55000};
+ const fetchMock=vi.fn().mockResolvedValueOnce(response({content:null,tool_calls:[{id:'1',function:{name:'show_menu_translation',arguments:JSON.stringify({type:'menu_translation',items:[item,{...item,price:55}]})}}]})).mockResolvedValueOnce(response({content:'Here is the menu.'}));
+ vi.stubGlobal('fetch',fetchMock);
+ const reply=await runAgent(base);
+ expect(reply.blocks.find(b=>b.type==='menu_translation')).toMatchObject({items:[{price:55},{price:55}]});
+});
+
+it('returns food cards for Vietnamese free text when the model supplies category and query',async()=>{
+ const fetchMock=vi.fn().mockResolvedValueOnce(response({content:null,tool_calls:[{id:'1',function:{name:'search_places',arguments:JSON.stringify({query:'Tối nay gần chợ Bến Thành có gì ăn?',categories:['quan_an']})}}]})).mockResolvedValueOnce(response({content:'Đây là vài quán gần bạn.'}));
+ vi.stubGlobal('fetch',fetchMock);
+ const reply=await runAgent({...base,input:{kind:'text',text:'Tối nay gần chợ Bến Thành có gì ăn?'},state:{...base.state,lang:'vi'}});
+ expect(reply.blocks).toContainEqual(expect.objectContaining({type:'place_cards',places:expect.arrayContaining([expect.objectContaining({category:'quan_an'})])}));
+});

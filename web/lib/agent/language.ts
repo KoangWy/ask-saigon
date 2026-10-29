@@ -6,4 +6,4 @@ export function replyLanguage(request: ChatRequest): 'en' | 'vi' {
 }
 export const normalizeText = (text: string) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/gi, 'd').toLowerCase();
 export function outsideArea(text: string): boolean { return /\b(thu duc|vung tau|ha noi|hanoi|da nang|da lat)\b/.test(normalizeText(text)); }
-export function foodIntent(text: string): boolean { return /\b(food|eat|eating|restaurant|vegetarian|vegan|pho|noodle|cafe|coffee|com|an|mon|quan|chay|ca phe|do uong)\b/.test(normalizeText(text)); }
+export function foodIntent(text: string): boolean { return /\b(food|eat|eating|restaurant|vegetarian|vegan|pho|noodle|cafe|coffee|com|an|mon|quan|doi|chay|ca phe|uong|nhau|bia|do uong)\b/.test(normalizeText(text)); }

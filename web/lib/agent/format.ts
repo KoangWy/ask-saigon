@@ -22,13 +22,17 @@ export function sanitizeReplyText(value: string, blocks: Block[] = []): string {
     .replace(/[*_`~#>]/g, '')
     .replace(/^\s*[-+]\s+/gm, '')
     .replace(/^\s*\d+[.)]\s+/gm, '')
-    .replace(/https?:\/\/\S+/gi, '')
+    .replace(/https?:\/\/[^\s)]+/gi, '')
+    .replace(/\b(?:[a-z0-9-]+\.)+[a-z]{2,}(?:\/[^\s)]*)?/gi, '')
+    .replace(/\(\s*(?:source\s*)?\)/gi, '')
+    .replace(/\s+([.!?])/g, '$1')
     .replace(/\s+/g, ' ')
     .trim();
 
   const details = cardDetails(blocks).map(detail => detail.toLocaleLowerCase());
   const hasPlaceCards = blocks.some(block => block.type === 'place_cards');
-  const fragments = text.match(/[^.!?]+(?:[.!?]+|$)/g) ?? [];
+  const protectedText = text.replace(/\b(?:Mr|Mrs|Ms|Dr|Prof|St|vs|e\.g|i\.e)\./gi, match => match.replaceAll('.', '\u2024')).replace(/(?<=\d)\.(?=\d)/g, '\u2024');
+  const fragments = (protectedText.match(/[^.!?]+(?:[.!?]+|$)/g) ?? []).map(fragment => fragment.replaceAll('\u2024', '.'));
   const sentences = fragments
     .map(sentence => sentence.trim())
     .filter(sentence => sentence && (!hasPlaceCards || !/\b(address|opening hours|hours|source|distance|open now|open until|open at|closed now|closes at)\b/i.test(sentence)))
@@ -37,11 +41,7 @@ export function sanitizeReplyText(value: string, blocks: Block[] = []): string {
       const lower = sentence.toLocaleLowerCase();
       return !details.some(detail => lower.includes(detail));
     })
-    .slice(0, 2)
-    .map(sentence => {
-      const words = sentence.split(/\s+/);
-      return words.length > 28 ? `${words.slice(0, 28).join(' ')}…` : sentence;
-    });
+    .slice(0, 2);
 
   return sentences.join(' ');
 }

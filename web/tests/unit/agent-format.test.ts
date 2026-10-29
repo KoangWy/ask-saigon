@@ -26,3 +26,8 @@ describe('reply text formatting', () => {
     expect(reply).not.toContain('https://');
   });
 });
+
+it('removes bare domains without producing domain fragments and preserves decimal and abbreviation dots',()=>{
+ expect(sanitizeReplyText('It is open (source banhmihuynhhoa.vn). Want nearby dinner options?')).toBe('It is open. Want nearby dinner options?');
+ expect(sanitizeReplyText('Dr. Linh suggests 1.5 hours. Ready to go?')).toBe('Dr. Linh suggests 1.5 hours. Ready to go?');
+});

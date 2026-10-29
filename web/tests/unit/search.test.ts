@@ -9,3 +9,12 @@ it('keeps nearby results free of transit and includes a nearby eatery or cafe',(
  expect(results.some(place=>place.category==='quan_an'||place.category==='ca_phe')).toBe(true);
  expect(results.map(place=>place.distance_m)).toEqual([...results.map(place=>place.distance_m)].sort((a,b)=>a!-b!));
 });
+
+it('recognizes Vietnamese food requests and ignores free text when filters are supplied',()=>{
+ const query='Tối nay gần chợ Bến Thành có gì ăn?';
+ for(const args of [{query},{query,categories:['quan_an']}]){
+  const result=searchPlaces(args,{...context,lang:'vi'});
+  expect(result.length).toBeGreaterThan(0);
+  expect(result.every(p=>['quan_an','ca_phe','diem_dem'].includes(p.category))).toBe(true);
+ }
+});
