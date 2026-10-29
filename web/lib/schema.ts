@@ -11,7 +11,7 @@ export type Place = z.infer<typeof PlaceSchema>;
 
 export const StopSchema = z.object({ place_id: z.string(), name: z.string(), arrive: z.string(), leave: z.string(), est_cost: z.number() });
 export const LegSchema = z.object({ from: z.string(), to: z.string(), mode: z.enum(["walking", "driving"]), minutes: z.number(), distance_m: z.number(), estimated: z.literal(true) });
-export const ItinerarySchema = z.object({ date: z.string(), days: z.array(z.object({ date: z.string().optional(), stops: z.array(StopSchema), legs: z.array(LegSchema) })), total_cost: z.number(), budget: z.number().nullable() });
+export const ItinerarySchema = z.object({ date: z.string(), days: z.array(z.object({ date: z.string().optional(), stops: z.array(StopSchema), legs: z.array(LegSchema) })), total_cost: z.number(), budget: z.number().nullable(), must_visit: z.array(z.string()).optional() });
 export type Itinerary = z.infer<typeof ItinerarySchema>;
 
 export const BlockSchema = z.discriminatedUnion("type", [
