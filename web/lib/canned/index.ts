@@ -32,7 +32,7 @@ export function canned(id:SampleId):Reply {
   }
  }else{
   const price=getPriceReference({item:'cyclo',user_price_vnd:300000});
-  if(price.found&&'verdict' in price){reply.reply_text='For a one-hour cyclo ride, 300k is a bit high against this reference.';reply.blocks.push({type:'price_check',...price});}
+  if(price.found&&'verdict' in price){reply.reply_text='For a one-hour cyclo ride, 300k is much higher than the reference.';reply.blocks.push({type:'price_check',...price});}
   else reply.reply_text='No verified cyclo price is available yet.';
  }
  return reply;
