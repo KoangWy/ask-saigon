@@ -1,0 +1,10 @@
+import { readFileSync } from 'node:fs';
+import { parse } from 'csv-parse/sync';
+import { describe, expect, it } from 'vitest';
+import { planItinerary } from '../../lib/tools';
+import { replan, groupVote } from '../../lib/rules';
+import type rowsType from '../../lib/data/generated/dia_diem.json';
+import type { Itinerary } from '../../lib/schema';
+const rows=parse(readFileSync('tests/fixtures/places.csv','utf8'),{columns:true,skip_empty_lines:true}) as typeof rowsType;
+const ctx={location:{lat:10.772,lng:106.698},now:new Date('2026-10-30T06:00:00Z'),lang:'en' as const};
+describe('itinerary and rules with fixture data',()=>{it('plans open stops deterministically within budget',()=>{const p=planItinerary({date:'2026-10-30',start:'13:00',budget_k:40},ctx,rows);expect(p.days[0].stops.length).toBe(2);expect(p.total_cost).toBe(30);expect(planItinerary({date:'2026-10-30',start:'13:00',budget_k:40},ctx,rows)).toEqual(p);});it('moves an outdoor stop out of the rain',()=>{const p:Itinerary={date:'2026-10-30',budget:800,total_cost:15,days:[{stops:[{place_id:'fixture-1',name:'Outdoor',arrive:'14:00',leave:'15:00',est_cost:15}],legs:[]}]};const r=replan(p,'rain',rows);expect(r.after).not.toEqual(r.before);expect(r.after[0].arrive).toBe('16:00');});it('produces fixed votes',()=>{const p=planItinerary({date:'2026-10-30',start:'13:00'},ctx,rows);const v=groupVote(p,rows);expect(v.votes).toHaveLength(6);expect(v.result).toHaveLength(2);});});
