@@ -1,0 +1,11 @@
+import { afterEach, expect, it, vi } from 'vitest';
+import { runAgent } from '../../lib/agent';
+import { routeChat } from '../../lib/router';
+import type { ChatRequest } from '../../lib/schema';
+const base:ChatRequest={input:{kind:'text',text:'Plan me a day'},history:[],state:{lang:'en',location:{lat:10.772,lng:106.698,label:'Ben Thanh',source:'picked'},now:'2026-10-30T12:00:00Z',offline:false}};
+afterEach(()=>{vi.restoreAllMocks();vi.unstubAllGlobals();vi.unstubAllEnvs()});
+it('does not return an empty itinerary after the planner returns no stops',async()=>{const response=(message:unknown)=>new Response(JSON.stringify({choices:[{message}]}));vi.stubGlobal('fetch',vi.fn().mockResolvedValueOnce(response({content:null,tool_calls:[{id:'1',function:{name:'plan_itinerary',arguments:'{"date":"2026-10-30","start":"23:59","end":"23:59"}'}}]})).mockResolvedValueOnce(response({content:null})));const reply=await runAgent(base);expect(reply.blocks.some(b=>b.type==='itinerary')).toBe(false);expect(reply.reply_text).toMatch(/can.t build/i)});
+it('localizes unavailable AI responses',async()=>{vi.stubEnv('AI_MODE','off');const reply=await routeChat({...base,input:{kind:'text',text:'Tôi muốn ăn chay gần đây'},state:{...base.state,lang:'vi'}},'vi-test');expect(reply.reply_text).toMatch(/[àáâãèéêìíòóôõùúăđĩũơưạ-ỹ]/i)});
+it('does not invoke a model for an out-of-area question',async()=>{const spy=vi.fn();vi.stubGlobal('fetch',spy);const reply=await runAgent({...base,input:{kind:'text',text:'What should I eat in Hà Nội?'}});expect(spy).not.toHaveBeenCalled();expect(reply.blocks).toEqual([])});
+it('returns an honest fallback for unrecognized price',async()=>{vi.stubEnv('AI_MODE','off');const reply=await routeChat({...base,input:{kind:'text',text:'Is 200k for a bánh mì fair?'}},'price-test');expect(reply.blocks).toEqual([]);expect(reply.reply_text).toMatch(/verified|kiểm chứng/i)});
+it('asks for cyclo duration before comparing a per-hour price',async()=>{vi.stubEnv('AI_MODE','off');const reply=await routeChat({...base,input:{kind:'text',text:'Giá 300 nghìn đi xích lô có hợp lý không?'},state:{...base.state,lang:'vi'}},'duration-test');expect(reply.blocks).toEqual([]);expect(reply.reply_text).toMatch(/bao lâu/)});
