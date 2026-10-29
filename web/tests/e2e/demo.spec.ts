@@ -11,3 +11,21 @@ test('sample cards still render after the network is disconnected',async({page,c
 test('real TikTok replies are not marked as samples',async({page})=>{await page.route('**/api/chat',route=>route.fulfill({json:{reply_text:'No place name found.',blocks:[{type:'tiktok_result',tiktok_url:'https://www.tiktok.com/@example/video/1',video_title:'Real video',thumbnail_url:null,extracted_name:null,status:'need_more_info',reason:'no_name',place:null}],quick_replies:[],simulated:false,fallback:false,source:'agent'}}));await page.goto('/chat');await page.getByPlaceholder('Ask anything about Saigon…').fill('https://www.tiktok.com/@example/video/1');await page.getByRole('button',{name:'Send',exact:true}).click();const card=page.locator('[data-card-type="tiktok_result"]');await expect(card).toBeVisible();await expect(card.locator('.card-kicker')).toHaveText('TIKTOK');});
 
 test('sample falls back on failed fetch and slow state is specific',async({page})=>{await page.route('**/api/chat',async route=>{await new Promise(resolve=>setTimeout(resolve,6500));await route.abort()});await page.goto('/chat');await page.getByRole('button',{name:'Translate a sample menu'}).click();await expect(page.getByText('Reading the menu…')).toBeVisible();await expect(page.getByText('Live AI can take ~10 s.')).toBeVisible({timeout:8000});await expect(page.locator('[data-card-type="menu_translation"]')).toBeVisible({timeout:5000});await expect(page.getByText('cached',{exact:true})).toBeVisible()});
+
+test('applying a group vote shows the replacement in the itinerary',async({page})=>{
+ const original={date:'2026-10-30',days:[{stops:[{place_id:'q1-015',name:'Saigon Zoo and Botanical Gardens',arrive:'14:00',leave:'15:00',est_cost:0}],legs:[]}],total_cost:0,budget:800};
+ await page.route('**/api/chat',route=>{const input=route.request().postDataJSON().input;if(input.kind==='group_vote')return route.continue();return route.fulfill({json:{reply_text:'Here is your plan.',blocks:[{type:'itinerary',...original}],quick_replies:[],simulated:false,fallback:false,source:'rules'}})});
+ await page.goto('/chat');
+ await page.getByRole('button',{name:'Plan my day in District 1, I love night food, budget 800k'}).click();
+ await page.getByRole('button',{name:'Your itinerary'}).click();
+ await expect(page.locator('.sheet-content').getByText('Saigon Zoo and Botanical Gardens')).toBeVisible();
+ await page.getByRole('button',{name:'Share with group'}).click();
+ await page.getByRole('button',{name:'Your itinerary'}).click();
+ const vote=page.locator('[data-card-type="group_vote"]');
+ await expect(vote.getByText('Saigon Zoo and Botanical Gardens → Saigon Central Post Office')).toBeVisible();
+ await expect(vote.locator('..').getByText('Simulated',{exact:true})).toBeVisible();
+ await vote.getByRole('button',{name:'Apply group plan'}).click();
+ await page.getByRole('button',{name:'Your itinerary'}).click();
+ await expect(page.locator('.sheet-content').getByText('Saigon Central Post Office')).toBeVisible();
+ await expect(page.locator('.sheet-content').getByText('Saigon Zoo and Botanical Gardens')).toHaveCount(0);
+});
