@@ -30,7 +30,7 @@ export const cardLabels: Record<string, Record<Lang,string>> = {
   found:{en:'Found',vi:'Tìm thấy'}, not_found:{en:'Not found',vi:'Không tìm thấy'}, need_more_info:{en:'Need more info',vi:'Cần thêm thông tin'},
   fair:{en:'Fair',vi:'Hợp lý'}, a_bit_high:{en:'A bit high',vi:'Hơi cao'}, too_high:{en:'Too high',vi:'Quá cao'},
   quan_an:{en:'Food',vi:'Quán ăn'}, ca_phe:{en:'Coffee',vi:'Cà phê'}, di_tich:{en:'Landmark',vi:'Di tích'}, diem_dem:{en:'Nightlife',vi:'Điểm đêm'}, trong_nha:{en:'Indoor',vi:'Trong nhà'}, giao_thong:{en:'Transport',vi:'Giao thông'}, market:{en:'Market',vi:'Chợ'},
-  spicy:{en:'Spicy',vi:'Cay'}, pork:{en:'Pork',vi:'Thịt heo'}, seafood:{en:'Seafood',vi:'Hải sản'}, vegetarian:{en:'Vegetarian',vi:'Chay'}, beef:{en:'Beef',vi:'Thịt bò'},
+  contains_nuts:{en:'Contains nuts',vi:'Có hạt'}, spicy:{en:'Spicy',vi:'Cay'}, pork:{en:'Pork',vi:'Thịt heo'}, seafood:{en:'Seafood',vi:'Hải sản'}, vegetarian:{en:'Vegetarian',vi:'Chay'}, beef:{en:'Beef',vi:'Thịt bò'},
   rain:{en:'Rain',vi:'Trời mưa'}, late40:{en:'Late 40 minutes',vi:'Trễ 40 phút'},
 };
 export function cardLabel(lang:Lang,value:string):string { return cardLabels[value.toLowerCase()]?.[lang] ?? value.replaceAll('_',' '); }
