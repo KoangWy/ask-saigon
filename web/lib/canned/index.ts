@@ -1,9 +1,39 @@
 import places from '../data/generated/dia_diem.json';
 import type { Reply, SampleId, Itinerary } from '../schema';
 import { searchPlaces, planItinerary, getPriceReference } from '../tools';
+import { TIKTOK_FOUND_SAMPLE_CAPTION, TIKTOK_FOUND_SAMPLE_URL } from '../tiktok-samples';
 const ctx={location:{lat:10.7724,lng:106.698},now:new Date('2026-10-30T10:00:00+07:00'),lang:'en' as const};
 const base=(reply_text:string):Reply=>({reply_text,blocks:[],quick_replies:['Nearby','Plan my day'],simulated:false,fallback:true,source:'canned'});
 const menus={ 'menu-1':[['Phở bò tái','Beef pho',55,['beef']],['Phở gà','Chicken pho',50,[]],['Bún bò Huế','Hue beef noodle soup',60,['spicy','beef','pork']],['Bún chả','Grilled pork with noodles',55,['pork']],['Gỏi cuốn','Fresh spring rolls',35,['seafood','pork']],['Trà đá','Iced tea',5,[]]], 'menu-2':[['Cơm tấm sườn bì chả','Broken rice with pork',60,['pork']],['Ốc len xào dừa','Snails in coconut sauce',70,['seafood']],['Nghêu hấp sả','Clams steamed with lemongrass',80,['seafood']],['Bánh xèo','Vietnamese savoury pancake',65,['pork','seafood']],['Rau muống xào tỏi','Water spinach with garlic',40,['vegetarian']],['Chè ba màu','Three-colour dessert',25,['vegetarian']]]} as const;
 
 export function sampleItinerary(): Itinerary {const street=places.find(p=>p.ten_en.toLowerCase().includes('nguyen hue'))?.id??'q1-002', nightlife=places.find(p=>p.ten_en.toLowerCase().includes('bui vien'))?.id??'q1-003';return {date:'2026-10-30',days:[{date:'2026-10-30',stops:[{place_id:street,name:'Nguyen Hue Walking Street (sample)',arrive:'14:00',leave:'14:45',est_cost:0},{place_id:nightlife,name:'Bui Vien Walking Street (sample)',arrive:'15:10',leave:'16:00',est_cost:0}],legs:[{from:street,to:nightlife,mode:'driving',minutes:10,distance_m:2200,estimated:true}]}],total_cost:0,budget:800};}
-export function canned(id:SampleId):Reply { const reply=base('Here is a sample result.'); if(id==='menu-1'||id==='menu-2'){ reply.reply_text=id==='menu-1'?'Sample menu: Phở & Bún street stall.':'Sample menu: Cơm tấm & Ốc night stall.'; reply.blocks.push({type:'menu_translation',items:menus[id].map(([vi,en,price,tags])=>({name_vi:vi,name_en:en,price,tags:[...tags],how_to_eat:'',order_phrase_vi:`Cho tôi ${vi}.`}))}); } else if(id==='nearby-benthanh'){reply.blocks.push({type:'place_cards',places:searchPlaces({},ctx)});} else if(id==='plan-d1-night'){const plan=planItinerary({budget_k:800},ctx);reply.reply_text=plan.days[0]?.stops.length?'A day plan built from places with verified hours and the current price references.':'No itinerary can be built from the verified hours available.';reply.blocks.push({type:'itinerary',...plan});} else if(id.startsWith('tiktok-')) {const place=searchPlaces({query:'Ben Thanh Market'},ctx)[0]??null;const found=id==='tiktok-found'&&!!place;reply.blocks.push({type:'tiktok_result',tiktok_url:id==='tiktok-noname'?'https://www.tiktok.com/@scout2015/video/6718335390845095173':'https://www.tiktok.com/',video_title:'Sample',thumbnail_url:null,extracted_name:found?place.name:null,status:found?'found':id==='tiktok-noname'?'need_more_info':'not_found',...(found?{}:{reason:id==='tiktok-noname'?'no_name' as const:'no_match' as const}),place:found?place:null});if(found)reply.blocks.push({type:'place_cards',places:[place]});} else {const price=getPriceReference({item:'cyclo',user_price_vnd:300000});if(price.found&&'verdict' in price){reply.reply_text='For a one-hour cyclo ride, 300k is a bit high against this reference.';reply.blocks.push({type:'price_check',...price});}else reply.reply_text='No verified cyclo price is available yet.';} return reply; }
+export function canned(id:SampleId):Reply {
+ const reply=base('Here is a sample result.');
+ if(id==='menu-1'||id==='menu-2'){
+  reply.reply_text=id==='menu-1'?'Sample menu: Phở & Bún street stall.':'Sample menu: Cơm tấm & Ốc night stall.';
+  reply.blocks.push({type:'menu_translation',items:menus[id].map(([vi,en,price,tags])=>({name_vi:vi,name_en:en,price,tags:[...tags],how_to_eat:'',order_phrase_vi:`Cho tôi ${vi}.`}))});
+ }else if(id==='nearby-benthanh'){
+  reply.blocks.push({type:'place_cards',places:searchPlaces({},ctx)});
+ }else if(id==='plan-d1-night'){
+  const plan=planItinerary({budget_k:800},ctx);
+  reply.reply_text=plan.days[0]?.stops.length?'A day plan built from places with verified hours and the current price references.':'No itinerary can be built from the verified hours available.';
+  reply.blocks.push({type:'itinerary',...plan});
+ }else if(id.startsWith('tiktok-')){
+  const isFound=id==='tiktok-found';
+  const place=isFound?searchPlaces({query:'Huynh Hoa Banh Mi'},ctx)[0]??null:null;
+  const found=isFound&&!!place;
+  const tiktokUrl=found?TIKTOK_FOUND_SAMPLE_URL:id==='tiktok-noname'?'https://www.tiktok.com/@scout2015/video/6718335390845095173':'https://www.tiktok.com/';
+  const caption=found?TIKTOK_FOUND_SAMPLE_CAPTION:id==='tiktok-noname'?'Sample':null;
+  reply.blocks.push({type:'tiktok_result',tiktok_url:tiktokUrl,video_title:caption,thumbnail_url:null,extracted_name:found?place!.name:null,status:found?'found':id==='tiktok-noname'?'need_more_info':'not_found',...(found?{}:{reason:id==='tiktok-noname'?'no_name' as const:'no_match' as const}),place:found?place:null});
+  if(found&&place){
+   const hours=place.open_now===true?`open now${place.closes_at?` until ${place.closes_at}`:''}`:place.open_now===false?'currently closed':'';
+   reply.reply_text=`That video is ${place.name} at ${place.address}${hours?`, ${hours}`:''}.`;
+   reply.blocks.push({type:'place_cards',places:[place]});
+  }
+ }else{
+  const price=getPriceReference({item:'cyclo',user_price_vnd:300000});
+  if(price.found&&'verdict' in price){reply.reply_text='For a one-hour cyclo ride, 300k is a bit high against this reference.';reply.blocks.push({type:'price_check',...price});}
+  else reply.reply_text='No verified cyclo price is available yet.';
+ }
+ return reply;
+}
