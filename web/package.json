@@ -17,7 +17,9 @@
     "smoke:live": "tsx scripts/smoke-live.ts"
   },
   "dependencies": {
+    "@phosphor-icons/react": "^2.1.10",
     "csv-parse": "^7.0.3",
+    "motion": "^14.7.1",
     "next": "16.4.3",
     "react": "19.3.0",
     "react-dom": "19.3.0",

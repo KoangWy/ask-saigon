@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 test('record the demo journey',async({page})=>{
   const hold = () => page.waitForTimeout(7000);
   await page.goto('/?offline=1&now=12:05'); await page.waitForTimeout(2000); await hold();
-  await page.getByRole('link',{name:'Try it for yourself'}).click(); await page.goto('/chat?offline=1&now=12:05');
+  await page.getByRole('link',{name:'Try it for yourself'}).first().click(); await page.goto('/chat?offline=1&now=12:05');
   await expect(page.locator('[data-card-type="context_prompt"]')).toBeVisible(); await page.waitForTimeout(2000); await hold();
   await page.getByRole('button',{name:'Paste a sample TikTok link'}).click(); await expect(page.locator('[data-card-type="tiktok_result"]')).toBeVisible(); await page.waitForTimeout(2000); await hold();
   await page.getByRole('button',{name:'Translate a sample menu'}).click(); await expect(page.locator('[data-card-type="menu_translation"]')).toBeVisible(); await page.waitForTimeout(2000); await hold();
