@@ -73,7 +73,7 @@ export default function Hero() {
           </motion.div>
           <motion.div className="mt-8" {...rise(0.9)}>
             <a className="btn btn-glass" href="/demo/ask-saigon-demo.mp4">
-              <Play size={16} weight="fill" aria-hidden="true" /> {tr('Watch the demo (~100 s)')}
+              <Play size={16} weight="fill" aria-hidden="true" /> {tr('Watch the demo (~80 s)')}
             </a>
           </motion.div>
         </div>
