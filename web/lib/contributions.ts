@@ -15,7 +15,7 @@ export const SubmissionInput = z.object({
   place_id: z.string().max(20).optional(), price_id: z.string().max(80).optional(),
   field: z.enum(['hours', 'price', 'closed', 'info', 'other']),
   value: z.string().max(200).optional(), note: z.string().max(500).optional(),
-  organization: z.string().max(120).optional(), source_url: z.union([z.url().max(300), z.literal('')]).optional(),
+  organization: z.string().max(120).optional(), source_url: z.union([z.url({ protocol: /^https?$/ }).max(300), z.literal('')]).optional(),
 });
 export type Submission = z.infer<typeof SubmissionInput> & { id: string; name: string; status: 'pending' | 'approved' | 'rejected'; created_at: string; reviewed_at?: string };
 

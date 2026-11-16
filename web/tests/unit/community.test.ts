@@ -153,3 +153,10 @@ it('matches names with a capital Đ', async () => {
   const reply = await routeChat(request({ kind: 'text', text: 'Nhà thờ Đức Bà có gì hay?' }), 'test');
   expect(reply.blocks[0].type === 'place_cards' && reply.blocks[0].places[0].id).toBe('q1-006');
 });
+
+it('accepts only http(s) source links', async () => {
+  const { SubmissionInput } = await import('../../lib/contributions');
+  const base = { kind: 'update', role: 'chinh_thuc', place_id: 'q1-004', field: 'info', value: 'x' } as const;
+  expect(SubmissionInput.safeParse({ ...base, source_url: 'javascript:alert(1)' }).success).toBe(false);
+  expect(SubmissionInput.safeParse({ ...base, source_url: 'https://visithcmc.vn/vi/dinh-doc-lap/' }).success).toBe(true);
+});
