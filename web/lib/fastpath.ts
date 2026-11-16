@@ -37,6 +37,8 @@ export function fastAnswer(request: ChatRequest, ctx: Ctx, base: (text: string) 
   if (/https?:\/\//i.test(text) || OTHER.test(q) || routeIntent(text)) return null;
   const food = FOOD.test(q), coffee = COFFEE.test(q), near = NEAR.test(q);
   if (!food && !coffee && !near) return null;
+  // A bare "what is near me" is decided by the data; a described wish ("a quiet place to read") is for the model.
+  if (!food && !coffee && !placesNamedIn(text, ctx).length && q.split(/\s+/).filter(Boolean).length > 6) return null;
   // "near Dinh Độc Lập" searches around that place instead of the traveller.
   const anchor = near ? placesNamedIn(text, ctx)[0] : undefined;
   const where = anchor ? { ...ctx, location: { lat: anchor.lat, lng: anchor.lng } } : ctx;

@@ -41,3 +41,10 @@ describe('answers decided by the data skip the model', () => {
     expect(reply.reply_text).toContain('Quận 1 và Quận 3');
   });
 });
+
+it('leaves a described wish near the traveller to the model', async () => {
+  vi.stubEnv('AI_MODE', 'off');
+  const reply = await routeChat(request({ kind: 'text', text: 'Is there a quiet place to read a book nearby?' }), 'fast');
+  expect(reply.fallback).toBe(true);
+  vi.unstubAllEnvs();
+});
