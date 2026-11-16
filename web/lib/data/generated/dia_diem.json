@@ -24,6 +24,7 @@
     "nhin_ky_en": "Look for the clock tower above the south entrance.",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "chinh_thuc",
     "nguon": "https://benthanhmarket.vn/about/noi-quy-cho.html",
     "ngay_kiem": "2026-10-30"
   },
@@ -52,6 +53,7 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/Nguy%E1%BB%85n_Hu%E1%BB%87_Boulevard",
     "ngay_kiem": "2026-10-30"
   },
@@ -80,6 +82,7 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/B%C3%B9i_Vi%E1%BB%87n_Street",
     "ngay_kiem": "2026-10-30"
   },
@@ -108,6 +111,7 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/Turtle_Lake_(Ho_Chi_Minh_City)",
     "ngay_kiem": "2026-10-30"
   },
@@ -136,6 +140,7 @@
     "nhin_ky_en": "Look at the entrance gates and preserved rooms.",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "chinh_thuc",
     "nguon": "https://dinhdoclap.gov.vn/en/visiting-hours/",
     "ngay_kiem": "2026-10-30"
   },
@@ -164,6 +169,7 @@
     "nhin_ky_en": "Look up at the vaulted hall and the historic maps on its walls.",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "chinh_thuc",
     "nguon": "https://vietnam.travel/things-to-do/7-must-see-attractions-hcmc/",
     "ngay_kiem": "2026-10-30"
   },
@@ -192,6 +198,7 @@
     "nhin_ky_en": "View the red-brick facade from the square.",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/Notre-Dame_Cathedral_Basilica_of_Saigon",
     "ngay_kiem": "2026-10-30"
   },
@@ -220,6 +227,7 @@
     "nhin_ky_en": "Read the exhibit captions and consider the context of each item.",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "tham_khao",
     "nguon": "https://saigon-scene.com/war-remnants-museum/",
     "ngay_kiem": "2026-10-30"
   },
@@ -233,7 +241,7 @@
     "dia_chi": "73 Mai Thị Lựu, phường Tân Định",
     "lat": "10.7915282",
     "lng": "106.6976869",
-    "gio_mo": "",
+    "gio_mo": "daily 07:00-17:30",
     "gia_tu": "",
     "gia_den": "",
     "mo_ta_vi": "",
@@ -248,8 +256,9 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
-    "nguon": "https://en.wikipedia.org/wiki/Jade_Emperor_Pagoda",
-    "ngay_kiem": "2026-10-30"
+    "nhan": "chinh_thuc",
+    "nguon": "https://visithcmc.vn/vi/chua-ngoc-hoang-su-linh-thieng-giua-thanh-pho-ho-chi-minh/",
+    "ngay_kiem": "2026-11-17"
   },
   {
     "id": "q1-007",
@@ -276,6 +285,7 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/Saigon_Opera_House",
     "ngay_kiem": "2026-10-30"
   },
@@ -304,6 +314,7 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "tham_khao",
     "nguon": "https://hcmcmuseumoffinearts.wixsite.com/mysite/hours-and-admission",
     "ngay_kiem": "2026-10-30"
   },
@@ -332,6 +343,7 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "chinh_thuc",
     "nguon": "https://hcmc-museum.edu.vn/",
     "ngay_kiem": "2026-10-30"
   },
@@ -360,6 +372,7 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/Ho_Chi_Minh_City_Hall",
     "ngay_kiem": "2026-10-30"
   },
@@ -388,6 +401,7 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/Bitexco_Financial_Tower",
     "ngay_kiem": "2026-10-30"
   },
@@ -416,6 +430,7 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "doanh_nghiep",
     "nguon": "https://shopping.saigoncentre.com.vn/",
     "ngay_kiem": "2026-10-30"
   },
@@ -444,6 +459,7 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/Hotel_Continental_Saigon",
     "ngay_kiem": "2026-10-30"
   },
@@ -472,6 +488,7 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/Rex_Hotel",
     "ngay_kiem": "2026-10-30"
   },
@@ -500,6 +517,7 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/Saigon_Zoo_and_Botanical_Gardens",
     "ngay_kiem": "2026-10-30"
   },
@@ -528,6 +546,7 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/Mariamman_Temple,_Ho_Chi_Minh_City",
     "ngay_kiem": "2026-10-30"
   },
@@ -541,7 +560,7 @@
     "dia_chi": "55C Nguyễn Thị Minh Khai, phường Bến Thành",
     "lat": "10.7744862",
     "lng": "106.6927931",
-    "gio_mo": "",
+    "gio_mo": "daily 07:00-22:00",
     "gia_tu": "",
     "gia_den": "",
     "mo_ta_vi": "",
@@ -556,8 +575,9 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
-    "nguon": "https://en.wikipedia.org/wiki/Tao_%C4%90%C3%A0n_Park",
-    "ngay_kiem": "2026-10-30"
+    "nhan": "chinh_thuc",
+    "nguon": "https://visithcmc.vn/vi/kham-pha-cong-vien-tao-dan-oc-dao-xanh-giua-long-thanh-pho/",
+    "ngay_kiem": "2026-11-17"
   },
   {
     "id": "q3-003",
@@ -584,6 +604,7 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/T%C3%A2n_%C4%90%E1%BB%8Bnh_Church",
     "ngay_kiem": "2026-10-30"
   },
@@ -612,6 +633,7 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/V%C4%A9nh_Nghi%C3%AAm_Pagoda",
     "ngay_kiem": "2026-10-30"
   },
@@ -640,6 +662,7 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/X%C3%A1_L%E1%BB%A3i_Pagoda",
     "ngay_kiem": "2026-10-30"
   },
@@ -668,6 +691,7 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "tham_khao",
     "nguon": "https://saigon-scene.com/best-pho-in-saigon/",
     "ngay_kiem": "2026-10-30"
   },
@@ -696,6 +720,7 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "doanh_nghiep",
     "nguon": "https://banhmihuynhhoa.vn/lien-he/",
     "ngay_kiem": "2026-10-30"
   },
@@ -724,6 +749,7 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "tham_khao",
     "nguon": "https://guide.michelin.com/vn/en/ho-chi-minh-city-region/ho-chi-minh-city/restaurant/bun-cha-145",
     "ngay_kiem": "2026-10-30"
   },
@@ -752,6 +778,7 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "tham_khao",
     "nguon": "https://guide.michelin.com/vn/en/ho-chi-minh-city-region/ho-chi-minh-city/restaurant/banh-xeo-46a",
     "ngay_kiem": "2026-10-30"
   },
@@ -780,6 +807,7 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "tham_khao",
     "nguon": "https://guide.michelin.com/us/en/ho-chi-minh/ho-chi-minh_2978179/restaurant/banh-cuon-tay-ho-127",
     "ngay_kiem": "2026-10-30"
   },
@@ -808,6 +836,7 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "tham_khao",
     "nguon": "https://misssaigontours.com/late-night-food-saigon/",
     "ngay_kiem": "2026-10-30"
   },
@@ -836,6 +865,7 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "tham_khao",
     "nguon": "https://guide.michelin.com/vn/en/ho-chi-minh-city-region/ho-chi-minh-city/restaurant/chi-tuyen",
     "ngay_kiem": "2026-10-30"
   },
@@ -864,6 +894,7 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "tham_khao",
     "nguon": "https://govietnam.travel/en/food/ca-phe-sua-da-sai-gon/",
     "ngay_kiem": "2026-10-30"
   },
@@ -892,6 +923,7 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "tham_khao",
     "nguon": "https://www.vinaspot.com/en/v/workshop",
     "ngay_kiem": "2026-10-30"
   },
@@ -920,6 +952,7 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "tham_khao",
     "nguon": "https://www.vietnamairlines.com/vn/en/plan-book/travel/travel-guide/the-cafe-apartment",
     "ngay_kiem": "2026-10-30"
   },
@@ -948,6 +981,7 @@
     "nhin_ky_en": "",
     "anh_url": "",
     "anh_nguon": "",
+    "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/Ben_Thanh_station",
     "ngay_kiem": "2026-10-30"
   }
