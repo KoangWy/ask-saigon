@@ -78,3 +78,17 @@ test('a partner site shows the chat box under its own name', async ({ page, requ
   await page.getByRole('button', { name: /Tour Của Bạn/ }).click();
   await expect(page.locator('.stat-big')).not.toHaveText('0');
 });
+
+test('a hotel guest app runs the assistant in the guest language', async ({ page }) => {
+  await page.goto('/demo/khach-san-cua-ban');
+  await expect(page.frameLocator('iframe[title="Khách Sạn Của Bạn assistant"]').locator('.embed-brand')).toContainText('Assistant Khách Sạn Của Bạn');
+  await page.getByRole('button', { name: 'Tiếng Việt' }).click();
+  await expect(page.frameLocator('iframe[title="Trợ lý Khách Sạn Của Bạn"]').locator('.embed-brand')).toContainText('chạy bằng Ask Saigon');
+});
+
+test('the public data API answers any origin with checked places', async ({ request }) => {
+  const res = await request.get('/api/v1/places?q=' + encodeURIComponent('phở mở khuya'), { headers: { origin: 'https://partner.example' } });
+  expect(res.headers()['access-control-allow-origin']).toBe('*');
+  const body = await res.json();
+  expect(body.places.map((p: { name: string }) => p.name)).toContain('Phở Quỳnh');
+});

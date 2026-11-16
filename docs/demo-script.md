@@ -14,3 +14,15 @@ Use the local or deployed app with `/chat?offline=1&now=12:05` for the chat port
 | 8 | Open **For business**. Show the example API documentation and illustrative demand dashboard; explain these business features are roadmap concepts. | Mở **Dành cho doanh nghiệp**. Giới thiệu tài liệu API mẫu và bảng nhu cầu minh họa; giải thích đây là các ý tưởng trong lộ trình. |
 
 The interface toggle changes UI labels. Some current canned response content is English even when Vietnamese is selected. See the [data guide](data.md) for the status of the seed and [README](../README.md) for setup.
+
+## Pitch Q&A walkthrough (live, 2026-11-18)
+
+| Slide | Open | Show |
+|---|---|---|
+| 5 | `/chat`, type *Gần đây có quán phở nào mở khuya không?* | Phở Quỳnh, “Mở 24 giờ”, source label and checked date, Chỉ đường, Lưu vào lịch |
+| 4, 9 | *Dinh Độc Lập mở cửa mấy giờ?* → open “+1 nguồn” | Two **Official** lines (dinhdoclap.gov.vn, visithcmc.vn); hours and ticket written from data |
+| 4 | `/dong-gop` → `/kiem-duyet` | A business sends hours; after approval they appear on the card labelled business-declared |
+| 6 | `/demo/tour-cua-ban`, `/demo/khach-san-cua-ban` | The same assistant under the partner's name; guest language and TV mode in the hotel app |
+| 7 | *Gợi ý một ngày đi bụi bằng metro* → Đi theo → rate | Route card with green-travel label, plan in the sheet, real ratings |
+| 8 | `/thong-ke` | Anonymous counts by topic, hour and channel since 17/11 |
+| A4 | Báo sai on any card; ask about Vũng Tàu | Report goes to review; out-of-area questions get a plain answer |

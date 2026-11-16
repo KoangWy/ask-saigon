@@ -1,3 +1,18 @@
+# API
+
+## Public data API (`/api/v1`)
+
+Read-only endpoints for partner apps and sites. No key in this first version; any origin may call them (CORS `*`); one IP gets 60 calls a minute. They return checked data only and never call the model. Every place and price keeps its `label`, `sources` (each with a label and checked date) and `checked_at`.
+
+| Endpoint | Parameters | Returns |
+|---|---|---|
+| `GET /api/v1/places` | `q` (a question or a place name), `lat`, `lng` (default Bến Thành), `category` (`quan_an`, `ca_phe`, `di_tich`, `diem_dem`, `trong_nha`), `open_now=true`, `radius_m` (≤ 5000), `limit` (≤ 5), `lang` | `{ places }` |
+| `GET /api/v1/prices` | `item` (e.g. `cyclo`, `pho`, `taxi`, `metro`), optional `price_vnd`, `quantity`, `lang` | `{ price }` with a `verdict` when `price_vnd` is given |
+| `GET /api/v1/routes` | `lang` | `{ routes }` (published routes with ratings) |
+| `GET /api/v1/itinerary` | `route` (a route id) or `budget_k`, `start` (`HH:MM`), `lat`, `lng` | `{ itinerary }` |
+
+Example: `GET https://ask-saigon.vercel.app/api/v1/places?q=phở mở khuya` returns Phở Quỳnh with `open_24h: true`.
+
 # Chat API
 
 The demo endpoint is same-origin `POST /api/chat`; it is not a public B2B API or an SDK. All state is supplied by the client. The schemas in [`web/lib/schema.ts`](../web/lib/schema.ts) are authoritative.

@@ -13,3 +13,15 @@ export function guard(req: Request, bucket: string, max = 20, windowMs = 600000)
   return null;
 }
 export async function body(req: Request): Promise<unknown> { try { return await req.json(); } catch { return null; } }
+
+// Public data API (/api/v1): any site or app may call it. It returns checked data only, no model,
+// so it costs nothing per call; one IP gets 60 calls a minute.
+const CORS = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type', 'Cache-Control': 'no-store' };
+export async function publicApi(req: Request, handler: (q: URLSearchParams) => Promise<unknown> | unknown): Promise<Response> {
+  if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: CORS });
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
+  const { store } = await import('./store');
+  try { const [count] = await store.incrMany([{ key: `rl:api:${ip}:${Math.floor(Date.now() / 60000)}`, seconds: 70 }]); if (count > 60) return Response.json({ error: 'Too many requests: 60 per minute' }, { status: 429, headers: CORS }); } catch {}
+  try { return Response.json(await handler(new URL(req.url).searchParams), { headers: CORS }); }
+  catch (error) { return Response.json({ error: error instanceof Error ? error.message : 'Invalid request' }, { status: 400, headers: CORS }); }
+}

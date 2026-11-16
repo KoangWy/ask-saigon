@@ -24,6 +24,7 @@ export default function Stats() {
       <div className="card-actions mb-6" role="group" aria-label={L('Kênh', 'Channel')}>
         <button className={`small-button${partner === '' ? ' selected' : ''}`} aria-pressed={partner === ''} onClick={() => setPartner('')}>{L('Mọi kênh', 'All channels')}</button>
         <button className={`small-button${partner === 'tour-cua-ban' ? ' selected' : ''}`} aria-pressed={partner === 'tour-cua-ban'} onClick={() => setPartner('tour-cua-ban')}>{L('Khung chat “Tour Của Bạn”', '“Tour Của Bạn” chat box')}</button>
+        <button className={`small-button${partner === 'khach-san-cua-ban' ? ' selected' : ''}`} aria-pressed={partner === 'khach-san-cua-ban'} onClick={() => setPartner('khach-san-cua-ban')}>{L('Trợ lý “Khách Sạn Của Bạn”', '“Khách Sạn Của Bạn” assistant')}</button>
       </div>
       {!stats ? <p>{L('Đang tải…', 'Loading…')}</p> : <div className="stats-grid">
         <section className="result-card"><div className="card-kicker">{L('TỔNG LƯỢT HỎI', 'TOTAL QUESTIONS')}</div><p className="stat-big">{stats.total.toLocaleString(lang === 'vi' ? 'vi-VN' : 'en-US')}</p>

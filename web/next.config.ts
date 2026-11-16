@@ -11,7 +11,9 @@ const nextConfig: NextConfig = {
     ];
     // Only /embed may be framed: it is the chat box partners place on their own sites (public/widget.js).
     return [
-      { source: '/((?!embed(?:/|$)).*)', headers: [...common, { key: 'X-Frame-Options', value: 'DENY' }, { key: 'Content-Security-Policy', value: csp("'none'") }] },
+      { source: '/((?!embed(?:/|$)|api/v1/).*)', headers: [...common, { key: 'X-Frame-Options', value: 'DENY' }, { key: 'Content-Security-Policy', value: csp("'none'") }] },
+      // The public data API sets its own CORS headers (lib/http.ts publicApi).
+      { source: '/api/v1/:path*', headers: [common[0], common[1], { key: 'X-Frame-Options', value: 'DENY' }] },
       { source: '/embed', headers: [...common, { key: 'Content-Security-Policy', value: csp('*') }] },
     ];
   },

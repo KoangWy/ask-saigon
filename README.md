@@ -49,7 +49,11 @@ The home page opens on a question box, and every example drops you straight into
 - **Menus.** Pick one of two illustrated sample menus, or upload a photo when an image-capable model is configured. Each dish comes with an English name, ingredient notes and a phrase to order it in Vietnamese.
 - **Prices.** Ask whether a quote is fair, such as *“Is 300k for a cyclo ride fair?”*, and compare it with a sourced reference range.
 - **Nearby and stories.** Find food, coffee and sights around you (or around the Bến Thành demo location) and read the story behind a place.
-- **A day plan.** Build an itinerary in a sheet, then try simulated rain, running late, budget alerts and a group vote.
+- **A day plan.** Build an itinerary in a sheet. When the Open-Meteo forecast shows rain during the plan, it offers to move the open-air stops; you can also try simulated rain, running late, budget alerts and a group vote.
+- **Labelled sources.** Every place and price lists each source with who supplied it (official, business-declared, personal experience or reference) and when it was checked; the Department of Tourism portal (visithcmc.vn) backs 20 of the 34 places. A Report button on every card goes to a review queue.
+- **Routes.** Travellers post routes made of checked places at [/lo-trinh](https://ask-saigon.vercel.app/lo-trinh); others follow one into their plan and rate it. Walking, metro, bus and cycling routes carry a green-travel label. New routes are reviewed before anyone else sees them.
+- **Contributions.** The tourism department, businesses and travellers send updates at [/dong-gop](https://ask-saigon.vercel.app/dong-gop); approved lines appear on the card with their label.
+- **For partners.** One script tag puts the chat box on a tour company site ([demo](https://ask-saigon.vercel.app/demo/tour-cua-ban)) or a hotel guest app ([demo](https://ask-saigon.vercel.app/demo/khach-san-cua-ban)); a public data API (`/api/v1`) returns places, prices, routes and plans; [/thong-ke](https://ask-saigon.vercel.app/thong-ke) counts what travellers ask, anonymously and per channel.
 
 The interface is available in English and Vietnamese, follows your system's light or dark theme, and tones down its scroll motion when your device asks for reduced motion.
 
@@ -68,7 +72,7 @@ flowchart LR
   Tools --> Dataset[Local dataset]
 ```
 
-The browser keeps the conversation and itinerary for the page session. The server validates requests and builds structured cards from tool results; the agent is instructed not to invent hours or prices. Free-form model text is not independently verified. Places and reference prices link to a source and a checked date, and missing fields stay unknown rather than guessed. The [data guide](docs/data.md) explains provenance and updates.
+The browser keeps the conversation and itinerary for the page session. The server validates requests and builds structured cards from tool results; the agent is instructed not to invent hours or prices. Questions the data fully decides (a named place, food and coffee searches, "near me", the quick buttons, routes, prices) are answered straight from the tools without the model; the model handles free questions, plans with preferences, TikTok links and menu photos. The app does not search the web: answers come only from the checked dataset. Live AI is limited per browser (20 answers per 10 minutes), per IP (150) and per day. Free-form model text is not independently verified. Places and reference prices link to a source and a checked date, and missing fields stay unknown rather than guessed. The [data guide](docs/data.md) explains provenance and updates.
 
 The seed data is **provisional** and covers District 1 and District 3. Sample TikTok and menu results and the sample itinerary are illustrative, so check details before you visit.
 
