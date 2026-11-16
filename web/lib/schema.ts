@@ -53,7 +53,7 @@ export const ChatRequestSchema = z.object({
     z.object({ kind: z.literal("sample"), sample_id: SampleIdSchema }),
     z.object({ kind: z.literal("quick"), quick: z.enum(["hungry", "tired", "nearby", "plan"]) }),
     z.object({ kind: z.literal("image"), media_type: z.enum(["image/jpeg", "image/png", "image/webp"]), data_b64: z.base64().max(5592408), text: z.string().max(500).optional() }),
-    z.object({ kind: z.literal("sim"), sim: z.enum(["rain", "late40", "arrive_ben_thanh", "budget_near"]) }),
+    z.object({ kind: z.literal("sim"), sim: z.enum(["rain", "late40", "arrive_ben_thanh", "budget_near"]), rain: z.object({ start: z.string().regex(/^\d{2}:\d{2}$/), end: z.string().regex(/^\d{2}:\d{2}$/) }).optional() }),
     z.object({ kind: z.literal("group_vote") }), z.object({ kind: z.literal("story"), place_id: z.string() }),
     z.object({ kind: z.literal("edit_plan"), add: z.string().optional(), remove: z.string().optional() }),
     z.object({ kind: z.literal("context_reply"), option: z.enum(["nearby", "not_yet", "something_cool"]) }),

@@ -110,3 +110,23 @@ describe('anonymous demand stats', () => {
     expect(JSON.stringify(stats)).not.toContain('phở');
   });
 });
+
+describe('forecast rain', () => {
+  it('finds the first likely rain window and moves outdoor stops out of it', async () => {
+    const { findRain } = await import('../../lib/weather');
+    const { replan } = await import('../../lib/rules');
+    const times = Array.from({ length: 24 }, (_, h) => `2026-11-18T${String(h).padStart(2, '0')}:00`);
+    const probability = times.map((_, h) => (h >= 15 && h < 17 ? 80 : 10));
+    const rain = findRain({ times, probability, precipitation: times.map(() => 0) }, new Date('2026-11-18T10:45:00+07:00'))!;
+    expect(rain).toMatchObject({ start: '15:00', end: '17:00', probability: 80 });
+    const plan = { date: '2026-11-18', days: [{ stops: [{ place_id: 'q1-002', name: 'Nguyen Hue', arrive: '15:00', leave: '15:45', est_cost: 0 }], legs: [] }], total_cost: 0, budget: null };
+    const block = replan(plan, 'rain', undefined, new Date('2026-11-18T10:45:00+07:00'), rain);
+    expect(block.reason).toBe('rain 15:00-17:00');
+    expect(block.after.some(s => s.place_id === 'q1-002' && s.arrive >= '17:00') || block.dropped.length > 0).toBe(true);
+  });
+  it('marks a forecast replan as real, not simulated', async () => {
+    const reply = await routeChat(request({ kind: 'sim', sim: 'rain', rain: { start: '15:00', end: '17:00' } }), 'test');
+    expect(reply.simulated).toBe(false);
+    expect(reply.reply_text).toContain('Open-Meteo');
+  });
+});

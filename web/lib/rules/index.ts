@@ -6,7 +6,8 @@ import type { Itinerary, Block } from '../schema';
 type Stop=Itinerary['days'][number]['stops'][number];
 const minutes=(t:string)=>{const [h,m]=t.split(':').map(Number);return h*60+m;};
 const clock=(n:number)=>`${String(Math.floor(n/60)%24).padStart(2,'0')}:${String(n%60).padStart(2,'0')}`;
-export function replan(plan:Itinerary,reason:'rain'|'late40',dataset:typeof places=places,now:Date=new Date()):Extract<Block,{type:'replan'}> {
+// window: a forecast rain window (Open-Meteo); without it the shower is simulated.
+export function replan(plan:Itinerary,reason:'rain'|'late40',dataset:typeof places=places,now:Date=new Date(),window?:{start:string;end:string}):Extract<Block,{type:'replan'}> {
  const before=plan.days.flatMap(day=>day.stops);
  const after:Stop[]=[];
  const dropped:Stop[]=[];
@@ -19,15 +20,15 @@ export function replan(plan:Itinerary,reason:'rain'|'late40',dataset:typeof plac
   }
  }else{
   const isOutdoor=(stop:Stop)=>{const place=dataset.find(row=>row.id===stop.place_id);return !!place&&!place.tag.split(';').map(tag=>tag.trim()).includes('trong_nha');};
-  let rainStart=14*60;
+  let rainStart=window?minutes(window.start):14*60;
   const fixedWindowHasOutdoor=before.some(stop=>isOutdoor(stop)&&minutes(stop.arrive)<16*60&&minutes(stop.leave)>14*60);
-  if(!fixedWindowHasOutdoor){
+  if(!window&&!fixedWindowHasOutdoor){
    const localNow=new Date(now.getTime()+7*60*60*1000);
    const nowMinute=localNow.getUTCHours()*60+localNow.getUTCMinutes();
    const firstOutdoor=before.filter(stop=>isOutdoor(stop)&&minutes(stop.arrive)>=nowMinute).sort((a,b)=>minutes(a.arrive)-minutes(b.arrive))[0];
    if(firstOutdoor)rainStart=minutes(firstOutdoor.arrive);
   }
-  const rainEnd=rainStart+120;
+  const rainEnd=window?Math.max(minutes(window.end),rainStart+60):rainStart+120;
   const rainy=before.filter(stop=>isOutdoor(stop)&&minutes(stop.arrive)<rainEnd&&minutes(stop.leave)>rainStart);
   after.push(...before.filter(stop=>!rainy.includes(stop)));
   for(const stop of rainy){

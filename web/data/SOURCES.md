@@ -72,3 +72,27 @@ Money fields are thousands of VND unless the unit says otherwise. The bike app f
 - Cơm niêu Sài Gòn — excluded: OSM result resolved to a location outside Q1/Q3.
 - Cộng Cà Phê, Đỗ Phủ Café, the night market, Saigon Saigon Rooftop Bar, The Alley and Acoustic Bar — excluded: the candidate source pages were unavailable or did not verify the exact Q1/Q3 branch and current operating details.
 - Vincom Center Đồng Khởi and Diamond Plaza — excluded: the candidate pages were blocked/unavailable or did not provide a sufficiently verified coordinate/source pair for this dataset build.
+
+## Tourism department portal (added 2026-11-17)
+
+Pages on visithcmc.vn (run by the Ho Chi Minh City Tourism Promotion Centre under the Department of Tourism), fetched 2026-11-17, all HTTP 200. Each line in `nguon_bo_sung.csv` quotes what the page states.
+
+| ID | Page | Statement used |
+|---|---|---|
+| q1-001 | [/vi/cho-ben-thanh/](https://visithcmc.vn/vi/cho-ben-thanh/) (posted 2026-10-10) | Day market 07:00–18:00, fresh produce from 04:00, night market 19:00–22:00 |
+| q1-004, ticket_palace | [/vi/dinh-doc-lap/](https://visithcmc.vn/vi/dinh-doc-lap/) (posted 2026-10-10) | Open 07:00–18:00 daily; adult ticket 80,000 VND |
+| q3-002, ticket_war | [/vi/bao-tang-chung-tich-chien-tranh/](https://visithcmc.vn/vi/bao-tang-chung-tich-chien-tranh/) (posted 2026-10-10) | 28 Võ Văn Tần; 7:30–17:30 every day, ticket desk closes 17:00; ticket 40,000 VND. saigon-scene.com lists 60,000 VND from 1 Oct 2026, so the price card keeps 40–60k and both sources |
+| q1-008, ticket_finearts | [/vi/bao-tang-my-thuat-…/](https://visithcmc.vn/vi/bao-tang-my-thuat-thanh-pho-ho-chi-minh-ve-dep-huyen-bi-say-dam-long-nguoi/) | Monday–Sunday 8:00–17:00; adult 30,000 VND |
+| q1-009 | [/vi/cac-bao-tang-noi-tieng-…/](https://visithcmc.vn/vi/cac-bao-tang-noi-tieng-nhat-o-hcm-danh-cho-nguoi-yeu-nghe-thuat/) | 65 Lý Tự Trọng; 8:00–17:00; 30,000 VND |
+| q1-017 | [/vi/kham-pha-cong-vien-tao-dan-…/](https://visithcmc.vn/vi/kham-pha-cong-vien-tao-dan-oc-dao-xanh-giua-long-thanh-pho/) | Open 7:00–22:00 daily; now the primary source for its hours |
+| q1-006b | [/vi/chua-ngoc-hoang-…/](https://visithcmc.vn/vi/chua-ngoc-hoang-su-linh-thieng-giua-thanh-pho-ho-chi-minh/) | 73 Mai Thị Lựu; 7:00–17:30 daily (5:00–19:00 on the 1st and 15th lunar days); now the primary source for its hours |
+| q1-005, q1-010, q1-013 | [/vi/di-san-phong-cach-kien-truc-dong-duong-…/](https://visithcmc.vn/vi/di-san-phong-cach-kien-truc-dong-duong-giua-long-thanh-pho/) | Post office at 02 Công xã Paris (1886–1891); City Hall at 86 Lê Thánh Tôn; Continental at 132 Đồng Khởi (1880) |
+| q1-006, q3-003 | [/vi/10-diem-tham-quan-…/](https://visithcmc.vn/vi/10-diem-tham-quan-khong-the-bo-qua-khi-den-thanh-pho-ho-chi-minh/) | Cathedral at 1 Công xã Paris (1880); Tân Định Church on Hai Bà Trưng (1876) |
+| q1-002 | [/vi/pho-di-bo-nguyen-hue-…/](https://visithcmc.vn/vi/pho-di-bo-nguyen-hue-ve-dep-am-thuc-va-trai-nghiem-tai-tphcm/) | Walking street in central District 1 |
+| q1-003 | [/vi/dem-bat-tan-o-trung-tam-thanh-pho/](https://visithcmc.vn/vi/dem-bat-tan-o-trung-tam-thanh-pho/) | Bùi Viện runs from early evening until dawn |
+| q3-001 | [/vi/thien-duong-am-thuc-duong-pho-tai-sai-gon/](https://visithcmc.vn/vi/thien-duong-am-thuc-duong-pho-tai-sai-gon/) | Turtle Lake snack area at the Quốc Tế roundabout |
+| q1-015 | [/vi/sac-mau-di-san-thanh-pho/](https://visithcmc.vn/vi/sac-mau-di-san-thanh-pho/) | Zoo with more than 160 years of history |
+| q1-016 | [/vi/nhung-dia-diem-du-lich-it-nguoi-biet-…/](https://visithcmc.vn/vi/nhung-dia-diem-du-lich-it-nguoi-biet-o-tphcm-dang-can-ban-kham-pha/) | Mariamman Temple, 45 Trương Định |
+| q3-006, q3-007 | [/vi/top-10-mon-an-ngon-…/](https://visithcmc.vn/vi/top-10-mon-an-ngon-ban-phai-thu-khi-den-thanh-pho-ho-chi-minh/) | Phở Hòa at 260C Pasteur; Chị Tuyền at 175C Cô Giang |
+| q1-018 | [/vi/10-mon-banh-mi-…/](https://visithcmc.vn/vi/10-mon-banh-mi-phai-thuong-thuc-tai-tp-hcm/) | Huỳnh Hoa at 26 Lê Thị Riêng |
+| q1-019, q1-020 | [/vi/hanh-trinh-…-michelin-nam-2025/](https://visithcmc.vn/vi/hanh-trinh-du-lich-thanh-pho-moi-va-trai-nghiem-am-thuc-theo-cam-nang-michelin-nam-2025/) | Bún chả 145 and Bánh xèo 46A among the 2025 Bib Gourmand picks |
