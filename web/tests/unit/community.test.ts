@@ -148,3 +148,8 @@ describe('questions that name a place', () => {
     expect(reply.reply_text).not.toContain('Dinh Độc Lập:');
   });
 });
+
+it('matches names with a capital Đ', async () => {
+  const reply = await routeChat(request({ kind: 'text', text: 'Nhà thờ Đức Bà có gì hay?' }), 'test');
+  expect(reply.blocks[0].type === 'place_cards' && reply.blocks[0].places[0].id).toBe('q1-006');
+});
