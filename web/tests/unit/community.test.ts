@@ -130,3 +130,21 @@ describe('forecast rain', () => {
     expect(reply.reply_text).toContain('Open-Meteo');
   });
 });
+
+describe('questions that name a place', () => {
+  it('answers opening hours and ticket from the data, with the card', async () => {
+    const reply = await routeChat(request({ kind: 'text', text: 'Dinh Độc Lập mở cửa mấy giờ?' }), 'test');
+    expect(reply.reply_text).toBe('Dinh Độc Lập: mở 07:00–18:00 hằng ngày, đang mở. Vé người lớn 40–80 nghìn đồng (kiểm 30/10/2026).');
+    const cards = reply.blocks[0];
+    expect(cards.type === 'place_cards' && cards.places[0].id).toBe('q1-004');
+  });
+  it('picks the station for "Ga Bến Thành" and never guesses missing hours', async () => {
+    const station = await routeChat(request({ kind: 'text', text: 'Ga Bến Thành ở đâu?' }), 'test');
+    expect(station.blocks[0].type === 'place_cards' && station.blocks[0].places.map(p => p.id)).toEqual(['q1-025']);
+    expect(station.reply_text).toContain('chưa có giờ mở cửa đã kiểm');
+  });
+  it('leaves nearby searches to the search tools', async () => {
+    const reply = await routeChat(request({ kind: 'text', text: 'Quán ăn gần Dinh Độc Lập' }), 'test');
+    expect(reply.reply_text).not.toContain('Dinh Độc Lập:');
+  });
+});
