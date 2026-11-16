@@ -22,10 +22,10 @@ test('applying a group vote shows the replacement in the itinerary',async({page}
  await page.getByRole('button',{name:'Share with group'}).click();
  await page.getByRole('button',{name:'Your itinerary'}).click();
  const vote=page.locator('[data-card-type="group_vote"]');
- await expect(vote.getByText('Saigon Zoo and Botanical Gardens → Saigon Central Post Office')).toBeVisible();
+ await expect(vote.getByText('Saigon Zoo and Botanical Gardens → Jade Emperor Pagoda')).toBeVisible();
  await expect(vote.locator('..').getByText('Simulated',{exact:true})).toBeVisible();
  await vote.getByRole('button',{name:'Apply group plan'}).click();
  await page.getByRole('button',{name:'Your itinerary'}).click();
- await expect(page.locator('.sheet-content').getByText('Saigon Central Post Office')).toBeVisible();
+ await expect(page.locator('.sheet-content').getByText('Jade Emperor Pagoda')).toBeVisible();
  await expect(page.locator('.sheet-content').getByText('Saigon Zoo and Botanical Gardens')).toHaveCount(0);
 });

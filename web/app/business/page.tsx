@@ -24,6 +24,9 @@ export default function Business() {
   const photoY = useTransform(scrollYProgress, [0, 1], ['0%', '14%']);
   const bridge = photo('ba-son-bridge-night');
   const tag = <span className="roadmap-tag">{tr('ROADMAP 6-12 MONTHS')}</span>;
+  // Blocks that now run in a first version carry a live tag and a link to try them.
+  const live = <span className="roadmap-tag live">{lang === 'vi' ? 'ĐÃ CHẠY · BẢN ĐẦU' : 'LIVE · FIRST VERSION'}</span>;
+  const tryIt = (href: string, vi: string, en: string) => <Link href={href} className="btn btn-primary btn-sm mt-4">{lang === 'vi' ? vi : en} <ArrowUpRight size={16} aria-hidden="true" /></Link>;
 
   return (
     <>
@@ -57,8 +60,10 @@ export default function Business() {
                 <pre>{`POST /api/chat\n{\n  "input": { "kind": "sample",\n    "sample_id": "price-cyclo" },\n  "history": [],\n  "session_id": "550e8400-e29b-41d4-a716-446655440000",\n  "state": { "lang": "en", "offline": true,\n    "location": { "lat": 10.7724, "lng": 106.698,\n      "label": "Bến Thành", "source": "picked" },\n    "now": "2026-10-30T05:05:00.000Z" }\n}`}</pre>
                 <pre>{`{\n  "reply_text": "For a one-hour cyclo ride, 300k is much higher than the reference.",\n  "blocks": [{ "type": "price_check",\n    "item": "xích lô", "unit": "hour", "reference_min": 70,\n    "reference_max": 100, "user_price": 300,\n    "verdict": "too_high", "tip": "Agree the total price and duration before riding.",\n    "source": "https://www.roughguides.com/vietnam/ho-chi-minh-city-and-around/", "checked_at": "2026-10-30" }],\n  "quick_replies": ["Nearby", "Plan my day"], "simulated": false,\n  "fallback": true, "source": "canned"\n}`}</pre>
               </div>
-              <pre className="mt-3">{`<script src="https://example.com/ask-saigon-widget.js"></script>\n<div data-ask-saigon></div>`}</pre>
-              <p className="caption">{tr('Illustrative embed · not yet available')}</p>
+              <div id="embed" className="mt-6">{live}<h3 className="mt-2 text-[20px] font-semibold">{lang === 'vi' ? 'Khung chat trên website của bạn' : 'A chat box on your website'}</h3>
+              <p>{lang === 'vi' ? 'Dán một dòng mã vào website công ty tour hay web app khách sạn. Khung chat mang tên của bạn, câu trả lời vẫn có nguồn và ngày kiểm.' : 'Paste one line into a tour company website or a hotel web app. The chat box carries your name; answers keep their sources and checked dates.'}</p>
+              <pre className="mt-3">{`<script src="https://ask-saigon.vercel.app/widget.js"\n  data-partner="tour-cua-ban" data-name="Tour Của Bạn"\n  data-lang="vi" async></script>`}</pre>
+              {tryIt('/demo/tour-cua-ban', 'Xem trên website công ty tour mẫu', 'See it on a sample tour company site')}</div>
               <div className="pricing">
                 <div><strong>Starter</strong><p>{tr('Free · 1k calls/mo')}</p></div>
                 <div><strong>Growth</strong><p>{tr('Contact us')}</p></div>
@@ -67,7 +72,7 @@ export default function Business() {
             </Reveal>
 
             <Reveal as="section" className="business-block">
-              {tag}
+              {live}
               <h2>{tr('A portal for local partners')}</h2>
               <p>{tr('Give businesses a place to keep hours, menus, and offers current, with translation and profile suggestions.')}</p>
               <div className="mock-panel mock-form">
@@ -77,10 +82,11 @@ export default function Business() {
                 <label>{tr('Today’s special')} <span>{tr('Fresh local favorites')}</span></label>
                 <div className="mock-button">{tr('Preview translation →')}</div>
               </div>
+              {tryIt('/dong-gop', 'Mở cổng nạp thông tin', 'Open the contribution portal')}
             </Reveal>
 
             <Reveal as="section" className="business-block tint" delay={0.08}>
-              {tag}
+              {live}
               <h2>{tr('See what travelers need')}</h2>
               <p>{tr('Understand questions, destinations, peak hours, visitor origins, and places needing attention.')}</p>
               <div className="mock-panel bg-surface">
@@ -92,6 +98,7 @@ export default function Business() {
                 </div>
                 <div className="bars-axis"><span>09:00</span><span>12:00</span><span>15:00</span><span>18:00</span><span>21:00</span></div>
               </div>
+              {tryIt('/thong-ke', 'Xem số liệu thật, ẩn danh', 'See the real, anonymous numbers')}
             </Reveal>
 
             <Reveal as="section" className="business-block tint">
@@ -106,7 +113,7 @@ export default function Business() {
             </Reveal>
 
             <Reveal as="section" className="business-block" delay={0.08}>
-              {tag}
+              {live}
               <h2>{tr('A journey to remember')}</h2>
               <p>{tr('A trip journal could bring photos, routes, and visited places together, ready to share.')}</p>
               <div className="mock-panel">
@@ -115,6 +122,7 @@ export default function Business() {
                 <p className="m-0 mt-1 text-[14px] text-ink-soft">{tr('Bến Thành → a little lunch → sunset on Nguyễn Huệ')}</p>
                 <div className="mock-button">{tr('Share to TikTok ↗')}</div>
               </div>
+              {tryIt('/lo-trinh', 'Xem lộ trình mọi người đăng', 'See routes people have posted')}
             </Reveal>
 
             <Reveal as="section" className="business-block wide">

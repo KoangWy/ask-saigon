@@ -14,6 +14,7 @@ import { pageText } from '@/lib/i18n';
 export const navItems = [
   { href: '/#ask', label: 'What you can ask' },
   { href: '/#how', label: 'How it works' },
+  { href: '/lo-trinh', label: 'Routes' },
   { href: '/business', label: 'For business' },
 ];
 

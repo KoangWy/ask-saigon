@@ -7,8 +7,8 @@ import { useLanguage } from '@/lib/client/language';
 import { pageText } from '@/lib/i18n';
 
 const columns = [
-  { title: 'Product', links: [{ href: '/chat', label: 'Chat' }, { href: '/#ask', label: 'What you can ask' }, { href: '/#how', label: 'How it works' }] },
-  { title: 'Business', links: [{ href: '/business', label: 'For business' }, { href: '/business#api', label: 'API preview' }] },
+  { title: 'Product', links: [{ href: '/chat', label: 'Chat' }, { href: '/#ask', label: 'What you can ask' }, { href: '/#how', label: 'How it works' }, { href: '/lo-trinh', label: 'Routes' }, { href: '/dong-gop', label: 'Contribute' }] },
+  { title: 'Business', links: [{ href: '/business', label: 'For business' }, { href: '/business#api', label: 'API preview' }, { href: '/business#embed', label: 'Chat box for your site' }, { href: '/thong-ke', label: 'What travellers ask' }] },
   { title: 'Project', links: [{ href: 'https://github.com/KoangWy/ask-saigon', label: 'GitHub', external: true }, { href: 'https://github.com/KoangWy/ask-saigon/blob/main/LICENSE', label: 'MIT license', external: true }, { href: '/credits', label: 'Photo credits' }] },
 ];
 
@@ -39,7 +39,7 @@ export default function SiteFooter() {
           ))}
         </div>
         <div className="footer-bottom">
-          <p>{tr('Demo data: District 1 + District 3, checked Oct 2026')}</p>
+          <p>{tr('Demo data: District 1 + District 3, checked Oct–Nov 2026')}</p>
           <p>{tr('Photos: Wikimedia Commons contributors')}</p>
         </div>
       </div>
