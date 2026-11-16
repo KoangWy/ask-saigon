@@ -26,3 +26,6 @@ blob-report/
 .DS_Store
 Thumbs.db
 *.log
+
+# Copies that macOS/iCloud makes on sync conflicts ("file 2.ts")
+* [0-9].*
