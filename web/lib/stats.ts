@@ -14,19 +14,18 @@ const scopes = (partner?: string) => ['all', ...(partner && /^[a-z0-9-]{2,40}$/.
 export async function recordChat(request: ChatRequest, reply: Reply, now = new Date()) {
   const hour = String(new Date(now.getTime() + 7 * 3600000).getUTCHours()).padStart(2, '0');
   const placeIds = [...new Set(reply.blocks.flatMap(b => b.type === 'place_cards' ? b.places.map(p => p.id) : b.type === 'tiktok_result' && b.place ? [b.place.id] : []))];
-  for (const scope of scopes(request.partner)) {
-    const key = `stats:${scope}:${day(now)}`;
-    await Promise.all([store.hincr(key, 'total'), store.hincr(key, `topic:${topicOf(reply)}`), store.hincr(key, `hour:${hour}`), ...placeIds.map(id => store.hincr(key, `place:${id}`))]);
-    await store.expire(key, 120 * 86400);
-  }
+  const keys = scopes(request.partner).map(scope => `stats:${scope}:${day(now)}`);
+  const fields = ['total', `topic:${topicOf(reply)}`, `hour:${hour}`, ...placeIds.map(id => `place:${id}`)];
+  await store.hincrMany(keys.flatMap(key => fields.map(field => ({ key, field }))), keys.map(key => ({ key, seconds: 120 * 86400 })));
 }
 export type DemandStats = { days: string[]; total: number; topics: Record<string, number>; hours: number[]; places: Record<string, number>; perDay: Record<string, number> };
 export async function readStats(partner: string | undefined, days = 7, now = new Date()): Promise<DemandStats> {
   const scope = scopes(partner).at(-1)!;
   const list = Array.from({ length: days }, (_, i) => day(new Date(now.getTime() - i * 86400000))).reverse();
   const out: DemandStats = { days: list, total: 0, topics: {}, hours: Array(24).fill(0), places: {}, perDay: {} };
-  for (const d of list) {
-    const h = await store.hgetall<number>(`stats:${scope}:${d}`);
+  const hashes = await store.hgetallMany<number>(list.map(d => `stats:${scope}:${d}`));
+  for (const [i, d] of list.entries()) {
+    const h = hashes[i];
     out.perDay[d] = Number(h.total ?? 0); out.total += out.perDay[d];
     for (const [k, v] of Object.entries(h)) {
       const n = Number(v);

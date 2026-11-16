@@ -20,15 +20,18 @@ function toRoute(r: StoredRoute, lang: Lang, rating: Route['rating']): Route {
   const stops = r.stops.flatMap(s => { const p = row(s.place_id); return p ? [{ place_id: p.id, name: lang === 'vi' ? p.ten_vi : p.ten_en, ...(s.note ? { note: s.note } : {}) }] : []; });
   return { id: r.id, title: r.title, author: r.author, summary: r.summary, stops, modes: r.modes, green: r.modes.length > 0 && r.modes.every(m => GREEN.has(m)), rating, status: r.status, created_at: r.created_at };
 }
-export async function routeRating(id: string): Promise<Route['rating']> {
-  const votes = Object.values(await store.hgetall<number>(`ratings:${id}`)).map(Number).filter(n => n >= 1 && n <= 5);
+function rating(hash: Record<string, number>): Route['rating'] {
+  const votes = Object.values(hash).map(Number).filter(n => n >= 1 && n <= 5);
   return { average: votes.length ? Math.round((votes.reduce((a, b) => a + b, 0) / votes.length) * 10) / 10 : null, count: votes.length };
 }
+export async function routeRating(id: string): Promise<Route['rating']> { return rating(await store.hgetall<number>(`ratings:${id}`)); }
 // Well-rated routes with many ratings rise; an unrated route starts at a neutral 4 stars.
 const score = (r: Route) => (((r.rating.average ?? 0) * r.rating.count) + 4 * 3) / (r.rating.count + 3);
 export async function listRoutes(lang: Lang, owner?: string): Promise<Route[]> {
   const posted = Object.values(await store.hgetall<StoredRoute>('routes')).filter(r => r.status === 'published' || (owner && r.owner === owner));
-  const routes = await Promise.all([...seedRoutes(lang), ...posted].map(async r => toRoute(r, lang, await routeRating(r.id))));
+  const all = [...seedRoutes(lang), ...posted];
+  const ratings = await store.hgetallMany<number>(all.map(r => `ratings:${r.id}`));
+  const routes = all.map((r, i) => toRoute(r, lang, rating(ratings[i])));
   return routes.sort((a, b) => Number(b.status === 'pending') - Number(a.status === 'pending') || score(b) - score(a) || b.created_at.localeCompare(a.created_at));
 }
 export async function findRoute(id: string, lang: Lang, owner?: string): Promise<Route | null> { return (await listRoutes(lang, owner)).find(r => r.id === id) ?? null; }
