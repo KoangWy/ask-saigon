@@ -29,7 +29,10 @@ it('changes the real plan-d1-night plan when rain hits its first outdoor stop',(
  const alternative=places.some(place=>place.trang_thai==='hoat_dong'&&place.tag.split(';').map(tag=>tag.trim()).includes('trong_nha')&&!before.some(stop=>stop.place_id===place.id)&&openingStatus(place.gio_mo,windowStart).open_now===true&&openingStatus(place.gio_mo,windowEnd).open_now===true);
  expect(alternative).toBe(true);
  const result=replan(plan,'rain',undefined,now);
- expect(result.reason).toContain(`${String(hour).padStart(2,'0')}:${String(minute).padStart(2,'0')}`);
+ // An outdoor stop inside the default 14:00–16:00 shower keeps that window; otherwise rain starts at the first outdoor stop.
+ const mins=(t:string)=>Number(t.slice(0,2))*60+Number(t.slice(3));
+ const inDefault=outside.some(stop=>mins(stop.arrive)<16*60&&mins(stop.leave)>14*60);
+ expect(result.reason).toContain(inDefault?'14:00':`${String(hour).padStart(2,'0')}:${String(minute).padStart(2,'0')}`);
  expect(result.after).not.toEqual(result.before);
 });
 

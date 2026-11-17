@@ -9,7 +9,7 @@ import { routeIntent } from './routes';
 // searches, "near me" or "near <place>", and the quick buttons. They get the same cards the AI
 // path would build with the same tools, in well under a second, and spend none of the AI budget.
 // Anything else (free questions, plans with preferences, prices, TikTok, photos) still goes to the model.
-const FOOD = /\b(quan an|an gi|an sang|an trua|an toi|an dem|an khuya|an vat|do an|mon an|food|eat|eating|hungry|restaurants?|breakfast|lunch|dinner|pho|bun cha|bun thit nuong|bun bo|banh mi|banh xeo|banh cuon|com tam|hu tieu|chay|vegetarian|vegan|doi bung)\b/;
+const FOOD = /\b(quan an|an gi|an sang|an trua|an toi|an dem|an khuya|an vat|do an|mon an|food|eat|eating|hungry|restaurants?|breakfast|lunch|dinner|pho|bun cha|bun thit nuong|bun bo|banh mi|banh xeo|banh cuon|com tam|hu tieu|banh canh|bun rieu|xoi|che|oc|quan lau|an lau|lau bo|hot ?pot|chay|vegetarian|vegan|doi bung)\b/;
 const COFFEE = /\b(ca phe|cafe|coffee)\b/;
 const NEAR = /\b(gan day|gan toi|gan minh|quanh day|xung quanh|near me|nearby|around here|near|gan)\b/;
 const OTHER = /\b(plan|itinerary|lich trinh|len lich|gia|price|bao nhieu|hop ly|fair|cost|tiktok|menu|thuc don|dich|translate)\b/;
