@@ -2,7 +2,7 @@
   {
     "id": "cyclo",
     "hang_muc": "xích lô",
-    "ten_khac": "cyclo;pedicab",
+    "ten_khac": "cyclo;pedicab;xe xích lô",
     "don_vi": "hour",
     "gia_tu": "70",
     "gia_den": "100",
@@ -15,7 +15,7 @@
   {
     "id": "taxi",
     "hang_muc": "taxi 4/5 chỗ",
-    "ten_khac": "cab;metered taxi",
+    "ten_khac": "cab;metered taxi;taxi",
     "don_vi": "km",
     "gia_tu": "13.5",
     "gia_den": "18.4",
@@ -54,7 +54,7 @@
   {
     "id": "coconut",
     "hang_muc": "dừa tươi",
-    "ten_khac": "fresh coconut",
+    "ten_khac": "fresh coconut;nước dừa;dừa;coconut;coconut water",
     "don_vi": "coconut",
     "gia_tu": "20",
     "gia_den": "50",
@@ -93,7 +93,7 @@
   {
     "id": "coffee",
     "hang_muc": "cà phê sữa đá",
-    "ten_khac": "iced milk coffee;Vietnamese iced coffee",
+    "ten_khac": "iced milk coffee;Vietnamese iced coffee;cà phê;cafe;coffee;cà phê sữa",
     "don_vi": "glass",
     "gia_tu": "12",
     "gia_den": "35",
@@ -106,7 +106,7 @@
   {
     "id": "metro",
     "hang_muc": "vé Metro số 1",
-    "ten_khac": "Metro Line 1;single journey metro ticket",
+    "ten_khac": "Metro Line 1;single journey metro ticket;vé metro;metro;tàu điện",
     "don_vi": "single trip",
     "gia_tu": "6",
     "gia_den": "20",
@@ -119,7 +119,7 @@
   {
     "id": "ticket_palace",
     "hang_muc": "vé người lớn Dinh Độc Lập",
-    "ten_khac": "Independence Palace adult ticket",
+    "ten_khac": "Independence Palace adult ticket;vé Dinh Độc Lập;Dinh Độc Lập;Independence Palace;Independence Palace ticket",
     "don_vi": "person",
     "gia_tu": "40",
     "gia_den": "80",
@@ -132,7 +132,7 @@
   {
     "id": "ticket_war",
     "hang_muc": "vé người lớn Bảo tàng Chứng tích Chiến tranh",
-    "ten_khac": "War Remnants Museum adult ticket",
+    "ten_khac": "War Remnants Museum adult ticket;vé Bảo tàng Chứng tích Chiến tranh;Bảo tàng Chứng tích Chiến tranh;War Remnants Museum;War Remnants Museum ticket",
     "don_vi": "person",
     "gia_tu": "40",
     "gia_den": "60",
@@ -158,7 +158,7 @@
   {
     "id": "ticket_finearts",
     "hang_muc": "vé người lớn Bảo tàng Mỹ thuật",
-    "ten_khac": "Fine Arts Museum adult ticket",
+    "ten_khac": "Fine Arts Museum adult ticket;vé Bảo tàng Mỹ thuật;Bảo tàng Mỹ thuật;Fine Arts Museum",
     "don_vi": "person",
     "gia_tu": "30",
     "gia_den": "30",
