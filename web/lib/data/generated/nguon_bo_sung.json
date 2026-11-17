@@ -198,5 +198,205 @@
     "ngay_kiem": "2026-11-17",
     "xac_nhan_vi": "Vé người lớn 30.000 đ",
     "xac_nhan_en": "Adult ticket 30,000 VND"
+  },
+  {
+    "id": "q1-026",
+    "nhan": "chinh_thuc",
+    "nguon": "https://www.baotanglichsutphcm.com.vn/ban-tin/thong-bao-thay-doi-muc-phi-tham-quan-bao-tang",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Giá",
+    "xac_nhan_en": "Prices"
+  },
+  {
+    "id": "q1-026",
+    "nhan": "chinh_thuc",
+    "nguon": "https://visithcmc.vn/vi/di-san-phong-cach-kien-truc-dong-duong-giua-long-thanh-pho/",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Địa chỉ",
+    "xac_nhan_en": "Address"
+  },
+  {
+    "id": "q1-026",
+    "nhan": "chinh_thuc",
+    "nguon": "https://visithcmc.vn/vi/cac-bao-tang-noi-tieng-nhat-o-hcm-danh-cho-nguoi-yeu-nghe-thuat/",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Giới thiệu địa điểm",
+    "xac_nhan_en": "Describes the place"
+  },
+  {
+    "id": "q1-028",
+    "nhan": "tham_khao",
+    "nguon": "https://mia.vn/cam-nang-du-lich/bao-tang-chien-dich-ho-chi-minh-15291",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Giá",
+    "xac_nhan_en": "Prices"
+  },
+  {
+    "id": "q1-030",
+    "nhan": "chinh_thuc",
+    "nguon": "https://visithcmc.vn/vi/kham-pha-nhung-khu-cho-dem-noi-tieng-tai-thanh-pho-ho-chi-minh/",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Địa chỉ",
+    "xac_nhan_en": "Address"
+  },
+  {
+    "id": "q1-031",
+    "nhan": "chinh_thuc",
+    "nguon": "https://visithcmc.vn/top-famous-night-market-in-ho-chi-minh-city/",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Giờ mở cửa",
+    "xac_nhan_en": "Opening hours"
+  },
+  {
+    "id": "q1-032",
+    "nhan": "doanh_nghiep",
+    "nguon": "https://saigonwaterbus.com/",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Giá, Địa chỉ, Thông tin bổ sung",
+    "xac_nhan_en": "Prices, Address, Additional details"
+  },
+  {
+    "id": "q1-032",
+    "nhan": "doanh_nghiep",
+    "nguon": "https://saigonwaterbus.com/ben-tau-bach-dang",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Địa chỉ",
+    "xac_nhan_en": "Address"
+  },
+  {
+    "id": "q1-034",
+    "nhan": "tham_khao",
+    "nguon": "https://mia.vn/cam-nang-du-lich/duong-sach-nguyen-van-binh-dac-sac-ngay-trung-tam-sai-gon-12474",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Giờ mở cửa, Giá, Địa chỉ",
+    "xac_nhan_en": "Opening hours, Prices, Address"
+  },
+  {
+    "id": "q1-036",
+    "nhan": "doanh_nghiep",
+    "nguon": "https://congcaphe.com/thucdon",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Giá",
+    "xac_nhan_en": "Prices"
+  },
+  {
+    "id": "q3-011",
+    "nhan": "doanh_nghiep",
+    "nguon": "https://congcaphe.com/thucdon",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Giá",
+    "xac_nhan_en": "Prices"
+  },
+  {
+    "id": "q3-012",
+    "nhan": "doanh_nghiep",
+    "nguon": "http://caphemuoichulong.com/quan-3",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Địa chỉ",
+    "xac_nhan_en": "Address"
+  },
+  {
+    "id": "q3-012",
+    "nhan": "tham_khao",
+    "nguon": "https://mia.vn/cam-nang-du-lich/ca-phe-muoi-chu-long-vi-man-ngot-hai-hoa-day-an-tuong-12085",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Giá",
+    "xac_nhan_en": "Prices"
+  },
+  {
+    "id": "q3-013",
+    "nhan": "tham_khao",
+    "nguon": "https://www.vietnamairlines.com/vn/en/plan-book/travel/travel-guide/vegan-restaurant-in-ho-chi-minh",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Giá",
+    "xac_nhan_en": "Prices"
+  },
+  {
+    "id": "q1-042",
+    "nhan": "tham_khao",
+    "nguon": "https://vtcnews.vn/cam-100-nghin-di-an-xoi-ga-number-one-canh-cho-ben-thanh-duoc-michelin-de-xuat-ar884907.html",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Giá, Giới thiệu địa điểm",
+    "xac_nhan_en": "Prices, Describes the place"
+  },
+  {
+    "id": "q1-044",
+    "nhan": "tham_khao",
+    "nguon": "https://mia.vn/cam-nang-du-lich/banh-canh-cua-87-sai-gon-18170",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Giờ mở cửa, Giá",
+    "xac_nhan_en": "Opening hours, Prices"
+  },
+  {
+    "id": "q1-045",
+    "nhan": "tham_khao",
+    "nguon": "https://mia.vn/cam-nang-du-lich/bun-rieu-ganh-cho-ben-thanh-17591",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Giờ mở cửa, Giá, Giới thiệu địa điểm",
+    "xac_nhan_en": "Opening hours, Prices, Describes the place"
+  },
+  {
+    "id": "q1-046",
+    "nhan": "tham_khao",
+    "nguon": "https://news.tuoitre.vn/timeless-taste-66-years-of-sweet-soup-bliss-in-ho-chi-minh-city-10382109.htm",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Giá",
+    "xac_nhan_en": "Prices"
+  },
+  {
+    "id": "q1-047",
+    "nhan": "tham_khao",
+    "nguon": "https://vinwonders.com/vi/wonderpedia/news/lau-bo-sai-gon/",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Giờ mở cửa",
+    "xac_nhan_en": "Opening hours"
+  },
+  {
+    "id": "q1-002",
+    "nhan": "tham_khao",
+    "nguon": "https://www.vietnamtourism.com/vi/pho-i-bo-nguyen-hue-cam-nang-ay-u-ve-ai-lo-i-bo-sai-gon",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Mở 24 giờ, không thu phí vào cửa",
+    "xac_nhan_en": "Open 24 hours, no entry fee"
+  },
+  {
+    "id": "q3-001",
+    "nhan": "tham_khao",
+    "nguon": "https://www.nomadotravel.app/vi/attractions/turtle-lake-roundabout",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Quảng trường công cộng, mở 24 giờ, miễn phí; hàng ăn vặt từ khoảng 17:00",
+    "xac_nhan_en": "Public square, open 24 hours, free; snack stalls from about 17:00"
+  },
+  {
+    "id": "q1-011",
+    "nhan": "doanh_nghiep",
+    "nguon": "http://www.bitexcofinancialtower.com/?page_id=1434",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Đài quan sát Saigon Skydeck mở 09:30–21:30 hằng ngày, vé người lớn 240.000 đ",
+    "xac_nhan_en": "Saigon Skydeck observation deck open daily 09:30–21:30, adult ticket 240,000 VND"
+  },
+  {
+    "id": "q1-015",
+    "nhan": "chinh_thuc",
+    "nguon": "https://saigonzoo.vn/p/cau-hoi-thuong-gap-hp16.html",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Mở 07:00–18:30 tất cả các ngày; vé người lớn 60.000 đ",
+    "xac_nhan_en": "Open 07:00–18:30 every day; adult ticket 60,000 VND"
+  },
+  {
+    "id": "q1-016",
+    "nhan": "tham_khao",
+    "nguon": "https://www.vietnamairlines.com/vn/en/useful-information/travel-guide/mariamman-hindu-temple",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Mở 09:00–20:00 hằng ngày, không thu vé",
+    "xac_nhan_en": "Open daily 09:00–20:00, no admission fee"
+  },
+  {
+    "id": "q1-016",
+    "nhan": "tham_khao",
+    "nguon": "https://mia.vn/cam-nang-du-lich/chua-an-do-sai-gon-14027",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Mở 09:00–20:00, miễn phí",
+    "xac_nhan_en": "Open 09:00–20:00, free"
   }
 ]

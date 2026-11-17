@@ -96,3 +96,63 @@ Pages on visithcmc.vn (run by the Ho Chi Minh City Tourism Promotion Centre unde
 | q3-006, q3-007 | [/vi/top-10-mon-an-ngon-…/](https://visithcmc.vn/vi/top-10-mon-an-ngon-ban-phai-thu-khi-den-thanh-pho-ho-chi-minh/) | Phở Hòa at 260C Pasteur; Chị Tuyền at 175C Cô Giang |
 | q1-018 | [/vi/10-mon-banh-mi-…/](https://visithcmc.vn/vi/10-mon-banh-mi-phai-thuong-thuc-tai-tp-hcm/) | Huỳnh Hoa at 26 Lê Thị Riêng |
 | q1-019, q1-020 | [/vi/hanh-trinh-…-michelin-nam-2025/](https://visithcmc.vn/vi/hanh-trinh-du-lich-thanh-pho-moi-va-trai-nghiem-am-thuc-theo-cam-nang-michelin-nam-2025/) | Bún chả 145 and Bánh xèo 46A among the 2025 Bib Gourmand picks |
+
+## Added 2026-11-17
+
+Found by three research passes and kept only when every hours, price and address value had a verbatim quote that a script found again in the downloaded page (HTML entities decoded). Coordinates come from Nominatim (bounded to the service area, one request per 1.2 s) and were kept only when OSM matched the named place or the house number; rows where OSM only knew the street were dropped (Hum Central, Bông Sung, Bún bò Huế 31, Bún bò Út Hưng, Okkio Duy Tân, Chú Long Nguyễn Huệ, Bảo tàng Biệt động). Chè Kỳ Đồng was dropped because its source could not be fetched again. The AO Show price was dropped because its only source is a site the research found unreliable elsewhere.
+
+| ID | Name | Primary page | Fields | Coordinate source |
+|---|---|---|---|---|
+| q1-026 | Bảo tàng Lịch sử Thành phố Hồ Chí Minh | [www.baotanglichsutphcm.com.vn](https://www.baotanglichsutphcm.com.vn/) (chinh_thuc) | hours `tue-sun 08:00-11:30,13:00-17:00;mon closed`; price 60–60k; address | OSM object "Bảo tàng Lịch sử Thành phố Hồ Chí Minh" |
+| q1-027 | Bảo tàng Tôn Đức Thắng | [baotangtonducthang.vn](https://baotangtonducthang.vn/) (chinh_thuc) | hours `tue-sun 07:30-11:30,13:00-17:00;mon closed`; address | OSM object "Bảo tàng Tôn Đức Thắng" |
+| q3-009 | Bảo tàng Phụ nữ Nam Bộ | [www.baotangphunu.com](http://www.baotangphunu.com/) (chinh_thuc) | hours `daily 07:30-11:30,13:30-17:00`; address | OSM object "Bảo tàng Phụ nữ Nam Bộ" |
+| q1-028 | Bảo tàng Chiến dịch Hồ Chí Minh | [visithcmc.vn](https://visithcmc.vn/vi/cac-bao-tang-noi-tieng-nhat-o-hcm-danh-cho-nguoi-yeu-nghe-thuat/) (chinh_thuc) | hours `mon-fri 07:30-11:00,13:30-16:30;sat-sun closed`; price 0–0k; address | OSM object "Bảo tàng Chiến dịch Hồ Chí Minh", 2 Lê Duẩn |
+| q1-029 | Nhà hát Múa rối nước Rồng Vàng | [localvietnam.com](https://localvietnam.com/ho-chi-minh-city/water-puppet-show-in-ho-chi-minh-city/) (tham_khao) | hours `daily 18:30-19:20`; price 300–350k; address | OSM object "Nhà Hát Múa Rối Nước Rồng Vàng", 55B Nguyễn Thị Minh Khai |
+| q1-030 | Chợ đêm Bến Thành | [visithcmc.vn](https://visithcmc.vn/vi/cho-ben-thanh/) (chinh_thuc) | hours `daily 19:00-22:00`; address | OSM street Phan Bội Châu beside the market (the night market runs on the side streets) |
+| q1-031 | Chợ đêm Tân Định | [visithcmc.vn](https://visithcmc.vn/vi/kham-pha-nhung-khu-cho-dem-noi-tieng-tai-thanh-pho-ho-chi-minh/) (chinh_thuc) | hours `daily 17:00-01:00`; address | OSM object "Chợ Tân Định" |
+| q1-032 | Bến tàu Saigon Waterbus Bạch Đằng | [saigonwaterbus.com](https://saigonwaterbus.com/water-bus) (doanh_nghiep) | price 15–15k; address | OSM object "Bến tàu Bạch Đằng" |
+| q3-010 | Social Club Rooftop Bar | [www.hoteldesartssaigon.com](https://www.hoteldesartssaigon.com/dining/social-club-rooftop-bar/) (doanh_nghiep) | hours `mon-thu 15:00-00:00;fri-sat 15:00-01:00;sun 15:00-00:00`; address | OSM object "Khách Sạn Hotel Des Arts Saigon" |
+| q1-033 | Trung tâm thương mại Vincom Center Đồng Khởi | [vincom.com.vn](https://vincom.com.vn/vi/tttm/vincom-center-dong-khoi) (doanh_nghiep) | hours `daily 10:00-22:00`; address | OSM object "Vincom Center Đồng Khởi", 72 Lê Thánh Tôn |
+| q1-034 | Đường sách Nguyễn Văn Bình | [www.nomadotravel.app](https://www.nomadotravel.app/vi/attractions/ho-chi-minh-city-book-street) (tham_khao) | hours `daily 08:00-22:00`; price 0–0k; address | OSM object "Đường Sách", Nguyễn Văn Bình |
+| q1-035 | Saigon Saigon Rooftop Bar | [www.caravellehotel.com](https://www.caravellehotel.com/saigon-saigon-bar/) (doanh_nghiep) | address | OSM object "Khách sạn Caravelle Saigon" |
+| q1-036 | Cộng Cà Phê Lý Tự Trọng | [congcaphe.com](https://congcaphe.com/stores) (doanh_nghiep) | hours `daily 07:00-23:00`; price 40–69k; address | congcaphe.com store data (lat/long) |
+| q3-011 | Cộng Cà Phê Hồ Con Rùa | [congcaphe.com](https://congcaphe.com/stores) (doanh_nghiep) | hours `daily 07:00-22:00`; price 40–69k; address | congcaphe.com store data (lat/long) |
+| q1-037 | Okkio Caffe Đồng Khởi | [okkiocaffe.com](https://okkiocaffe.com) (doanh_nghiep) | hours `daily 07:30-22:00`; address | OSM address node 151 Đồng Khởi |
+| q1-038 | L'Usine Saigon Centre | [lusinespace.com](https://lusinespace.com/locations/) (doanh_nghiep) | hours `daily 10:00-21:30`; address | Same building as q1-012 Saigon Centre |
+| q3-012 | Cà Phê Muối Chú Long Hồ Con Rùa | [caphemuoichulong.com](http://caphemuoichulong.com/6b-cong-truong-quoc-te-ho-con-rua-phuong-xuan-hoa-tp-ho-chi-minh) (doanh_nghiep) | hours `daily 05:00-22:00`; price 15–20k; address | OSM address node 6B Công trường Quốc Tế |
+| q1-039 | Starbucks New World | [www.starbucks.vn](https://www.starbucks.vn/store-locator) (doanh_nghiep) | hours `daily 06:30-00:00`; address | starbucks.vn store-locator data |
+| q1-040 | Ốc Đào | [www.timeout.com](https://www.timeout.com/vietnam/restaurants/oc-dao) (tham_khao) | hours `daily 11:00-22:15`; address | Time Out page data |
+| q3-013 | Chay Garden Võ Văn Tần | [chaygarden.com](https://chaygarden.com/) (doanh_nghiep) | hours `daily 10:30-22:00`; price 79–355k; address | Time Out page data |
+| q1-041 | Nhà hàng chay Phương Mai | [www.vietnamairlines.com](https://www.vietnamairlines.com/vn/en/plan-book/travel/travel-guide/vegan-restaurant-in-ho-chi-minh) (tham_khao) | hours `daily 09:00-21:30`; price 60–190k; address | OSM object "Phuong Mai Vegetarian", hẻm 82 Võ Thị Sáu |
+| q1-042 | Xôi gà Number One | [www.gillespudlowski.com](https://www.gillespudlowski.com/419524/restaurants/saigon-streetfood-face-au-marche) (tham_khao) | hours `daily 06:30-20:30`; price 20–40k; address | OSM object "Xôi Gà Number One" |
+| q1-043 | Cơm Tấm Mộc | [www.vietnamairlines.com](https://www.vietnamairlines.com/vn/en/plan-book/travel/travel-guide/best-broken-rice-ho-chi-minh) (tham_khao) | hours `daily 09:00-20:30`; price 40–50k; address | OSM object "Quán Cơm Tâm Mộc", Lý Tự Trọng |
+| q3-014 | Hủ tiếu Nam Vang Hồng Phát | [gtrip.vn](https://gtrip.vn/travel-blogs/saigon-noodles) (tham_khao) | hours `daily 06:30-22:30`; address | OSM object "Hủ Tiếu Hồng Phát", Võ Văn Tần |
+| q1-044 | Bánh canh cua 87 | [gtrip.vn](https://gtrip.vn/travel-blogs/saigon-noodles) (tham_khao) | hours `daily 11:00-21:00`; price 50–100k; address | OSM object "Bánh Canh Cua 87", 87 Trần Khắc Chân |
+| q1-045 | Bún riêu Gánh | [gtrip.vn](https://gtrip.vn/travel-blogs/saigon-noodles) (tham_khao) | hours `daily 07:00-19:00`; price 60–65k; address | OSM object "Bún riêu ganh", Lê Thánh Tôn |
+| q1-046 | Xe chè Lâm Vĩnh Mậu | [e.vnexpress.net](https://e.vnexpress.net/news/food-recipes/saigons-favorite-late-night-bites-4685846.html) (tham_khao) | hours `daily 19:00-00:00`; price 20–45k; address | OSM object "Chè Lâm Vinh Mậu", Nguyễn Thái Bình |
+| q1-047 | Lẩu bò Tí Chuột | [mia.vn](https://mia.vn/cam-nang-du-lich/an-dem-sai-gon-12779) (tham_khao) | hours `daily 11:00-03:30`; price 35–88k; address | OSM object "Lâu Bò Tí Chuột", 1-3 Cống Quỳnh / Cao Bá Nhạ |
+
+Hours added to existing places: q1-002 Nguyễn Huệ and q3-001 Hồ Con Rùa open 24 hours and free (travel guides, `tham_khao`); q1-011 Bitexco carries the Saigon Skydeck hours 09:30–21:30 and 240k ticket (tower site, `doanh_nghiep`); q1-015 Thảo Cầm Viên 07:00–18:30, 60k (saigonzoo.vn, `chinh_thuc`); q1-016 Mariamman 09:00–20:00, free (Vietnam Airlines guide, mia.vn). Bùi Viện stays without hours: visithcmc.vn only says it runs from early evening to dawn. Nhà thờ Đức Bà stays without hours: it is under restoration until about the end of 2027 and open only for Mass.
+
+### Reference prices added
+
+| ID | Range (k VND) | Source |
+|---|---|---|
+| ticket_war | 40–60 / person | [visithcmc.vn](https://visithcmc.vn/vi/bao-tang-chung-tich-chien-tranh/) (chinh_thuc) |
+| waterbus | 15–15 / trip | [saigonwaterbus.com](https://saigonwaterbus.com/water-bus) (doanh_nghiep) |
+| ticket_zoo | 60–60 / ticket | [saigonzoo.vn](https://saigonzoo.vn/ve-tham-quan) (chinh_thuc) |
+| ticket_skydeck | 200–240 / ticket | [www.bitexcofinancialtower.com](http://www.bitexcofinancialtower.com/?page_id=1434) (doanh_nghiep) |
+| ticket_history | 60–60 / ticket | [www.baotanglichsutphcm.com.vn](https://www.baotanglichsutphcm.com.vn/ban-tin/thong-bao-thay-doi-muc-phi-tham-quan-bao-tang) (chinh_thuc) |
+| ticket_water_puppet | 300–350 / ticket | [localvietnam.com](https://localvietnam.com/ho-chi-minh-city/water-puppet-show-in-ho-chi-minh-city/) (tham_khao) |
+| bus | 0–0 / trip | [buyttphcm.com.vn](https://buyttphcm.com.vn/Home/ArtMID/546/ArticleID/5059/H%c6%a0N-40-TRI%e1%bb%86U-L%c6%af%e1%bb%a2T-H192NH-KH193CH-%c4%90I-XE-BU221T-MI%e1%bb%84N-PH205-SAU-G%e1%ba%a6N-4-TH193NG-TRI%e1%bb%82N-KHAI) (chinh_thuc) |
+| comtam | 35–70 / plate | [www.vietnamtourism.com](https://www.vietnamtourism.com/en/how-much-to-budget-for-food-per-day-in-vietnam) (tham_khao) |
+| hutieu | 30–90 / bowl | [www.vietnamtourism.com](https://www.vietnamtourism.com/vi/an-hu-tieu-o-sai-gon-10-quan-nguoi-ia-phuong-tin-tuong) (tham_khao) |
+| nuocmia | 10–20 / cup | [www.vietnamtourism.com](https://www.vietnamtourism.com/en/sugarcane-juice-and-sinh-to-vietnam-s-street-drinks-and-which-ones-are-safe) (tham_khao) |
+| banhxeo | 25–50 / pancake | [www.vietnamtourism.com](https://www.vietnamtourism.com/en/banh-xeo-how-to-eat-vietnam-s-sizzling-pancake-like-a-local) (tham_khao) |
+| goicuon | 10–20 / roll | [www.vietnamtourism.com](https://www.vietnamtourism.com/en/spring-rolls-in-vietnam-goi-cuon-vs-nem-the-real-difference) (tham_khao) |
+| beer_buivien | 15–80 / glass or bottle | [www.vietnamtourism.com](https://www.vietnamtourism.com/en/bui-vien-street-ho-chi-minh-city-hours-prices-safety) (tham_khao) |
+| food_tour | 850–2132 / person | [xotours.vn](https://xotours.vn/?page_id=13) (doanh_nghiep) |
+| bun_rieu | 30–50 / bowl | [www.vietnamairlines.com](https://www.vietnamairlines.com/vn/en/plan-book/travel/travel-guide/vietnam-meal-cost) (tham_khao) |
+| che | 15–35 / cup | [www.vietnamairlines.com](https://www.vietnamairlines.com/vn/en/plan-book/travel/travel-guide/vietnam-meal-cost) (tham_khao) |
+
+Food and drink ranges from vietnamtourism.com are third-party guides (the site is not the national tourism authority, whose domain is vietnamtourism.gov.vn); they are labelled `tham_khao`. Bún bò was left out because its range was for Huế. Free city buses: 134 routes since 01/07/2026 per buyttphcm.com.vn (24/10/2026).
