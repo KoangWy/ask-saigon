@@ -2,7 +2,7 @@
 // Usage: pnpm eval:chat http://localhost:3100 [--sse]   (--sse measures time-to-first-text too).
 // History entries follow the client's format: "text [showed places: id1, id2]".
 const sse = process.argv.includes('--sse');
-const base = (process.argv.filter(a => !a.startsWith('--'))[1] ?? 'http://localhost:3000').replace(/\/$/, '');
+const base = (process.argv.slice(2).find(a => !a.startsWith('--')) ?? 'http://localhost:3000').replace(/\/$/, '');
 
 type Msg = { role: 'user' | 'assistant'; text: string };
 type Case = { label: string; lang: 'en' | 'vi'; turns: string[] };

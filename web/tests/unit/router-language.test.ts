@@ -27,6 +27,7 @@ describe('replyLanguage detects short questions with and without diacritics', ()
   for (const text of [
     'coffee near me', 'where is Ben Thanh Market?', 'worth it?', 'is it open now?',
     'What time does the museum open?', 'What time does Chợ Bến Thành open?', 'should I go tonight?',
+    'Suggest a backpacking day by metro',
   ]) it(`English: ${text}`, () => expect(lang(text)).toBe('en'));
   it('keeps the state language when there is no signal', () => expect(lang('hello there', 'vi')).toBe('vi'));
 });

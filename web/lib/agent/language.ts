@@ -4,7 +4,9 @@ const ACCENTED_VI = /[\u0102\u0103\u0110\u0111\u0128\u0129\u0168\u0169\u01a0\u01
 const STRONG_VI = /\b(tôi|mình|muốn|không|hãy|mấy|giờ|đâu|sao|gì|đang|nhé|ạ)\b/i;
 // Short questions typed without diacritics still have Vietnamese function words: use them before
 // falling back to the state language, which the app may have initialised from the browser.
-const VI_NO_ACCENT = /\b(gan|day|nay|sao|khong|co|gi|pho|banh|mi|cha|quan|an|uong|bao|nhieu|ngon|dep|tot|dat|re|mo|cua|ve|di|dau|choi|muon|can|minh|toi|chieu|sang|trua|dem|khuya|nha|duong|chay|oc)\b/i;
+// "day" is deliberately absent: it is a common English word ("plan my day") and "nay" already
+// marks "hôm nay". Treating it as Vietnamese answers English questions in Vietnamese.
+const VI_NO_ACCENT = /\b(gan|nay|sao|khong|co|gi|pho|banh|mi|cha|quan|an|uong|bao|nhieu|ngon|dep|tot|dat|re|mo|cua|ve|di|dau|choi|muon|can|minh|toi|chieu|sang|trua|dem|khuya|nha|duong|chay|oc)\b/i;
 export function replyLanguage(request: ChatRequest): 'en' | 'vi' {
   const text = request.input.kind === 'text' ? request.input.text : request.input.kind === 'image' ? request.input.text ?? '' : '';
   const enHits = text.match(EN)?.length ?? 0, accented = ACCENTED_VI.test(text), strongVi = STRONG_VI.test(text);
