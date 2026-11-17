@@ -84,7 +84,7 @@ async function main() {
     const history: Msg[] = [];
     for (const [i, text] of c.turns.entries()) {
       let r: Awaited<ReturnType<typeof post>>;
-      try { r = await post(text, history, c.lang); } catch (e) { r = { ms: -1, source: 'ERROR', text: String(e), blocks: [], fallback: false }; }
+      try { r = await post(text, history, c.lang); } catch (e) { r = { ms: -1, ttft: -1, source: 'ERROR', text: String(e), blocks: [], fallback: false }; }
       tally[r.source] = (tally[r.source] ?? 0) + 1;
       console.log(`[${c.label}${c.turns.length > 1 ? `#${i + 1}` : ''}] ${text}`);
       console.log(`  source=${r.source}${r.fallback ? '(fallback)' : ''} ${sse ? `ttft=${r.ttft}ms ` : ''}${r.ms}ms blocks=[${r.blocks.join(', ')}]`);

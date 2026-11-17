@@ -15,7 +15,8 @@
     "test:e2e": "playwright test",
     "build-data": "tsx scripts/build-data",
     "smoke:live": "tsx scripts/smoke-live.ts",
-    "eval:chat": "tsx scripts/eval-chat.ts"
+    "eval:chat": "tsx scripts/eval-chat.ts",
+    "bench:llm": "tsx scripts/bench-llm.ts"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",

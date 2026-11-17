@@ -13,3 +13,19 @@ export function primaryConfig(): ProviderConfig {
     idleMs: idleMs(),
   };
 }
+
+// Mistral rejects unknown fields (422 extra_forbidden), so no reasoning_effort and no
+// x-opencode-session here. Fallback is opt-in: without a key it is never attempted.
+export function fallbackConfig(): ProviderConfig | null {
+  const apiKey = process.env.LLM_FALLBACK_API_KEY;
+  if (!apiKey) return null;
+  return {
+    label: 'mistral',
+    baseUrl: (process.env.LLM_FALLBACK_BASE_URL ?? 'https://api.mistral.ai/v1').replace(/\/$/, ''),
+    model: process.env.LLM_FALLBACK_MODEL ?? 'deepseek-v4-1-flash-1017',
+    apiKey,
+    reasoningEffort: null,
+    sessionHeader: false,
+    idleMs: idleMs(),
+  };
+}
