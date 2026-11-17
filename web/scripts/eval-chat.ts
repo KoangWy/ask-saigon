@@ -1,7 +1,8 @@
 // Sends a fixed set of realistic traveller questions to /api/chat and prints which path answered.
-// Usage: pnpm eval:chat http://localhost:3100   (the same command works before and after a change).
+// Usage: pnpm eval:chat http://localhost:3100 [--sse]   (--sse measures time-to-first-text too).
 // History entries follow the client's format: "text [showed places: id1, id2]".
-const base = (process.argv[2] ?? 'http://localhost:3000').replace(/\/$/, '');
+const sse = process.argv.includes('--sse');
+const base = (process.argv.filter(a => !a.startsWith('--'))[1] ?? 'http://localhost:3000').replace(/\/$/, '');
 
 type Msg = { role: 'user' | 'assistant'; text: string };
 type Case = { label: string; lang: 'en' | 'vi'; turns: string[] };
@@ -36,19 +37,45 @@ const client = () => `eval-${crypto.randomUUID()}`;
 
 async function post(text: string, history: Msg[], lang: 'en' | 'vi') {
   const started = Date.now();
+  const payload = {
+    input: { kind: 'text', text },
+    history,
+    state: { lang, location: { lat: 10.7724, lng: 106.698, label: 'Ben Thanh', source: 'picked' }, now: now(), offline: false },
+    session_id: crypto.randomUUID(),
+    client_id: client(),
+  };
   const response = await fetch(`${base}/api/chat`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Origin': base },
-    body: JSON.stringify({
-      input: { kind: 'text', text },
-      history,
-      state: { lang, location: { lat: 10.7724, lng: 106.698, label: 'Ben Thanh', source: 'picked' }, now: now(), offline: false },
-      session_id: crypto.randomUUID(),
-      client_id: client(),
-    }),
+    headers: { 'Content-Type': 'application/json', 'Origin': base, ...(sse ? { Accept: 'text/event-stream' } : {}) },
+    body: JSON.stringify(payload),
   });
-  const body = await response.json() as { source?: string; reply_text?: string; blocks?: { type: string; places?: { id: string }[] }[]; fallback?: boolean };
-  return { ms: Date.now() - started, source: body.source ?? `HTTP ${response.status}`, text: body.reply_text ?? '', blocks: (body.blocks ?? []).map(b => b.type === 'place_cards' ? `place_cards(${b.places?.map(p => p.id).slice(0, 3).join(',')})` : b.type), fallback: body.fallback };
+  let ttft = -1;
+  let body: { source?: string; reply_text?: string; blocks?: { type: string; places?: { id: string }[] }[]; fallback?: boolean };
+  if (sse && response.body && (response.headers.get('content-type') ?? '').includes('text/event-stream')) {
+    const reader = response.body.getReader(), decoder = new TextDecoder();
+    let buffer = '', final: Record<string, unknown> | undefined;
+    for (;;) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      let at: number;
+      while ((at = buffer.indexOf('\n\n')) >= 0) {
+        const frame = buffer.slice(0, at);
+        buffer = buffer.slice(at + 2);
+        if (!frame.startsWith('data:')) continue;
+        const event = JSON.parse(frame.slice(5).trim()) as { type: string; text?: string; reply?: Record<string, unknown> };
+        if (event.type === 'delta' && ttft < 0) ttft = Date.now() - started;
+        if (event.type === 'final') final = event.reply;
+      }
+      if (final) break;
+    }
+    await reader.cancel().catch(() => {});
+    body = (final ?? { source: 'NO_FINAL' }) as typeof body;
+  } else {
+    body = await response.json() as typeof body;
+  }
+  const ms = Date.now() - started;
+  return { ms, ttft, source: body.source ?? `HTTP ${response.status}`, text: body.reply_text ?? '', blocks: (body.blocks ?? []).map(b => b.type === 'place_cards' ? `place_cards(${b.places?.map(p => p.id).slice(0, 3).join(',')})` : b.type), fallback: body.fallback };
 }
 
 async function main() {
@@ -60,7 +87,7 @@ async function main() {
       try { r = await post(text, history, c.lang); } catch (e) { r = { ms: -1, source: 'ERROR', text: String(e), blocks: [], fallback: false }; }
       tally[r.source] = (tally[r.source] ?? 0) + 1;
       console.log(`[${c.label}${c.turns.length > 1 ? `#${i + 1}` : ''}] ${text}`);
-      console.log(`  source=${r.source}${r.fallback ? '(fallback)' : ''} ${r.ms}ms blocks=[${r.blocks.join(', ')}]`);
+      console.log(`  source=${r.source}${r.fallback ? '(fallback)' : ''} ${sse ? `ttft=${r.ttft}ms ` : ''}${r.ms}ms blocks=[${r.blocks.join(', ')}]`);
       console.log(`  reply_text=${JSON.stringify(r.text)}`);
       // Build the history the client would send: assistant text plus a note about the cards shown.
       history.push({ role: 'user', text });
