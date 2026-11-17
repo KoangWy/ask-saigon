@@ -132,14 +132,14 @@
   {
     "id": "ticket_war",
     "hang_muc": "vé người lớn Bảo tàng Chứng tích Chiến tranh",
-    "ten_khac": "War Remnants Museum adult ticket;vé Bảo tàng Chứng tích Chiến tranh;Bảo tàng Chứng tích Chiến tranh;War Remnants Museum;War Remnants Museum ticket",
+    "ten_khac": "War Remnants Museum adult ticket;vé Bảo tàng Chứng tích Chiến tranh;Bảo tàng Chứng tích Chiến tranh;War Remnants Museum;War Remnants Museum ticket;Bảo tàng Chứng tích;vé Bảo tàng Chứng tích",
     "don_vi": "person",
-    "gia_tu": "40",
+    "gia_tu": "60",
     "gia_den": "60",
-    "meo_vi": "Sở Du lịch ghi 40.000 đ (bài đăng 10/10/2026); một trang hướng dẫn ghi 60.000 đ từ 01/10/2026. Hỏi giá tại quầy vé.",
-    "meo_en": "The city tourism portal lists 40,000 VND (posted 10 Oct 2026); a visitor guide lists 60,000 VND from 1 Oct 2026. Confirm at the ticket desk.",
+    "meo_vi": "Áp dụng từ 01/10/2026 theo Nghị quyết 29/2026/NQ-HĐND; trẻ em, học sinh, sinh viên được miễn phí.",
+    "meo_en": "From 1 Oct 2026 under city resolution 29/2026/NQ-HĐND; children and students enter free.",
     "nhan": "chinh_thuc",
-    "nguon": "https://visithcmc.vn/vi/bao-tang-chung-tich-chien-tranh/",
+    "nguon": "https://ttbc-hcm.gov.vn/tp-hcm-mien-ve-tham-quan-bao-tang-cho-hoc-sinh-sinh-vien-tu-1-10-1022256.html",
     "ngay_kiem": "2026-11-17"
   },
   {
@@ -158,15 +158,15 @@
   {
     "id": "ticket_finearts",
     "hang_muc": "vé người lớn Bảo tàng Mỹ thuật",
-    "ten_khac": "Fine Arts Museum adult ticket;vé Bảo tàng Mỹ thuật;Bảo tàng Mỹ thuật;Fine Arts Museum",
+    "ten_khac": "Fine Arts Museum adult ticket;vé Bảo tàng Mỹ thuật;Bảo tàng Mỹ thuật;Fine Arts Museum;Bảo tàng Mỹ thuật Thành phố Hồ Chí Minh;Ho Chi Minh City Museum of Fine Arts",
     "don_vi": "person",
-    "gia_tu": "30",
-    "gia_den": "30",
-    "meo_vi": "Giá vé người lớn niêm yết tại trang bảo tàng.",
-    "meo_en": "Adult admission listed by the museum.",
-    "nhan": "tham_khao",
-    "nguon": "https://hcmcmuseumoffinearts.wixsite.com/mysite/hours-and-admission",
-    "ngay_kiem": "2026-10-30"
+    "gia_tu": "60",
+    "gia_den": "60",
+    "meo_vi": "Áp dụng từ 01/10/2026 theo Nghị quyết 29/2026/NQ-HĐND; trẻ em, học sinh, sinh viên được miễn phí.",
+    "meo_en": "From 1 Oct 2026 under city resolution 29/2026/NQ-HĐND; children and students enter free.",
+    "nhan": "chinh_thuc",
+    "nguon": "https://ttbc-hcm.gov.vn/tp-hcm-mien-ve-tham-quan-bao-tang-cho-hoc-sinh-sinh-vien-tu-1-10-1022256.html",
+    "ngay_kiem": "2026-11-17"
   },
   {
     "id": "waterbus",
@@ -361,6 +361,19 @@
     "meo_en": "General reference range; specialty bowls at heritage carts (almond-ginkgo) can reach 45,000 VND.",
     "nhan": "tham_khao",
     "nguon": "https://www.vietnamairlines.com/vn/en/plan-book/travel/travel-guide/vietnam-meal-cost",
+    "ngay_kiem": "2026-11-17"
+  },
+  {
+    "id": "ticket_city_museum",
+    "hang_muc": "vé Bảo tàng Thành phố Hồ Chí Minh",
+    "ten_khac": "Bảo tàng Thành phố Hồ Chí Minh;Museum of Ho Chi Minh City;vé Bảo tàng TP.HCM;HCMC Museum ticket",
+    "don_vi": "person",
+    "gia_tu": "60",
+    "gia_den": "60",
+    "meo_vi": "Áp dụng từ 01/10/2026; giảm 50% (30.000 đ) cho người hưởng chính sách ưu đãi; miễn phí cho trẻ em, học sinh, sinh viên.",
+    "meo_en": "From 1 Oct 2026; 50% off (30,000 VND) for people entitled to cultural concessions; free for children and students.",
+    "nhan": "chinh_thuc",
+    "nguon": "https://hcmc-museum.edu.vn/luu-tru/5482",
     "ngay_kiem": "2026-11-17"
   }
 ]

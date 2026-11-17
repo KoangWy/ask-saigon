@@ -26,7 +26,9 @@
     "anh_nguon": "",
     "nhan": "chinh_thuc",
     "nguon": "https://benthanhmarket.vn/about/noi-quy-cho.html",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-002",
@@ -55,7 +57,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/Nguy%E1%BB%85n_Hu%E1%BB%87_Boulevard",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-003",
@@ -84,7 +88,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/B%C3%B9i_Vi%E1%BB%87n_Street",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q3-001",
@@ -113,7 +119,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/Turtle_Lake_(Ho_Chi_Minh_City)",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-004",
@@ -142,7 +150,9 @@
     "anh_nguon": "",
     "nhan": "chinh_thuc",
     "nguon": "https://dinhdoclap.gov.vn/en/visiting-hours/",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-005",
@@ -171,7 +181,9 @@
     "anh_nguon": "",
     "nhan": "chinh_thuc",
     "nguon": "https://vietnam.travel/things-to-do/7-must-see-attractions-hcmc/",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-006",
@@ -190,7 +202,7 @@
     "mo_ta_en": "",
     "tag": "lich_su;diem_den",
     "thoi_gian_tham_quan": "30",
-    "trang_thai": "hoat_dong",
+    "trang_thai": "tam_dong",
     "google_place_id": "",
     "cau_chuyen_vi": "Nhà thờ Đức Bà Sài Gòn được xây dựng trong giai đoạn 1877–1880.",
     "cau_chuyen_en": "Construction of Notre-Dame Cathedral Basilica of Saigon took place from 1877 to 1880.",
@@ -200,7 +212,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/Notre-Dame_Cathedral_Basilica_of_Saigon",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "Đang đại trùng tu, dự kiến xong cuối năm 2027. Trong thời gian này nhà thờ không đón khách tham quan bên trong, chỉ mở cho người dự Thánh lễ; vẫn ngắm và chụp ảnh bên ngoài được.",
+    "ghi_chu_en": "Under major restoration, expected to finish at the end of 2027. Until then visitors cannot go inside; it opens only for Mass, and you can still see and photograph it from outside."
   },
   {
     "id": "q3-002",
@@ -213,8 +227,8 @@
     "lat": "10.7793647",
     "lng": "106.6922806",
     "gio_mo": "daily 07:30-17:30",
-    "gia_tu": "",
-    "gia_den": "",
+    "gia_tu": "60",
+    "gia_den": "60",
     "mo_ta_vi": "",
     "mo_ta_en": "",
     "tag": "lich_su;trong_nha",
@@ -229,7 +243,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://saigon-scene.com/war-remnants-museum/",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-006b",
@@ -258,7 +274,9 @@
     "anh_nguon": "",
     "nhan": "chinh_thuc",
     "nguon": "https://visithcmc.vn/vi/chua-ngoc-hoang-su-linh-thieng-giua-thanh-pho-ho-chi-minh/",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-007",
@@ -287,7 +305,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/Saigon_Opera_House",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-008",
@@ -300,8 +320,8 @@
     "lat": "10.7695960",
     "lng": "106.6992700",
     "gio_mo": "daily 08:00-17:00",
-    "gia_tu": "",
-    "gia_den": "",
+    "gia_tu": "60",
+    "gia_den": "60",
     "mo_ta_vi": "",
     "mo_ta_en": "",
     "tag": "nghe_thuat;trong_nha",
@@ -316,7 +336,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://hcmcmuseumoffinearts.wixsite.com/mysite/hours-and-admission",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-009",
@@ -329,8 +351,8 @@
     "lat": "10.7759578",
     "lng": "106.6996391",
     "gio_mo": "daily 08:00-17:00",
-    "gia_tu": "",
-    "gia_den": "",
+    "gia_tu": "60",
+    "gia_den": "60",
     "mo_ta_vi": "",
     "mo_ta_en": "",
     "tag": "lich_su;trong_nha",
@@ -345,7 +367,9 @@
     "anh_nguon": "",
     "nhan": "chinh_thuc",
     "nguon": "https://hcmc-museum.edu.vn/",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-010",
@@ -374,7 +398,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/Ho_Chi_Minh_City_Hall",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-011",
@@ -403,7 +429,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/Bitexco_Financial_Tower",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-012",
@@ -432,7 +460,9 @@
     "anh_nguon": "",
     "nhan": "doanh_nghiep",
     "nguon": "https://shopping.saigoncentre.com.vn/",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-013",
@@ -461,7 +491,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/Hotel_Continental_Saigon",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-014",
@@ -490,7 +522,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/Rex_Hotel",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-015",
@@ -519,7 +553,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/Saigon_Zoo_and_Botanical_Gardens",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-016",
@@ -548,7 +584,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/Mariamman_Temple,_Ho_Chi_Minh_City",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-017",
@@ -577,7 +615,9 @@
     "anh_nguon": "",
     "nhan": "chinh_thuc",
     "nguon": "https://visithcmc.vn/vi/kham-pha-cong-vien-tao-dan-oc-dao-xanh-giua-long-thanh-pho/",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q3-003",
@@ -606,7 +646,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/T%C3%A2n_%C4%90%E1%BB%8Bnh_Church",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q3-004",
@@ -635,7 +677,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/V%C4%A9nh_Nghi%C3%AAm_Pagoda",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q3-005",
@@ -664,7 +708,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/X%C3%A1_L%E1%BB%A3i_Pagoda",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q3-006",
@@ -693,7 +739,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://saigon-scene.com/best-pho-in-saigon/",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-018",
@@ -722,7 +770,9 @@
     "anh_nguon": "",
     "nhan": "doanh_nghiep",
     "nguon": "https://banhmihuynhhoa.vn/lien-he/",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-019",
@@ -751,7 +801,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://guide.michelin.com/vn/en/ho-chi-minh-city-region/ho-chi-minh-city/restaurant/bun-cha-145",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-020",
@@ -780,7 +832,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://guide.michelin.com/vn/en/ho-chi-minh-city-region/ho-chi-minh-city/restaurant/banh-xeo-46a",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-021",
@@ -809,7 +863,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://guide.michelin.com/us/en/ho-chi-minh/ho-chi-minh_2978179/restaurant/banh-cuon-tay-ho-127",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-022",
@@ -838,7 +894,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://misssaigontours.com/late-night-food-saigon/",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q3-007",
@@ -867,7 +925,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://guide.michelin.com/vn/en/ho-chi-minh-city-region/ho-chi-minh-city/restaurant/chi-tuyen",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q3-008",
@@ -896,7 +956,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://govietnam.travel/en/food/ca-phe-sua-da-sai-gon/",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-023",
@@ -925,7 +987,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://www.vinaspot.com/en/v/workshop",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-024",
@@ -954,7 +1018,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://www.vietnamairlines.com/vn/en/plan-book/travel/travel-guide/the-cafe-apartment",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-025",
@@ -983,7 +1049,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://en.wikipedia.org/wiki/Ben_Thanh_station",
-    "ngay_kiem": "2026-10-30"
+    "ngay_kiem": "2026-10-30",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-026",
@@ -1012,7 +1080,9 @@
     "anh_nguon": "",
     "nhan": "chinh_thuc",
     "nguon": "https://www.baotanglichsutphcm.com.vn/",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-027",
@@ -1025,8 +1095,8 @@
     "lat": "10.7774476",
     "lng": "106.706435",
     "gio_mo": "tue-sun 07:30-11:30,13:00-17:00;mon closed",
-    "gia_tu": "",
-    "gia_den": "",
+    "gia_tu": "0",
+    "gia_den": "0",
     "mo_ta_vi": "Bảo tàng lưu niệm danh nhân duy nhất trong cả nước giới thiệu cuộc đời và sự nghiệp Chủ tịch Tôn Đức Thắng, thành lập năm 1988.",
     "mo_ta_en": "Memorial museum, founded in 1988, devoted to the life and career of President Tôn Đức Thắng.",
     "tag": "lich_su;trong_nha;bao_tang",
@@ -1041,7 +1111,9 @@
     "anh_nguon": "",
     "nhan": "chinh_thuc",
     "nguon": "https://baotangtonducthang.vn/",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q3-009",
@@ -1054,8 +1126,8 @@
     "lat": "10.7841475",
     "lng": "106.6873753",
     "gio_mo": "daily 07:30-11:30,13:30-17:00",
-    "gia_tu": "",
-    "gia_den": "",
+    "gia_tu": "0",
+    "gia_den": "0",
     "mo_ta_vi": "Bảo tàng ra đời năm 1985, trưng bày tư liệu và hiện vật về phụ nữ Nam Bộ trong kháng chiến và trong đời sống văn hóa.",
     "mo_ta_en": "Opened in 1985, the museum shows records and objects about the women of southern Vietnam in wartime and in cultural life.",
     "tag": "lich_su;trong_nha;bao_tang",
@@ -1070,7 +1142,9 @@
     "anh_nguon": "",
     "nhan": "chinh_thuc",
     "nguon": "http://www.baotangphunu.com/",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-028",
@@ -1099,7 +1173,9 @@
     "anh_nguon": "",
     "nhan": "chinh_thuc",
     "nguon": "https://visithcmc.vn/vi/cac-bao-tang-noi-tieng-nhat-o-hcm-danh-cho-nguoi-yeu-nghe-thuat/",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-029",
@@ -1128,7 +1204,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://localvietnam.com/ho-chi-minh-city/water-puppet-show-in-ho-chi-minh-city/",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-030",
@@ -1157,7 +1235,9 @@
     "anh_nguon": "",
     "nhan": "chinh_thuc",
     "nguon": "https://visithcmc.vn/vi/cho-ben-thanh/",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-031",
@@ -1186,7 +1266,9 @@
     "anh_nguon": "",
     "nhan": "chinh_thuc",
     "nguon": "https://visithcmc.vn/vi/kham-pha-nhung-khu-cho-dem-noi-tieng-tai-thanh-pho-ho-chi-minh/",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-032",
@@ -1215,7 +1297,9 @@
     "anh_nguon": "",
     "nhan": "doanh_nghiep",
     "nguon": "https://saigonwaterbus.com/water-bus",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q3-010",
@@ -1244,7 +1328,9 @@
     "anh_nguon": "",
     "nhan": "doanh_nghiep",
     "nguon": "https://www.hoteldesartssaigon.com/dining/social-club-rooftop-bar/",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-033",
@@ -1273,7 +1359,9 @@
     "anh_nguon": "",
     "nhan": "doanh_nghiep",
     "nguon": "https://vincom.com.vn/vi/tttm/vincom-center-dong-khoi",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-034",
@@ -1302,7 +1390,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://www.nomadotravel.app/vi/attractions/ho-chi-minh-city-book-street",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-035",
@@ -1331,7 +1421,9 @@
     "anh_nguon": "",
     "nhan": "doanh_nghiep",
     "nguon": "https://www.caravellehotel.com/saigon-saigon-bar/",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-036",
@@ -1360,7 +1452,9 @@
     "anh_nguon": "",
     "nhan": "doanh_nghiep",
     "nguon": "https://congcaphe.com/stores",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q3-011",
@@ -1389,7 +1483,9 @@
     "anh_nguon": "",
     "nhan": "doanh_nghiep",
     "nguon": "https://congcaphe.com/stores",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-037",
@@ -1418,7 +1514,9 @@
     "anh_nguon": "",
     "nhan": "doanh_nghiep",
     "nguon": "https://okkiocaffe.com",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-038",
@@ -1447,7 +1545,9 @@
     "anh_nguon": "",
     "nhan": "doanh_nghiep",
     "nguon": "https://lusinespace.com/locations/",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q3-012",
@@ -1476,7 +1576,9 @@
     "anh_nguon": "",
     "nhan": "doanh_nghiep",
     "nguon": "http://caphemuoichulong.com/6b-cong-truong-quoc-te-ho-con-rua-phuong-xuan-hoa-tp-ho-chi-minh",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-039",
@@ -1505,7 +1607,9 @@
     "anh_nguon": "",
     "nhan": "doanh_nghiep",
     "nguon": "https://www.starbucks.vn/store-locator",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-040",
@@ -1534,7 +1638,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://www.timeout.com/vietnam/restaurants/oc-dao",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q3-013",
@@ -1563,7 +1669,9 @@
     "anh_nguon": "",
     "nhan": "doanh_nghiep",
     "nguon": "https://chaygarden.com/",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-041",
@@ -1592,7 +1700,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://www.vietnamairlines.com/vn/en/plan-book/travel/travel-guide/vegan-restaurant-in-ho-chi-minh",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-042",
@@ -1621,7 +1731,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://www.gillespudlowski.com/419524/restaurants/saigon-streetfood-face-au-marche",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-043",
@@ -1650,7 +1762,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://www.vietnamairlines.com/vn/en/plan-book/travel/travel-guide/best-broken-rice-ho-chi-minh",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q3-014",
@@ -1679,7 +1793,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://gtrip.vn/travel-blogs/saigon-noodles",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-044",
@@ -1708,7 +1824,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://gtrip.vn/travel-blogs/saigon-noodles",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-045",
@@ -1737,7 +1855,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://gtrip.vn/travel-blogs/saigon-noodles",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-046",
@@ -1766,7 +1886,9 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://e.vnexpress.net/news/food-recipes/saigons-favorite-late-night-bites-4685846.html",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   },
   {
     "id": "q1-047",
@@ -1795,6 +1917,8 @@
     "anh_nguon": "",
     "nhan": "tham_khao",
     "nguon": "https://mia.vn/cam-nang-du-lich/an-dem-sai-gon-12779",
-    "ngay_kiem": "2026-11-17"
+    "ngay_kiem": "2026-11-17",
+    "ghi_chu_vi": "",
+    "ghi_chu_en": ""
   }
 ]

@@ -19,7 +19,7 @@ export default function Contribute() {
     { id: 'doanh_nghiep', icon: Storefront, who: L('Doanh nghiệp', 'Businesses'), title: L('Tự cập nhật thông tin của mình', 'Keep your own details current'), desc: L('Giờ mở cửa, giá, dịch vụ. Ask Saigon kiểm lại trước khi hiện.', 'Opening hours, prices, services. Ask Saigon checks before showing it.'), label: L('nhãn: doanh nghiệp tự khai', 'label: business-declared') },
     { id: 'ca_nhan', icon: PersonSimpleHike, who: L('Người đi thật', 'Travellers'), title: L('Chia sẻ chuyến đi của mình', 'Share your trip'), desc: L('Đăng lộ trình đã đi, chấm sao, báo khi thông tin đã cũ.', 'Post a route you took, rate routes, flag information that is out of date.'), label: L('nhãn: trải nghiệm cá nhân', 'label: personal experience') },
   ];
-  const options = useMemo(() => localPlaces.filter(p => p.trang_thai === 'hoat_dong').map(p => ({ id: p.id, name: lang === 'vi' ? p.ten_vi : p.ten_en })).sort((a, b) => a.name.localeCompare(b.name, 'vi')), [lang]);
+  const options = useMemo(() => localPlaces.filter(p => p.trang_thai !== 'dong_cua_vinh_vien').map(p => ({ id: p.id, name: lang === 'vi' ? p.ten_vi : p.ten_en })).sort((a, b) => a.name.localeCompare(b.name, 'vi')), [lang]);
   const [role, setRole] = useState<Role>('doanh_nghiep');
   const [place, setPlace] = useState('');
   const [field, setField] = useState<Field>('hours');

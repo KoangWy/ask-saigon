@@ -15,6 +15,10 @@ Every row has a `nhan` column naming who supplied it:
 | `ca_nhan` | Personal experience / Trải nghiệm cá nhân | A traveller's route or report (from the app, after review) |
 | `tham_khao` | Reference / Tham khảo | A third-party guide, encyclopedia or blog |
 
+## Place status
+
+`trang_thai` is `hoat_dong` (open as usual), `tam_dong` (temporarily closed to visitors, for example under restoration) or `dong_cua_vinh_vien` (closed for good). A `tam_dong` row must explain itself in `ghi_chu_vi` and `ghi_chu_en`; the card shows that note with the latest checked date among its sources, a question naming the place gets the note as its answer, and the place is left out of nearby lists and day plans. Back it with `nguon_bo_sung.csv` lines.
+
 `nguon_bo_sung.csv` adds more source lines to a place or price (`id` is the place or price id), each with its own label, checked date and a short note of what the source confirms. Cards list every line, official first. When sources disagree (for example the War Remnants Museum ticket), both stay visible and the official one wins.
 
 Approved contributions from `/dong-gop` and reports from the Report button are added at run time from the store; approved hours replace hours from a weaker label.

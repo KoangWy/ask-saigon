@@ -60,8 +60,8 @@
     "nhan": "chinh_thuc",
     "nguon": "https://visithcmc.vn/vi/bao-tang-chung-tich-chien-tranh/",
     "ngay_kiem": "2026-11-17",
-    "xac_nhan_vi": "Mở 7:30–17:30 mọi ngày, quầy vé đóng 17:00, vé 40.000 đ",
-    "xac_nhan_en": "Open daily 7:30–17:30, ticket desk closes at 17:00, ticket 40,000 VND"
+    "xac_nhan_vi": "Mở 7:30–17:30 mọi ngày, quầy vé đóng 17:00; trang vẫn ghi vé 40.000 đ là giá trước 01/10/2026",
+    "xac_nhan_en": "Open daily 7:30–17:30, ticket desk closes at 17:00; the page still lists 40,000 VND, the price before 1 Oct 2026"
   },
   {
     "id": "q1-006b",
@@ -76,16 +76,16 @@
     "nhan": "chinh_thuc",
     "nguon": "https://visithcmc.vn/vi/bao-tang-my-thuat-thanh-pho-ho-chi-minh-ve-dep-huyen-bi-say-dam-long-nguoi/",
     "ngay_kiem": "2026-11-17",
-    "xac_nhan_vi": "Mở Thứ Hai–Chủ nhật 8:00–17:00, vé người lớn 30.000 đ",
-    "xac_nhan_en": "Open Monday–Sunday 8:00–17:00, adult ticket 30,000 VND"
+    "xac_nhan_vi": "Mở Thứ Hai–Chủ nhật 8:00–17:00; trang vẫn ghi vé 30.000 đ là giá trước 01/10/2026",
+    "xac_nhan_en": "Open Monday–Sunday 8:00–17:00; the page still lists 30,000 VND, the price before 1 Oct 2026"
   },
   {
     "id": "q1-009",
     "nhan": "chinh_thuc",
     "nguon": "https://visithcmc.vn/vi/cac-bao-tang-noi-tieng-nhat-o-hcm-danh-cho-nguoi-yeu-nghe-thuat/",
     "ngay_kiem": "2026-11-17",
-    "xac_nhan_vi": "65 Lý Tự Trọng, mở 8:00–17:00, vé 30.000 đ",
-    "xac_nhan_en": "65 Lý Tự Trọng, open 8:00–17:00, ticket 30,000 VND"
+    "xac_nhan_vi": "65 Lý Tự Trọng, mở 8:00–17:00; trang vẫn ghi vé 30.000 đ là giá trước 01/10/2026",
+    "xac_nhan_en": "65 Lý Tự Trọng, open 8:00–17:00; the page still lists 30,000 VND, the price before 1 Oct 2026"
   },
   {
     "id": "q1-010",
@@ -196,8 +196,8 @@
     "nhan": "chinh_thuc",
     "nguon": "https://visithcmc.vn/vi/bao-tang-my-thuat-thanh-pho-ho-chi-minh-ve-dep-huyen-bi-say-dam-long-nguoi/",
     "ngay_kiem": "2026-11-17",
-    "xac_nhan_vi": "Vé người lớn 30.000 đ",
-    "xac_nhan_en": "Adult ticket 30,000 VND"
+    "xac_nhan_vi": "Trang vẫn ghi vé người lớn 30.000 đ, là giá trước 01/10/2026",
+    "xac_nhan_en": "Still lists 30,000 VND for adults, the price before 1 Oct 2026"
   },
   {
     "id": "q1-026",
@@ -398,5 +398,101 @@
     "ngay_kiem": "2026-11-17",
     "xac_nhan_vi": "Mở 09:00–20:00, miễn phí",
     "xac_nhan_en": "Open 09:00–20:00, free"
+  },
+  {
+    "id": "ticket_war",
+    "nhan": "chinh_thuc",
+    "nguon": "https://visithcmc.vn/vi/bao-tang-chung-tich-chien-tranh/",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Trang Sở Du lịch vẫn ghi 40.000 đ, là giá trước 01/10/2026",
+    "xac_nhan_en": "The tourism portal still lists 40,000 VND, the price before 1 Oct 2026"
+  },
+  {
+    "id": "ticket_finearts",
+    "nhan": "tham_khao",
+    "nguon": "https://hcmcmuseumoffinearts.wixsite.com/mysite/hours-and-admission",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Trang của bảo tàng ghi 30.000 đ, là giá trước 01/10/2026",
+    "xac_nhan_en": "The museum page lists 30,000 VND, the price before 1 Oct 2026"
+  },
+  {
+    "id": "ticket_war",
+    "nhan": "chinh_thuc",
+    "nguon": "https://hdnd.hochiminhcity.gov.vn/tin-tuc/ban-van-hoa-xa-hoi/tu-tam-ve-tham-quan-den-nguon-luc-bao-ton-va-nang-tam-bao-tang-thanh-pho",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Nghị quyết 29/2026/NQ-HĐND: 60.000 đ/người/lượt từ 01/10/2026",
+    "xac_nhan_en": "Resolution 29/2026/NQ-HĐND: 60,000 VND per visit from 1 Oct 2026"
+  },
+  {
+    "id": "ticket_finearts",
+    "nhan": "chinh_thuc",
+    "nguon": "https://hdnd.hochiminhcity.gov.vn/tin-tuc/ban-van-hoa-xa-hoi/tu-tam-ve-tham-quan-den-nguon-luc-bao-ton-va-nang-tam-bao-tang-thanh-pho",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Nghị quyết 29/2026/NQ-HĐND: 60.000 đ/người/lượt từ 01/10/2026",
+    "xac_nhan_en": "Resolution 29/2026/NQ-HĐND: 60,000 VND per visit from 1 Oct 2026"
+  },
+  {
+    "id": "ticket_history",
+    "nhan": "chinh_thuc",
+    "nguon": "https://hdnd.hochiminhcity.gov.vn/tin-tuc/ban-van-hoa-xa-hoi/tu-tam-ve-tham-quan-den-nguon-luc-bao-ton-va-nang-tam-bao-tang-thanh-pho",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Nghị quyết 29/2026/NQ-HĐND: 60.000 đ/người/lượt từ 01/10/2026",
+    "xac_nhan_en": "Resolution 29/2026/NQ-HĐND: 60,000 VND per visit from 1 Oct 2026"
+  },
+  {
+    "id": "ticket_city_museum",
+    "nhan": "chinh_thuc",
+    "nguon": "https://ttbc-hcm.gov.vn/tp-hcm-mien-ve-tham-quan-bao-tang-cho-hoc-sinh-sinh-vien-tu-1-10-1022256.html",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "60.000 đ/người/lượt từ 01/10/2026; học sinh, sinh viên, trẻ em miễn phí",
+    "xac_nhan_en": "60,000 VND per visit from 1 Oct 2026; children and students free"
+  },
+  {
+    "id": "q1-009",
+    "nhan": "chinh_thuc",
+    "nguon": "https://hcmc-museum.edu.vn/luu-tru/5482",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Phí tham quan 60.000 đ từ 01/10/2026 (thông báo của bảo tàng, 28/09/2026)",
+    "xac_nhan_en": "Entry 60,000 VND from 1 Oct 2026 (museum notice, 28 Sep 2026)"
+  },
+  {
+    "id": "q1-027",
+    "nhan": "chinh_thuc",
+    "nguon": "https://ttbc-hcm.gov.vn/tp-hcm-mien-ve-tham-quan-bao-tang-cho-hoc-sinh-sinh-vien-tu-1-10-1022256.html",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Chưa thu phí tham quan theo Nghị quyết 29/2026/NQ-HĐND",
+    "xac_nhan_en": "No entry fee yet under resolution 29/2026/NQ-HĐND"
+  },
+  {
+    "id": "q3-009",
+    "nhan": "chinh_thuc",
+    "nguon": "https://ttbc-hcm.gov.vn/tp-hcm-mien-ve-tham-quan-bao-tang-cho-hoc-sinh-sinh-vien-tu-1-10-1022256.html",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Chưa thu phí tham quan theo Nghị quyết 29/2026/NQ-HĐND",
+    "xac_nhan_en": "No entry fee yet under resolution 29/2026/NQ-HĐND"
+  },
+  {
+    "id": "q1-006",
+    "nhan": "tham_khao",
+    "nguon": "https://tuoitre.vn/trung-tu-nha-tho.html",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Đại trùng tu dự kiến xong cuối năm 2027; hai thánh giá được lắp lại trên đỉnh tháp ngày 19/03/2026",
+    "xac_nhan_en": "Restoration expected to finish at the end of 2027; the two crosses went back on the spires on 19 Mar 2026"
+  },
+  {
+    "id": "q1-006",
+    "nhan": "tham_khao",
+    "nguon": "https://vinwonders.com/vi/wonderpedia/news/nha-tho-duc-ba-sai-gon/",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Trong giai đoạn trùng tu không đón khách tham quan, vẫn mở cho giáo dân dự Thánh lễ hằng ngày",
+    "xac_nhan_en": "No visitors during the restoration; still open for daily Mass"
+  },
+  {
+    "id": "q1-006",
+    "nhan": "tham_khao",
+    "nguon": "https://www.nomadotravel.app/vi/attractions/notre-dame-cathedral-saigon",
+    "ngay_kiem": "2026-11-17",
+    "xac_nhan_vi": "Khách tham quan không được vào bên trong, chỉ người dự Thánh lễ; ngắm bên ngoài miễn phí (21/04/2026)",
+    "xac_nhan_en": "Visitors cannot go inside, only people attending Mass; seeing it from outside is free (21 Apr 2026)"
   }
 ]

@@ -43,9 +43,13 @@ describe('source labels', () => {
     const banhmi = checkPlaceLive({ name: 'Bánh mì Huỳnh Hoa' }, ctx).place!;
     expect(banhmi.sources?.map(s => s.label)).toEqual(['chinh_thuc', 'doanh_nghiep']);
   });
-  it('keeps both prices when sources disagree, official first', () => {
+  it('keeps the outdated price visible and marked, official first', () => {
     const ticket = getPriceReference({ item: 'vé người lớn Bảo tàng Chứng tích Chiến tranh', user_price_vnd: 60000 }, 'vi');
-    expect(ticket.found && 'sources' in ticket && ticket.sources.map(s => s.label)).toEqual(['chinh_thuc', 'tham_khao']);
+    expect(ticket).toMatchObject({ reference_min: 60, reference_max: 60, verdict: 'fair' });
+    const labels = ticket.found && 'sources' in ticket ? ticket.sources.map(s => s.label) : [];
+    expect(labels[0]).toBe('chinh_thuc');
+    expect(labels.at(-1)).toBe('tham_khao');
+    expect(ticket.found && 'sources' in ticket && ticket.sources.some(s => s.note?.includes('giá trước 01/10/2026'))).toBe(true);
   });
 });
 

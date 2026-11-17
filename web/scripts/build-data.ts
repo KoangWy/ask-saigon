@@ -3,7 +3,7 @@ import { parse } from 'csv-parse/sync';
 import { z } from 'zod';
 import { inServiceArea } from '../lib/geo';
 import { parseHours } from '../lib/hours';
-const placeColumns = 'id,ten_vi,ten_en,ten_khac,loai,khu,dia_chi,lat,lng,gio_mo,gia_tu,gia_den,mo_ta_vi,mo_ta_en,tag,thoi_gian_tham_quan,trang_thai,google_place_id,cau_chuyen_vi,cau_chuyen_en,nhin_ky_vi,nhin_ky_en,anh_url,anh_nguon,nhan,nguon,ngay_kiem'.split(',');
+const placeColumns = 'id,ten_vi,ten_en,ten_khac,loai,khu,dia_chi,lat,lng,gio_mo,gia_tu,gia_den,mo_ta_vi,mo_ta_en,tag,thoi_gian_tham_quan,trang_thai,google_place_id,cau_chuyen_vi,cau_chuyen_en,nhin_ky_vi,nhin_ky_en,anh_url,anh_nguon,nhan,nguon,ngay_kiem,ghi_chu_vi,ghi_chu_en'.split(',');
 const priceColumns = 'id,hang_muc,ten_khac,don_vi,gia_tu,gia_den,meo_vi,meo_en,nhan,nguon,ngay_kiem'.split(',');
 const extraColumns = 'id,nhan,nguon,ngay_kiem,xac_nhan_vi,xac_nhan_en'.split(',');
 const label = z.enum(['chinh_thuc','doanh_nghiep','ca_nhan','tham_khao']);
@@ -11,7 +11,7 @@ const nonempty = z.string().min(1, 'required');
 const numeric = z.string().refine(v=>v!=='' && Number.isFinite(Number(v)), 'must be a number');
 const optionalNumber = z.string().refine(v=>v==='' || (Number.isFinite(Number(v)) && Number(v)>=0), 'must be a nonnegative number');
 const schema = z.object({id:nonempty,nhan:label,nguon:z.url(),ngay_kiem:z.iso.date()});
-const placeSchema = schema.extend({ten_vi:nonempty,ten_en:nonempty,loai:z.enum(['di_tich','quan_an','ca_phe','diem_dem','trong_nha','giao_thong']),khu:z.enum(['Q1','Q3']),dia_chi:nonempty,lat:numeric,lng:numeric,gio_mo:z.string().refine(v=>{try {parseHours(v);return true;}catch{return false;}},'invalid hours grammar'),gia_tu:optionalNumber,gia_den:optionalNumber,thoi_gian_tham_quan:numeric,trang_thai:z.enum(['hoat_dong','dong_cua_vinh_vien'])});
+const placeSchema = schema.extend({ten_vi:nonempty,ten_en:nonempty,loai:z.enum(['di_tich','quan_an','ca_phe','diem_dem','trong_nha','giao_thong']),khu:z.enum(['Q1','Q3']),dia_chi:nonempty,lat:numeric,lng:numeric,gio_mo:z.string().refine(v=>{try {parseHours(v);return true;}catch{return false;}},'invalid hours grammar'),gia_tu:optionalNumber,gia_den:optionalNumber,thoi_gian_tham_quan:numeric,trang_thai:z.enum(['hoat_dong','tam_dong','dong_cua_vinh_vien'])});
 const priceSchema=schema.extend({hang_muc:nonempty,gia_tu:optionalNumber,gia_den:optionalNumber});
 const extraSchema=schema.extend({xac_nhan_vi:nonempty,xac_nhan_en:nonempty});
 const known=new Set<string>();
@@ -21,6 +21,7 @@ for (const [name, columns, validator] of [['dia_diem',placeColumns,placeSchema],
   for (const column of columns) if (!(column in record)) throw new Error(`${filename} line 1 › ${column}: missing column`);
   const result=validator.safeParse(record); if (!result.success) {const issue=result.error.issues[0]; throw new Error(`${filename} line ${info.lines} › ${issue.path.join('.')}: ${issue.message}`);}
   if(record.gia_tu&&record.gia_den&&Number(record.gia_tu)>Number(record.gia_den)) throw new Error(`${filename} line ${info.lines} › gia_den: must be at least gia_tu`);
+  if(name==='dia_diem'&&record.trang_thai==='tam_dong'&&(!record.ghi_chu_vi||!record.ghi_chu_en)) throw new Error(`${filename} line ${info.lines} › ghi_chu_vi: a temporarily closed place needs a note in both languages`);
   if(name==='dia_diem'&&Number(record.thoi_gian_tham_quan)<=0) throw new Error(`${filename} line ${info.lines} › thoi_gian_tham_quan: must be positive`);
   if(name==='nguon_bo_sung'){if(!known.has(record.id))throw new Error(`${filename} line ${info.lines} › id: unknown place or price`);}
   else {if(ids.has(record.id)||known.has(record.id)) throw new Error(`${filename} line ${info.lines} › id: duplicate`); ids.add(record.id); known.add(record.id);}

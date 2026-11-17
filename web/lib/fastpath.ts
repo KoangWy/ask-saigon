@@ -20,7 +20,8 @@ const OUTING = /\b(di dau|di choi|choi gi|choi o dau|lam gi|tham quan|what to do
 export const priceIntent = (text: string) => PRICE.test(normalizeText(text));
 // "Tham quan Dinh Độc Lập mất bao lâu?" asks how long a visit takes, not how long the trip is.
 const VISIT = /\b(tham quan|visit|visiting|spend|o lai|xem het)\b/;
-export const travelIntent = (text: string) => { const q = normalizeText(text); return TRAVEL.test(q) && !VISIT.test(q); };
+// "Phố đi bộ" is a place name, not a walk.
+export const travelIntent = (text: string) => { const q = normalizeText(text).replace(/\bpho di bo\b/g, ' '); return TRAVEL.test(q) && !VISIT.test(q); };
 const OPEN_NOW = /\b(dang mo|con mo|open now)\b/;
 type Ctx = { location: Coordinates; now: Date; lang: 'en' | 'vi' };
 
@@ -140,7 +141,8 @@ export function travelAnswer(request: ChatRequest, ctx: Ctx, base: (text: string
     : vi
       ? `Từ ${from.name} đến ${to.name} khoảng ${distance}: đi bộ chừng ${walk} phút${ride && !short ? `, đi xe khoảng ${ride} phút` : ''}${fare ? `, taxi ước ${fare[0]}–${fare[1]} nghìn đồng theo giá ${perKm} đã kiểm` : short}. Đây là ước tính theo khoảng cách; bấm “Chỉ đường” để xem đường đi thật.`
       : `From ${from.name} to ${to.name} is about ${distance}: roughly a ${walk}-minute walk${ride && !short ? `, about ${ride} minutes by car` : ''}${fare ? `, a taxi around ${fare[0]}–${fare[1]}k VND at the checked ${perKm} fare` : short}. This is an estimate from distance; tap Directions for the real route.`;
-  const r = base(text);
+  const closed = to.status === 'temporarily_closed' ? (vi ? ` Lưu ý: ${to.name} đang tạm đóng với khách tham quan, xem thẻ bên dưới.` : ` Note: ${to.name} is temporarily closed to visitors, see the card below.`) : '';
+  const r = base(text + closed);
   r.blocks.push({ type: 'place_cards', places: [to] });
   return r;
 }

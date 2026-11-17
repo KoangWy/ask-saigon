@@ -31,3 +31,31 @@ describe('the enriched data', () => {
     expect(rows.filter(s => s.row.tag.includes('mua_sam')).length).toBeLessThanOrEqual(1);
   });
 });
+
+describe('updates checked on 17/11/2026', () => {
+  const reply = (text: string) => routeChat(request(text), 'update');
+  it('says the cathedral is closed to visitors for restoration, with the date it was checked', async () => {
+    const r = await reply('Nhà thờ Đức Bà mở cửa mấy giờ?');
+    expect(r.reply_text).toMatch(/^Nhà thờ Đức Bà Sài Gòn đang tạm đóng với khách tham quan\. Đang đại trùng tu, dự kiến xong cuối năm 2027.*\(cập nhật 17\/11\/2026\)$/);
+    const card = r.blocks.flatMap(b => b.type === 'place_cards' ? b.places : [])[0];
+    expect(card).toMatchObject({ status: 'temporarily_closed', open_now: false, status_checked_at: '2026-11-17' });
+    const trip = await reply('Từ Dinh Độc Lập đi bộ tới Nhà thờ Đức Bà mất bao lâu?');
+    expect(trip.reply_text).toContain('đang tạm đóng với khách tham quan');
+  });
+  it('leaves the cathedral out of suggestions and plans', async () => {
+    vi.stubEnv('AI_MODE', 'off');
+    expect(await names('Hôm nay đi đâu chơi?')).not.toContain('Nhà thờ Đức Bà Sài Gòn');
+    const plan = planItinerary({ start: '08:00' }, { location: { lat: 10.7798, lng: 106.699 }, now: new Date('2026-11-18T01:00:00Z'), lang: 'vi' });
+    expect(plan.days[0].stops.map(s => s.place_id)).not.toContain('q1-006');
+    vi.unstubAllEnvs();
+  });
+  it('uses the museum fees in force from 1/10/2026', async () => {
+    expect((await reply('Vé Bảo tàng Chứng tích Chiến tranh bao nhiêu?')).reply_text).toContain('Vé người lớn 60 nghìn đồng');
+    expect((await reply('Bảo tàng Mỹ thuật vé bao nhiêu?')).reply_text).toContain('Vé người lớn 60 nghìn đồng');
+    expect((await reply('Bảo tàng Thành phố mở cửa mấy giờ?')).reply_text).toContain('Vé người lớn 60 nghìn đồng');
+    expect((await reply('Bảo tàng Tôn Đức Thắng có mất phí không?')).reply_text).toContain('Vào cửa miễn phí');
+  });
+  it('reads “Phố đi bộ” as a place, not a walk', async () => {
+    expect((await reply('Phố đi bộ Nguyễn Huệ mở cửa không?')).reply_text).toMatch(/^Phố đi bộ Nguyễn Huệ: mở 24 giờ/);
+  });
+});

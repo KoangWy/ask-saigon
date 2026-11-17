@@ -16,7 +16,7 @@ const GREEN = new Set(['metro', 'walk', 'bus', 'bike']);
 export default function PostRoute() {
   const { lang } = useLanguage();
   const L = (vi: string, en: string) => (lang === 'vi' ? vi : en);
-  const options = useMemo(() => localPlaces.filter(p => p.trang_thai === 'hoat_dong').map(p => ({ id: p.id, name: lang === 'vi' ? p.ten_vi : p.ten_en, district: p.khu })).sort((a, b) => a.name.localeCompare(b.name, 'vi')), [lang]);
+  const options = useMemo(() => localPlaces.filter(p => p.trang_thai !== 'dong_cua_vinh_vien').map(p => ({ id: p.id, name: lang === 'vi' ? p.ten_vi : p.ten_en, district: p.khu })).sort((a, b) => a.name.localeCompare(b.name, 'vi')), [lang]);
   const [author, setAuthor] = useState('');
   const [title, setTitle] = useState('');
   const [summary, setSummary] = useState('');

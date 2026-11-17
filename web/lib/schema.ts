@@ -13,6 +13,7 @@ export const PlaceSchema = z.object({
   price_range: z.string().nullable(), distance_m: z.number().nullable(), maps_url: z.string(),
   source: z.string(), checked_at: z.string(), data_source: z.enum(["kho", "google"]), hours_note: z.string(),
   label: SourceLabelSchema.optional(), sources: z.array(SourceLineSchema).optional(), open_24h: z.boolean().optional(), stale: z.boolean().optional(),
+  status: z.enum(["open", "temporarily_closed"]).optional(), status_note: z.string().optional(), status_checked_at: z.string().optional(),
 });
 export type Place = z.infer<typeof PlaceSchema>;
 
