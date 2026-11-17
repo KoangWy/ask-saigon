@@ -23,10 +23,12 @@ export function foodIntent(text: string): boolean {
   const original = text.toLowerCase(), cleaned = normalizeText(text).replace(NOT_FOOD, ' ');
   // normalizeText erases the accent that decides these words: quán/quận, món/môn, đói/đổi-đợi,
   // cơm/com. Keep them only when the accented or compound form shows the food sense.
-  const filtered = cleaned.replace(/\b(quan|com|mon|doi)\b/g, token => {
+  const filtered = cleaned.replace(/\b(quan|com|mon|doi|pho)\b/g, token => {
     if (token === 'quan') return /\bquán\b/.test(original) || /\bquan (an|cafe|ca phe|nhau|com|pho|banh)\b/.test(cleaned) ? token : ' ';
     if (token === 'com') return /\bcơm\b/.test(original) || /\b(an com|com tam|com rang)\b/.test(cleaned) ? token : ' ';
     if (token === 'mon') return /\bmón\b/.test(original) || /\b(mon an|mon ngon|mon chay|mon nuong)\b/.test(cleaned) ? token : ' ';
+    // "phố" (city/street) accents to the same "pho" as "phở" (noodles): only the latter is food.
+    if (token === 'pho') return original.includes('phở') || /\b(pho (bo|ga|cuon|chien|soup)|an pho|quan pho)\b/.test(cleaned) ? token : ' ';
     // "đ" is not a JS \w character, so a \b before "đói" would never match.
     return original.includes('đói') || /\bdoi bung\b/.test(cleaned) ? token : ' ';
   });
