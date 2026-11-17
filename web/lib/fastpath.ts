@@ -2,7 +2,7 @@ import type { Block, ChatRequest, Reply } from './schema';
 import { travelEstimate, type Coordinates } from './geo';
 import { normalizeText, outsideArea, replyLanguage } from './agent/language';
 import { sanitizeReplyText } from './agent/format';
-import { eveningPlaces, getPriceReference, planItinerary, placesNamedIn, priceRowFor, searchPlaces } from './tools';
+import { getPriceReference, planItinerary, placesNamedIn, priceRowFor, searchPlaces } from './tools';
 import { routeIntent } from './routes';
 
 // Questions whose answer is fully decided by the checked data skip the model: food and coffee
@@ -17,7 +17,15 @@ const PRICE = /\b(price|prices|fair|cost|costs|how much|expensive|cheap|overpric
 const TRAVEL = /\b(di bo|bao lau|bao xa|mat bao|how long|how far|walk|walking|get to|get from|di den|di toi|di sang|di qua|taxi|grab|xe om|duong di|chi duong|directions?|khoang cach|distance)\b|\btu\b.+\b(den|toi|qua|sang)\b|\bfrom\b.+\bto\b/;
 const EVENING = /\b(toi nay|buoi toi|ve dem|ban dem|dem nay|choi dem|nightlife|night life|tonight|this evening|in the evening|at night|night out|after dark)\b/;
 const OUTING = /\b(di dau|di choi|choi gi|choi o dau|lam gi|tham quan|what to do|things to do|where to go|where should i go|places to visit|sightseeing)\b/;
+// Anything the fast path ignores is a reason to let the model answer instead: it cannot weigh a
+// budget, a mood, a time, a group, the weather, a chain of requests, or a "why/should I" question.
+const EXTRA = /\b(budget|ngan sach|view dep|dep|yen tinh|lang man|romantic|quiet|cozy|gia dinh|family|children|tre em|group|nhom|bao nhieu nguoi|weather|thoi tiet|mua|rain|nong|lanh|toi nay|tonight|sang mai|ngay mai|chieu nay|tru nay|cuoi tuan|weekend|and|roi|sau do|then|why|tai sao|nen|co nen|should|worth|bao nhieu|phan hop ly)\b|\b\d+\s*(k|nghin|ngan|000|nguoi|people|person)\b/;
 export const priceIntent = (text: string) => PRICE.test(normalizeText(text));
+// Polite words and place-holders do not add an intent; count them out so a short Vietnamese
+// question like "Gần đây có quán phở nào mở khuya không?" still counts as short.
+const STOP = /\b(co|khong|nao|may|mot|cai|cho|day|gan|toi|minh|o|cua|va|a|an|the|is|are|where|near|me|my|please|i|what|some|any|there|do|does|it|about|for|to|of|in)\b/g;
+export const eveningIntent = (text: string) => EVENING.test(normalizeText(text));
+export const outingIntent = (text: string) => OUTING.test(normalizeText(text));
 // "Tham quan Dinh Độc Lập mất bao lâu?" asks how long a visit takes, not how long the trip is.
 const VISIT = /\b(tham quan|visit|visiting|spend|o lai|xem het)\b/;
 // "Phố đi bộ" is a place name, not a walk.
@@ -43,24 +51,14 @@ export function fastAnswer(request: ChatRequest, ctx: Ctx, base: (text: string) 
     return r;
   }
   if (input.kind !== 'text') return null;
-  const text = input.text, q = normalizeText(text);
+  const text = input.text, q = normalizeText(text), words = q.replace(STOP, ' ').split(/\s+/).filter(Boolean).length;
   if (/https?:\/\//i.test(text) || OTHER.test(q) || routeIntent(text)) return null;
+  // A wish with extra constraints or several requests cannot be reduced to a single search.
+  if (EXTRA.test(q) || words > 6) return null;
   const food = FOOD.test(q), coffee = COFFEE.test(q), near = NEAR.test(q);
-  // "Tối nay đi đâu chơi?" is decided by the data too: night spots and places open at 20:00 tonight.
-  if (!food && !coffee && (EVENING.test(q) || OUTING.test(q)) && q.split(/\s+/).filter(Boolean).length <= 10) {
-    const evening = EVENING.test(q);
-    const places = evening ? eveningPlaces(ctx) : searchPlaces({ categories: ['di_tich', 'trong_nha', 'diem_dem'], open_now: true, radius_m: 2500, limit: 4 }, ctx);
-    if (places.length) {
-      const r = base(evening ? (vi ? 'Buổi tối bạn có thể đi những nơi này: phố đêm trước, rồi những chỗ còn mở lúc 20:00 theo giờ đã kiểm.' : 'For the evening: night spots first, then places still open at 20:00 by their checked hours.')
-        : (vi ? 'Đây là vài nơi tham quan đang mở gần bạn.' : 'Here are a few sights open now near you.'));
-      r.blocks.push({ type: 'place_cards', places });
-      r.quick_replies = vi ? ['Lên lịch một ngày', 'Đói bụng'] : ['Plan my day', "I'm hungry"];
-      return r;
-    }
-  }
   if (!food && !coffee && !near) return null;
   // A bare "what is near me" is decided by the data; a described wish ("a quiet place to read") is for the model.
-  if (!food && !coffee && !placesNamedIn(text, ctx).length && q.split(/\s+/).filter(Boolean).length > 6) return null;
+  if (!food && !coffee && !placesNamedIn(text, ctx).length && words > 6) return null;
   // "near Dinh Độc Lập" searches around that place instead of the traveller.
   const anchor = near ? placesNamedIn(text, ctx)[0] : undefined;
   const where = anchor ? { ...ctx, location: { lat: anchor.lat, lng: anchor.lng } } : ctx;

@@ -54,15 +54,16 @@ describe('questions judges asked on 17/11', () => {
   const withModel = () => { vi.stubEnv('AI_MODE', 'on'); vi.stubEnv('LLM_API_KEY', 'test-key'); const fetchMock = vi.fn(); vi.stubGlobal('fetch', fetchMock); return fetchMock; };
   const prices = (r: Awaited<ReturnType<typeof routeChat>>) => r.blocks.flatMap(b => b.type === 'price_check' ? [b] : []);
 
-  it('suggests evening spots for “tối nay đi đâu chơi” without the model', async () => {
+  it('leaves open-ended evening outings to the model, but still answers offline', async () => {
     const fetchMock = withModel();
     for (const text of ['Tối nay đi đâu chơi?', 'Gợi ý chỗ đi chơi buổi tối ở Quận 1', 'What to do tonight?']) {
-      const reply = await routeChat(request({ kind: 'text', text }), 'fast');
-      expect(places(reply).length).toBeGreaterThan(0);
-      expect(places(reply)[0].category).toBe('diem_dem');
-      expect(places(reply).some(p => p.category === 'quan_an')).toBe(false);
+      await routeChat(request({ kind: 'text', text }), 'fast');
     }
-    expect(fetchMock).not.toHaveBeenCalled();
+    expect(fetchMock).toHaveBeenCalled();
+    vi.stubEnv('AI_MODE', 'off');
+    const offline = await routeChat(request({ kind: 'text', text: 'Tối nay đi đâu chơi?' }), 'fast');
+    expect(offline.fallback).toBe(true);
+    expect(places(offline).some(p => p.category === 'diem_dem')).toBe(true);
   });
   it('answers a walk between two named places with distance and time, not opening hours', async () => {
     withModel();
