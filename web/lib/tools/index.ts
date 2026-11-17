@@ -2,6 +2,8 @@ import places from '../data/generated/dia_diem.json';
 import prices from '../data/generated/gia_tham_khao.json';
 import { haversine, mapsUrl, travelEstimate, type Coordinates } from '../geo';
 import { openingStatus, parseHours } from '../hours';
+import { rainWindow } from '../weather';
+import { listRoutes, matchRoutes } from '../routes';
 import type { Itinerary, Place, SourceLabel } from '../schema';
 import { LABEL_RANK, isStale, liveHours, sourceLines } from '../sources';
 import { foodIntent as isFoodIntent } from '../agent/language';
@@ -59,4 +61,53 @@ export function placeSummary(place:Place,lang:'en'|'vi'):string {
  const price=ticket&&ticket.gia_tu&&ticket.gia_den?(lang==='vi'?` Vé người lớn ${ticket.gia_tu===ticket.gia_den?ticket.gia_tu:`${ticket.gia_tu}–${ticket.gia_den}`} nghìn đồng (kiểm ${d(ticket.ngay_kiem)}).`:` Adult ticket ${ticket.gia_tu===ticket.gia_den?ticket.gia_tu:`${ticket.gia_tu}–${ticket.gia_den}`}k VND (checked ${d(ticket.ngay_kiem)}).`):'';
  const free=!price&&row.gia_tu==='0'&&row.gia_den==='0'?(lang==='vi'?' Vào cửa miễn phí.':' Free entry.'):'';
  return `${place.name}: ${hours}.${price}${free}`;
+}
+
+// The card plus a human-readable version of the same checked hours and ticket price, so a model
+// can answer "the second one, open until when?" from an id without inventing a number.
+export function getPlaceDetails(id:string, context:{location:Coordinates;now:Date;lang:'en'|'vi'}) {
+  const row=places.find(p=>p.id===id);
+  if(!row)return {found:false as const};
+  const place=placeCard(row,context.location,context.now,context.lang);
+  return {found:true as const,place,summary:placeSummary(place,context.lang)};
+}
+
+export async function getWeather(now=new Date()) {
+  const {rain,available}=await rainWindow(now);
+  const summary=!available?'Rain forecast is unavailable right now':rain
+    ? `Rain likely ${rain.date} ${rain.start}–${rain.end}, ${rain.probability}% chance (Open-Meteo, checked ${rain.checked_at})`
+    : 'No likely rain in the next 12 hours (Open-Meteo)';
+  return {available,rain,summary};
+}
+
+export async function findRoutes(query:string, lang:'en'|'vi', owner?:string) {
+  const routes=await listRoutes(lang,owner);
+  const matched=query.trim()?matchRoutes(query,routes):routes.slice(0,3);
+  return {routes:matched,count:matched.length};
+}
+
+// Same distance and checked taxi-fare logic as the fast travel path, but callable with ids/names
+// from an earlier answer so the model can chain it with a place search.
+export function travelEstimateBetween(from:string, to:string, context:{location:Coordinates;now:Date;lang:'en'|'vi'}) {
+  const resolve=(value:string) => {
+    const s=value.trim();
+    if(/^(here|my location|current location|day|cho toi|cho minh)$/i.test(s))return {name:context.lang==='vi'?'vị trí của bạn':'your location',lat:context.location.lat,lng:context.location.lng,place:null};
+    const row=places.find(p=>p.id===s);
+    if(row){const place=placeCard(row,context.location,context.now,context.lang);return {name:place.name,lat:place.lat,lng:place.lng,place};}
+    const named=checkPlaceLive({name:s},context);
+    if(named.found&&named.place)return {name:named.place.name,lat:named.place.lat,lng:named.place.lng,place:named.place};
+    const m=s.match(/^(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)$/);
+    if(m)return {name:s,lat:+m[1],lng:+m[2],place:null};
+    return null;
+  };
+  const a=resolve(from), b=resolve(to);
+  if(!a||!b)return {found:false as const,reason:'Could not resolve one of the two places'};
+  const leg=travelEstimate(a,b);
+  const taxi=getPriceReference({item:'taxi'},context.lang);
+  const perKm=taxi.found?[taxi.reference_min,taxi.reference_max]:null;
+  const fare=perKm&&leg.distance_m>=1000?perKm.map(v=>Math.round(v*leg.distance_m/1000)):null;
+  const walk=Math.max(1,Math.round(leg.distance_m/80));
+  const km=leg.distance_m<1000?`${Math.round(leg.distance_m/10)*10} m`:`${(leg.distance_m/1000).toFixed(1)} km`;
+  const summary=`${a.name} to ${b.name}: about ${km}, ${walk} min on foot${fare?`, taxi about ${fare[0]}–${fare[1]}k VND at the checked ${perKm!.join('–')}k/km fare`:''}. Estimate from distance only.`;
+  return {found:true as const,from:{name:a.name,lat:a.lat,lng:a.lng},to:{name:b.name,lat:b.lat,lng:b.lng},distance_m:leg.distance_m,mode:leg.mode,minutes:leg.minutes,taxi_per_km:perKm,taxi_fare:fare,place:b.place,summary};
 }
