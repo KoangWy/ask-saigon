@@ -113,3 +113,14 @@ describe('questions judges asked on 17/11', () => {
     expect(getPriceReference({ item: 'coconut water' })).toMatchObject({ item: 'dừa tươi' });
   });
 });
+
+it('runs the reply chips as their fixed action without the model', async () => {
+  vi.stubEnv('AI_MODE', 'on'); vi.stubEnv('LLM_API_KEY', 'test-key'); const fetchMock = vi.fn(); vi.stubGlobal('fetch', fetchMock);
+  const kinds = async (text: string) => (await routeChat(request({ kind: 'text', text }), 'chip')).blocks.map(b => b.type);
+  expect(await kinds('Lên lịch một ngày')).toEqual(['itinerary']);
+  expect(await kinds('Trời mưa')).toContain('replan');
+  expect(await kinds('Chia sẻ với nhóm')).toContain('group_vote');
+  expect(await kinds("I'm hungry")).toEqual(['place_cards']);
+  expect(fetchMock).not.toHaveBeenCalled();
+  vi.unstubAllEnvs(); vi.unstubAllGlobals();
+});
