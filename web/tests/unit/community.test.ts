@@ -154,7 +154,8 @@ describe('questions that name a place', () => {
 });
 
 it('matches names with a capital Đ', async () => {
-  const reply = await routeChat(request({ kind: 'text', text: 'Nhà thờ Đức Bà có gì hay?' }), 'test');
+  // "Có gì hay" is open-ended and goes to the model; a hours lookup still uses the fixed summary.
+  const reply = await routeChat(request({ kind: 'text', text: 'Nhà thờ Đức Bà mở cửa mấy giờ?' }), 'test');
   expect(reply.blocks[0].type === 'place_cards' && reply.blocks[0].places[0].id).toBe('q1-006');
 });
 

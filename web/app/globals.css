@@ -337,9 +337,30 @@ img { max-width: 100%; }
 .badges span { background: var(--accent-soft); color: var(--accent-text); border-radius: 999px; padding: 3px 9px; font-size: 11px; font-weight: 600; }
 .typing { color: var(--ink-soft); }
 .typing span { display: inline-flex; gap: 3px; margin-left: 4px; color: var(--accent); letter-spacing: 2px; }
+/* Tool progress inside the assistant bubble, like a coding agent's log. */
+.agent-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 13px; line-height: 1.4; color: var(--muted); }
+.bubble > .agent-steps, .bubble > .agent-steps-done { margin-bottom: 8px; }
+.bubble > .agent-steps:last-child { margin-bottom: 0; }
+.agent-step { display: flex; align-items: flex-start; gap: 7px; }
+.agent-step > svg, .agent-step > .step-spinner { flex: none; margin-top: 2px; }
+.agent-step.done > svg { color: var(--accent); }
+.agent-step.running { color: var(--ink-soft); }
+.agent-step.note { font-style: italic; padding-left: 20px; }
+.step-summary { color: var(--muted); }
+.step-spinner { width: 13px; height: 13px; border-radius: 50%; border: 2px solid var(--line-strong); border-top-color: var(--accent); animation: step-spin .8s linear infinite; }
+@keyframes step-spin { to { transform: rotate(360deg); } }
+.agent-steps-done { font-size: 12.5px; color: var(--muted); }
+.agent-steps-done > summary { cursor: pointer; width: fit-content; list-style: none; }
+.agent-steps-done > summary::-webkit-details-marker { display: none; }
+.agent-steps-done > summary::before { content: '▸ '; }
+.agent-steps-done[open] > summary::before { content: '▾ '; }
+.agent-steps-done > .agent-steps { margin-top: 6px; }
 
 .result-card, .place-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-card); margin-top: 10px; overflow: hidden; max-width: 100%; box-shadow: 0 18px 40px -32px rgb(var(--shadow-rgb) / .5); }
 .result-card { padding: 18px 20px; }
+.tips-card ul { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 12px; }
+.tips-card li + li { border-top: 1px solid var(--line); padding-top: 12px; }
+.tips-card li p { color: var(--ink); margin: 0 0 4px; }
 .result-card h3, .place-card h3 { font-size: 23px; font-variation-settings: "wdth" 85; letter-spacing: -0.03em; margin: 6px 0 6px; }
 .result-card p, .place-card p { font-size: 14px; margin: 6px 0; color: var(--ink-soft); }
 .result-card .place-card { box-shadow: none; }
@@ -443,6 +464,7 @@ progress { width: 100%; height: 8px; accent-color: var(--accent); }
 @keyframes vt-rise { from { translate: 0 var(--vt-offset); } to { translate: 0 0; } }
 @keyframes via-blur { 30% { filter: blur(3px); } }
 
+@media (prefers-reduced-motion: reduce) { .step-spinner { animation-duration: 2.4s; } }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; scroll-behavior: auto !important; }
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }

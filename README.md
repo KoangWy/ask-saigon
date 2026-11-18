@@ -90,7 +90,7 @@ pnpm dev
 
 Open `http://localhost:3000`. Without a key the app answers with canned replies and local rules. For a reproducible demo, open `http://localhost:3000/chat?offline=1&now=12:05`: `offline=1` selects canned/rule mode for the browser session, and `now` overrides the Vietnam time used in the demo. The API still runs on the local server; offline mode does not make the app work without it.
 
-To enable the live agent, set `LLM_API_KEY` in `web/.env.local`. The key stays on the server: never commit it or expose it with a `NEXT_PUBLIC_` prefix.
+To enable the live agent, set `MISTRAL_API_KEY` and/or `LLM_API_KEY` in `web/.env.local`. With both, Mistral answers first and OpenCode Go takes over if Mistral fails before any text is shown. The key stays on the server: never commit it or expose it with a `NEXT_PUBLIC_` prefix.
 
 ## Scripts
 
@@ -116,11 +116,15 @@ These variables are in [`web/.env.example`](web/.env.example). They are server-s
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
-| `LLM_API_KEY` | empty | OpenCode Go API key; absent means local fallback |
+| `MISTRAL_API_KEY` | empty | Mistral key; when set, Mistral (DeepSeek flash) answers first |
+| `MISTRAL_MODEL` | `deepseek-v4-1-flash-1017` | Model sent to Mistral |
+| `LLM_API_KEY` | empty | OpenCode Go API key; the fallback when Mistral is set. With neither key the chat uses local rule answers |
+| `LLM_PRIMARY` | empty | `opencode` puts OpenCode Go first |
 | `LLM_BASE_URL` | `https://opencode.ai/zen/go/v1` | OpenAI-compatible gateway URL |
 | `LLM_MODEL` | `deepseek-v4.1-flash` | Model sent to the gateway |
 | `AI_MODE` | `on` | Set to `off` to disable AI requests |
-| `AI_DAILY_CAP` | `300` | Per-process daily AI request cap |
+| `AI_DAILY_CAP` | `1000` | Daily live-AI answers across all visitors |
+| `AI_PER_BROWSER` / `AI_PER_IP` | `40` / `300` | Live-AI answers per browser / per IP in each 10-minute window |
 | `AGENT_TIMEOUT_MS` | `25000` | Agent turn deadline in milliseconds |
 
 ## Project structure

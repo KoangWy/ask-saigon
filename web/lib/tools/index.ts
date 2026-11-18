@@ -1,7 +1,10 @@
 import places from '../data/generated/dia_diem.json';
 import prices from '../data/generated/gia_tham_khao.json';
+import tips from '../data/generated/meo_du_lich.json';
 import { haversine, mapsUrl, travelEstimate, type Coordinates } from '../geo';
 import { openingStatus, parseHours } from '../hours';
+import { rainWindow } from '../weather';
+import { listRoutes, matchRoutes } from '../routes';
 import type { Itinerary, Place, SourceLabel } from '../schema';
 import { LABEL_RANK, isStale, liveHours, sourceLines } from '../sources';
 import { foodIntent as isFoodIntent } from '../agent/language';
@@ -13,11 +16,15 @@ export function placeCard(p:Row, location:Coordinates, now:Date, lang:'en'|'vi'=
 const DISHES:[RegExp,string][]=[[/\bpho\b/,'pho'],[/\bbun cha\b/,'bun cha'],[/\bbun thit nuong\b|\bgrilled pork\b/,'bun thit nuong'],[/\bbanh mi\b|\bsandwich\b|\bbaguette\b/,'banh mi'],[/\bbanh xeo\b|\bpancake\b/,'banh xeo'],[/\bbanh cuon\b|\brice rolls?\b/,'banh cuon'],[/\bcom tam\b|\bbroken rice\b/,'com tam'],[/\bbun bo\b/,'bun bo'],[/\bhu tieu\b|\bnam vang\b/,'hu tieu'],[/\bbanh canh\b/,'banh canh'],[/\bbun rieu\b/,'bun rieu'],[/\bxoi\b|\bsticky rice\b/,'xoi'],[/\bche\b|\bsweet soup\b|\bdessert\b/,'che'],[/\boc\b|\bsnails?\b/,'oc'],[/\blau (bo|de|ga|ca|thai|hai san)\b|\b(an|quan) lau\b|\bhot ?pot\b/,'lau']];
 const LATE=/\b(mo khuya|khuya|dem khuya|nua dem|thau dem|late night|open late|late|after midnight|midnight|24 ?h|24 gio)\b/;
 export function searchPlaces(args:{query?:string;categories?:string[];tags?:string[];open_now?:boolean;radius_m?:number;limit?:number}, context:{location:Coordinates;now:Date;lang:'en'|'vi'}):Place[] {
- const query=norm(args.query??'');const foodIntent=isFoodIntent(query);const dishes=DISHES.filter(([re])=>re.test(query)).map(([,d])=>d);const late=LATE.test(query);const vegetarianIntent=/\b(vegetarian|vegan|chay)\b/.test(query);const categories=args.categories?.length?args.categories:foodIntent?['quan_an','ca_phe','diem_dem']:undefined;const nearbyMode=!query&&!categories?.length&&!args.tags?.length;const tags=[...(args.tags??[]),...(vegetarianIntent?['chay']:[])];
- const base=places.filter(p=>p.trang_thai==='hoat_dong').filter(p=>!nearbyMode||p.loai!=='giao_thong').filter(p=>!categories?.length||categories.includes(p.loai)).filter(p=>!tags.length||tags.every(t=>p.tag.split(';').map(x=>x.trim()).includes(t))).map(p=>placeCard(p,context.location,context.now,context.lang)).filter(p=>!args.open_now||p.open_now===true).filter(p=>p.distance_m! <= (args.radius_m??(dishes.length?3000:1500)));
+ const query=norm(args.query??'');const foodIntent=isFoodIntent(args.query??'');const dishes=DISHES.filter(([re])=>re.test(query)).map(([,d])=>d);const late=LATE.test(query);const vegetarianIntent=/\b(vegetarian|vegan|chay)\b/.test(query);const categories=args.categories?.length?args.categories:foodIntent?['quan_an','ca_phe','diem_dem']:undefined;const nearbyMode=!query&&!categories?.length&&!args.tags?.length;const tags=[...(args.tags??[]),...(vegetarianIntent?['chay']:[])];
+ // A visitor who names a checked place wants that place: resolve whole names/aliases first,
+ // independent of distance and open-now. Without this, a landmark outside the default radius
+ // is dropped and a fuzzy token such as "viên" returns unrelated places ("Bùi Viện", "Công viên").
+ const nameIds=new Set(query?placesNamedIn(args.query??'',context).map(p=>p.id):[]);
+ const base=places.filter(p=>p.trang_thai==='hoat_dong').filter(p=>!nearbyMode||p.loai!=='giao_thong').filter(p=>!categories?.length||categories.includes(p.loai)).filter(p=>!tags.length||tags.every(t=>p.tag.split(';').map(x=>x.trim()).includes(t))).map(p=>placeCard(p,context.location,context.now,context.lang)).filter(p=>!args.open_now||p.open_now===true||nameIds.has(p.id)).filter(p=>p.distance_m! <= (args.radius_m??(dishes.length?3000:1500))||nameIds.has(p.id));
  const row=(id:string)=>places.find(x=>x.id===id)!;const dishMatches=dishes.length?base.filter(p=>{const r=row(p.id);const haystack=norm(`${r.ten_vi} ${r.ten_en} ${r.ten_khac} ${r.tag} ${r.mo_ta_vi} ${r.mo_ta_en}`);return dishes.some(d=>` ${haystack} `.includes(` ${d} `));}):base;const local=new Date(context.now.getTime()+7*3600000).toISOString().slice(0,10);const lateAt=new Date(`${local}T23:30:00+07:00`);const pool=(dishMatches.length?dishMatches:base).filter(p=>!late||p.open_24h===true||openingStatus(liveHours(p.id)?.gio_mo??row(p.id).gio_mo,lateAt).open_now===true);
- const ignored=new Set(['food','eat','eating','hungry','restaurant','restaurants','cafe','coffee','meal','dinner','lunch','breakfast','pho','noodles','banh','where','find','near','around','place','places','vegetarian','vegan','chay']);const terms=query.split(' ').filter(q=>q.length>=3&&!ignored.has(q));const matches=terms.length&&!args.categories?.length&&!args.tags?.length?pool.filter(p=>{const row=places.find(x=>x.id===p.id)!;const haystack=norm(`${row.ten_vi} ${row.ten_en} ${row.ten_khac} ${row.khu}`);return terms.some(q=>haystack.includes(q));}):pool;const candidates=foodIntent&&matches.length===0?pool:matches;
- const sorted=candidates.sort((a,b)=>a.distance_m!-b.distance_m!||a.id.localeCompare(b.id));const limit=Math.min(args.limit??3,5);if(nearbyMode){const food=sorted.find(place=>place.category==='quan_an'||place.category==='ca_phe');const top=sorted.slice(0,limit);if(food&&limit>0&&!top.some(place=>place.id===food.id))return [...top.slice(0,limit-1),food].sort((a,b)=>a.distance_m!-b.distance_m!||a.id.localeCompare(b.id));}return sorted.slice(0,limit);
+ const ignored=new Set(['food','eat','eating','hungry','restaurant','restaurants','cafe','coffee','meal','dinner','lunch','breakfast','pho','noodles','banh','where','find','near','around','place','places','vegetarian','vegan','chay']);const terms=query.split(' ').filter(q=>q.length>=3&&!ignored.has(q));const matches=terms.length&&!args.categories?.length&&!args.tags?.length?pool.filter(p=>{const row=places.find(x=>x.id===p.id)!;const haystack=norm(`${row.ten_vi} ${row.ten_en} ${row.ten_khac} ${row.khu}`);return terms.some(q=>haystack.includes(q));}):pool;const namedPool=pool.filter(p=>nameIds.has(p.id));const candidates=namedPool.length?namedPool:foodIntent&&matches.length===0?pool:matches;
+ const sorted=candidates.sort((a,b)=>Number(nameIds.has(b.id))-Number(nameIds.has(a.id))||a.distance_m!-b.distance_m!||a.id.localeCompare(b.id));const limit=Math.min(args.limit??3,5);if(nearbyMode){const food=sorted.find(place=>place.category==='quan_an'||place.category==='ca_phe');const top=sorted.slice(0,limit);if(food&&limit>0&&!top.some(place=>place.id===food.id))return [...top.slice(0,limit-1),food].sort((a,b)=>a.distance_m!-b.distance_m!||a.id.localeCompare(b.id));}return sorted.slice(0,limit);
 }
 // "Where to go tonight?": evening spots first, then sights and shops still open at 20:00 today by
 // their checked hours, nearest first. Food is left to the food search.
@@ -26,7 +33,7 @@ export function eveningPlaces(context:{location:Coordinates;now:Date;lang:'en'|'
  const hours=(p:Row)=>liveHours(p.id)?.gio_mo??p.gio_mo;
  return places.filter(p=>p.trang_thai==='hoat_dong'&&!['giao_thong','quan_an','ca_phe'].includes(p.loai)&&(p.loai==='diem_dem'||openingStatus(hours(p),at).open_now===true)).map(p=>placeCard(p,context.location,context.now,context.lang)).sort((a,b)=>Number(b.category==='diem_dem')-Number(a.category==='diem_dem')||a.distance_m!-b.distance_m!).slice(0,limit);
 }
-export function checkPlaceLive(args:{name?:string;area_hint?:string;google_place_id?:string},context:{location:Coordinates;now:Date;lang:'en'|'vi'}) { const needle=norm(args.name??''); const found=places.filter(p=>args.google_place_id? p.google_place_id===args.google_place_id : !!needle && [p.ten_vi,p.ten_en,...p.ten_khac.split(';')].some(n=>{const a=norm(n); return similar(a,needle);})).sort((a,b)=>Number(norm(b.khu).includes(norm(args.area_hint??'')))-Number(norm(a.khu).includes(norm(args.area_hint??''))))[0]; if(!found)return {found:false,business_status:'no_match' as const,place:null}; return {found:true,business_status:found.trang_thai==='dong_cua_vinh_vien'?'closed_permanently' as const:'operational' as const,place:placeCard(found,context.location,context.now,context.lang)}; }
+export function checkPlaceLive(args:{name?:string;area_hint?:string;google_place_id?:string},context:{location:Coordinates;now:Date;lang:'en'|'vi'}) { const needle=norm(args.name??''); const found=places.filter(p=>args.google_place_id? p.google_place_id===args.google_place_id : !!needle).map(p=>{if(args.google_place_id)return {p,exact:true,near:true};const names=[p.ten_vi,p.ten_en,...p.ten_khac.split(';')].map(norm);return {p,exact:names.some(n=>n===needle),near:names.some(n=>similar(n,needle))};}).filter(x=>x.exact||x.near).sort((a,b)=>Number(b.exact)-Number(a.exact)||Number(norm(b.p.khu).includes(norm(args.area_hint??'')))-Number(norm(a.p.khu).includes(norm(args.area_hint??'')))||a.p.id.localeCompare(b.p.id))[0]?.p; if(!found)return {found:false,business_status:'no_match' as const,place:null}; return {found:true,business_status:found.trang_thai==='dong_cua_vinh_vien'?'closed_permanently' as const:'operational' as const,place:placeCard(found,context.location,context.now,context.lang)}; }
 export { readTiktok } from './tiktok';
 // A price row named in free text or in a tool argument ("xích lô theo giờ" is the cyclo row).
 // Exact names first, then the longest name that appears as whole words.
@@ -59,4 +66,82 @@ export function placeSummary(place:Place,lang:'en'|'vi'):string {
  const price=ticket&&ticket.gia_tu&&ticket.gia_den?(lang==='vi'?` Vé người lớn ${ticket.gia_tu===ticket.gia_den?ticket.gia_tu:`${ticket.gia_tu}–${ticket.gia_den}`} nghìn đồng (kiểm ${d(ticket.ngay_kiem)}).`:` Adult ticket ${ticket.gia_tu===ticket.gia_den?ticket.gia_tu:`${ticket.gia_tu}–${ticket.gia_den}`}k VND (checked ${d(ticket.ngay_kiem)}).`):'';
  const free=!price&&row.gia_tu==='0'&&row.gia_den==='0'?(lang==='vi'?' Vào cửa miễn phí.':' Free entry.'):'';
  return `${place.name}: ${hours}.${price}${free}`;
+}
+
+// The card plus a human-readable version of the same checked hours and ticket price, so a model
+// can answer "the second one, open until when?" from an id without inventing a number.
+export function getPlaceDetails(id:string, context:{location:Coordinates;now:Date;lang:'en'|'vi'}) {
+  const row=places.find(p=>p.id===id);
+  if(!row)return {found:false as const};
+  const place=placeCard(row,context.location,context.now,context.lang);
+  return {found:true as const,place,summary:placeSummary(place,context.lang)};
+}
+
+export async function getWeather(now=new Date()) {
+  const {rain,available}=await rainWindow(now);
+  const summary=!available?'Rain forecast is unavailable right now':rain
+    ? `Rain likely ${rain.date} ${rain.start}–${rain.end}, ${rain.probability}% chance (Open-Meteo, checked ${rain.checked_at})`
+    : 'No likely rain in the next 12 hours (Open-Meteo)';
+  return {available,rain,summary};
+}
+
+export async function findRoutes(query:string, lang:'en'|'vi', owner?:string) {
+  const routes=await listRoutes(lang,owner);
+  const matched=query.trim()?matchRoutes(query,routes):routes.slice(0,3);
+  return {routes:matched,count:matched.length};
+}
+
+// Same distance and checked taxi-fare logic as the fast travel path, but callable with ids/names
+// from an earlier answer so the model can chain it with a place search.
+export function travelEstimateBetween(from:string, to:string, context:{location:Coordinates;now:Date;lang:'en'|'vi'}) {
+  const resolve=(value:string) => {
+    const s=value.trim();
+    if(/^(here|my location|current location|day|cho toi|cho minh)$/i.test(s))return {name:context.lang==='vi'?'vị trí của bạn':'your location',lat:context.location.lat,lng:context.location.lng,place:null};
+    const row=places.find(p=>p.id===s);
+    if(row){const place=placeCard(row,context.location,context.now,context.lang);return {name:place.name,lat:place.lat,lng:place.lng,place};}
+    const named=checkPlaceLive({name:s},context);
+    if(named.found&&named.place)return {name:named.place.name,lat:named.place.lat,lng:named.place.lng,place:named.place};
+    const m=s.match(/^(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)$/);
+    if(m)return {name:s,lat:+m[1],lng:+m[2],place:null};
+    return null;
+  };
+  const a=resolve(from), b=resolve(to);
+  if(!a||!b)return {found:false as const,reason:'Could not resolve one of the two places'};
+  const leg=travelEstimate(a,b);
+  const taxi=getPriceReference({item:'taxi'},context.lang);
+  const perKm=taxi.found?[taxi.reference_min,taxi.reference_max]:null;
+  const fare=perKm&&leg.distance_m>=1000?perKm.map(v=>Math.round(v*leg.distance_m/1000)):null;
+  const walk=Math.max(1,Math.round(leg.distance_m/80));
+  const km=leg.distance_m<1000?`${Math.round(leg.distance_m/10)*10} m`:`${(leg.distance_m/1000).toFixed(1)} km`;
+  const summary=`${a.name} to ${b.name}: about ${km}, ${walk} min on foot${fare?`, taxi about ${fare[0]}–${fare[1]}k VND at the checked ${perKm!.join('–')}k/km fare`:''}. Estimate from distance only.`;
+  return {found:true as const,from:{name:a.name,lat:a.lat,lng:a.lng},to:{name:b.name,lat:b.lat,lng:b.lng},distance_m:leg.distance_m,mode:leg.mode,minutes:leg.minutes,taxi_per_km:perKm,taxi_fare:fare,place:b.place,summary};
+}
+
+// General travel tips (etiquette, getting around, safety, money, food customs, weather). Every row
+// was checked against a verbatim quote from its source page; the agent answers general questions
+// from these instead of from memory. Plain word overlap is enough for ~50 short rows.
+export const TIP_TOPICS=['di_lai','an_toan','tien_te','ket_noi','phep_lich_su','an_uong','thoi_tiet','van_hoa'] as const;
+const TIP_STOP=new Set(['the','and','for','you','can','how','what','when','where','with','are','does','should','have','that','this','there','about','toi','minh','ban','khong','nhu','the nao','nao','gi','co','la','va','de','cho','khi','o','thi','nen','duoc','mot']);
+// Words are weighted by rarity across the tips (IDF), so "sim" outweighs "ở đâu". A question typed
+// with diacritics is matched with them ("mua" buy vs "mùa" season); one typed without matches either
+// way. Hits under 70% of the best score are dropped: the card should show the tip that answers, not
+// every tip that shares a word like "restaurant".
+const tipLower=(x:string)=>x.normalize('NFC').toLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim();
+const tipDocs=tips.map(t=>{const ask=` ${tipLower(t.cau_hoi_mau)} `,body=` ${tipLower(`${t.noi_dung_vi} ${t.noi_dung_en}`)} `;return {t,ask,body,askP:` ${norm(ask)} `,bodyP:` ${norm(body)} `};});
+export function getTravelTips(args:{query?:string;topic?:string;limit?:number},lang:'en'|'vi'='en') {
+ const words=[...new Set(tipLower(args.query??'').split(' ').filter(w=>w.length>=2&&!TIP_STOP.has(norm(w))))];
+ const typed=words.some(w=>norm(w)!==w);
+ // Vietnamese words are often two syllables ("nhà hàng"): match adjacent pairs as one term and give
+ // lone syllables of a Vietnamese question half weight, so "nhà… hàng quán" doesn't pass for "nhà hàng".
+ const sylls=tipLower(args.query??'').split(' ').filter(Boolean);
+ const pairs=typed?sylls.slice(1).map((w,i)=>`${sylls[i]} ${w}`):[];
+ const weight=(w:string)=>w.includes(' ')?1.5:typed&&w.length<=4?0.5:1;
+ const has=(hay:string,plain:string,w:string)=>typed?hay.includes(` ${w} `):plain.includes(` ${norm(w)} `)||(w.length>=4&&plain.includes(norm(w)));
+ const terms=[...words,...pairs];
+ const idf=new Map(terms.map(w=>[w,weight(w)*Math.log((tipDocs.length+1)/(1+tipDocs.filter(d=>has(d.ask+d.body,d.askP+d.bodyP,w)).length))]));
+ const scored=tipDocs.map(d=>({t:d.t,score:terms.reduce((n,w)=>n+idf.get(w)!*((has(d.ask,d.askP,w)?2:0)+(has(d.body,d.bodyP,w)?1:0)),0)+(args.topic&&d.t.chu_de===args.topic?3:0)}))
+  .filter(x=>x.score>0).sort((a,b)=>b.score-a.score);
+ const best=scored[0]?.score??0;
+ const kept=scored.filter(x=>x.score>=Math.max(1,best*0.7)).slice(0,Math.min(args.limit??2,5));
+ return {found:kept.length>0,tips:kept.map(({t})=>({id:t.id,topic:t.chu_de,text:lang==='vi'?t.noi_dung_vi:t.noi_dung_en,source:{label:t.nhan as SourceLabel,source:t.nguon,checked_at:t.ngay_kiem}}))};
 }
