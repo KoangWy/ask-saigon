@@ -112,7 +112,8 @@ export async function* streamAgent(request: ChatRequest): AsyncGenerator<AgentEv
     const tiktokLead = tiktokFinding?.place ? sanitizeReplyText(tiktokFoundReply(tiktokFinding.place, lang)) : null;
     const replyText = tiktokLead ?? (sanitizeReplyText(answer, blocks) || (lang === 'vi' ? 'Đây là những gì tôi tìm được.' : "Here's what I found."));
     // An honest "not in my checked data" gets a way forward: the traveller can ask for it to be added.
-    if (userText && saysNotInData(replyText)) blocks.push({ type: 'data_gap', question: userText.slice(0, 200) });
+    // Only when the reply leads with it: a good answer that mentions one missing detail later isn't a gap.
+    if (userText && saysNotInData(replyText.split(/(?<=[.!?])\s+/)[0])) blocks.push({ type: 'data_gap', question: userText.slice(0, 200) });
     return { reply_text: replyText, blocks, quick_replies: blocks.at(-1)?.type === 'itinerary' ? (lang === 'vi' ? ['Trời mưa', 'Chia sẻ với nhóm'] : ["It's raining", 'Share with group']) : replies, simulated: false, fallback: false, source: 'agent', meta: { provider: turn.label, model: turn.model, key: 'server' } };
   };
 
