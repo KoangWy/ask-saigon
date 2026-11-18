@@ -166,3 +166,7 @@ Food and drink ranges from vietnamtourism.com are third-party guides (the site i
 ## Travel tips (`meo_du_lich.csv`)
 
 Checked 2026-11-18. Each row stores `trich_dan`, a verbatim sentence from its `nguon` page. Every URL was fetched (HTTP 200) and the quote was found in the page text; tip wording was then trimmed so it says no more than the quote. Rows whose page blocked automated checks (CDC Yellow Book, 403) or whose quote was missing were dropped or re-sourced. 47 rows: 8 topics (getting around, safety, money, connectivity, etiquette, food customs, weather, culture).
+
+## Expansion of 18/11/2026 (80 places, 56 tips)
+
+Two sourced batches added sights, markets, malls and streets (38) and food, coffee, bars, craft beer and vegetarian places (42), plus 56 tips (airport transfer, metro hours and fares, Saigon Waterbus, scams, ATMs and payments, voltage, etiquette, food customs, weather, Tết). For each row the `nguon` page was fetched and its quote found (exactly, clause by clause, or in the page HTML for script-rendered sites; Michelin pages through the r.jina.ai reader), and coordinates were compared with OpenStreetMap/Nominatim (rows more than 300 m off were dropped, long streets excepted). Hours are filled only where the quote states them. Rows whose quote was not on the page were dropped; tip wording was trimmed to what the quote says.
