@@ -11,6 +11,8 @@ import { routeIntent } from './routes';
 // Anything else (free questions, plans with preferences, prices, TikTok, photos) still goes to the model.
 const FOOD = /\b(quan an|an gi|an sang|an trua|an toi|an dem|an khuya|an vat|do an|mon an|food|eat|eating|hungry|restaurants?|breakfast|lunch|dinner|pho|bun cha|bun thit nuong|bun bo|banh mi|banh xeo|banh cuon|com tam|hu tieu|banh canh|bun rieu|xoi|che|oc|quan lau|an lau|lau bo|hot ?pot|chay|vegetarian|vegan|doi bung)\b/;
 const COFFEE = /\b(ca phe|cafe|coffee)\b/;
+// Words a bare "what's near me" can contain; anything else names a specific kind of place.
+const GENERIC = new Set(['what', 'whats', 'there', 'anything', 'something', 'place', 'places', 'interesting', 'around', 'here', 'good', 'nice', 'thing', 'things', 'quanh', 'xung', 'choi', 'nhung', 'dang', 'hien']);
 const NEAR = /\b(gan day|gan toi|gan minh|quanh day|xung quanh|near me|nearby|around here|near|gan)\b/;
 const OTHER = /\b(plan|itinerary|lich trinh|len lich|gia|price|bao nhieu|hop ly|fair|cost|tiktok|menu|thuc don|dich|translate)\b/;
 const PRICE = /\b(price|prices|fair|cost|costs|how much|expensive|cheap|overpriced|rip ?off|ripped off|worth it|gia|hop ly|bao nhieu|dat|re|mac|chat chem|chem)\b/;
@@ -61,6 +63,8 @@ export function fastAnswer(request: ChatRequest, ctx: Ctx, base: (text: string) 
   if (!food && !coffee && !placesNamedIn(text, ctx).length && words > 6) return null;
   // "near Dinh Độc Lập" searches around that place instead of the traveller.
   const anchor = near ? placesNamedIn(text, ctx)[0] : undefined;
+  // "Is there a pharmacy nearby?" asks for a kind of place the nearby list doesn't filter by.
+  if (near && !food && !coffee && !anchor && q.replace(NEAR, ' ').split(/[^a-z0-9]+/).some(w => w.length >= 4 && !GENERIC.has(w))) return null;
   const where = anchor ? { ...ctx, location: { lat: anchor.lat, lng: anchor.lng } } : ctx;
   const places = searchPlaces({
     ...(food || coffee ? { query: text, categories: [food ? 'quan_an' : 'ca_phe'] } : {}),

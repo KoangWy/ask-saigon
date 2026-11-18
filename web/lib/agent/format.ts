@@ -89,5 +89,12 @@ export function sanitizeReplyText(value: string, blocks: Block[] = []): string {
     })
     .slice(0, 4);
 
+  // The filters above drop sentences that repeat card details; if that leaves nothing but a question
+  // ("Want details on either?"), the reply has lost its point, so keep the model's own sentences.
+  if (!sentences.some(sentence => !/\?\s*$/.test(sentence))) return fragments.map(f => f.trim()).filter(Boolean).slice(0, 4).join(' ');
   return sentences.join(' ');
 }
+
+// The agent's ways of saying the checked data has no answer (see the prompt's OUT OF SCOPE rule).
+const NOT_IN_DATA = /(không có trong dữ liệu|chưa có trong dữ liệu|chưa có .{0,40}(đã kiểm|trong dữ liệu)|chưa nằm trong dữ liệu|không nằm trong dữ liệu|not in my checked|isn't in my|aren't in my|don't have .{0,40}(checked|verified|data)|no checked|not something in my|not in the checked)/i;
+export const saysNotInData = (text: string) => NOT_IN_DATA.test(text);

@@ -37,7 +37,7 @@ export async function listRoutes(lang: Lang, owner?: string): Promise<Route[]> {
 export async function findRoute(id: string, lang: Lang, owner?: string): Promise<Route | null> { return (await listRoutes(lang, owner)).find(r => r.id === id) ?? null; }
 
 const ROUTE_INTENT = /\b(lo trinh|route|routes|di bui|du lich bui|backpack|backpacking|lang thang|metro|du lich xanh|green trip|walking tour|tour di bo)\b/;
-export function routeIntent(text: string): boolean { const q = normalizeText(text); return ROUTE_INTENT.test(q) && !/\b(gia|price|bao nhieu|fare|ticket)\b/.test(q); }
+export function routeIntent(text: string): boolean { const q = normalizeText(text); return ROUTE_INTENT.test(q) && !/\b(gia|price|bao nhieu|fare|ticket|tickets|mua ve|buy|may gio|gio chay|chay den|hours?|time|schedule)\b/.test(q); }
 export function matchRoutes(text: string, routes: Route[]): Route[] {
   const q = normalizeText(text);
   const words = q.split(/[^a-z0-9]+/).filter(w => w.length >= 3 && !['lo', 'trinh', 'route', 'cho', 'toi', 'mot', 'ngay', 'the', 'and', 'with', 'bang', 'nao', 'goi', 'suggest'].includes(w));
