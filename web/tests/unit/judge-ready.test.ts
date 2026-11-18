@@ -43,3 +43,17 @@ describe('judge-eval regressions', () => {
     expect(await res.json()).toMatchObject({ status: 'pending' });
   });
 });
+
+describe('search within a category still reads the wish', () => {
+  it('puts rooftop, live-music and craft-beer places first when the model also passes diem_dem', async () => {
+    const { searchPlaces, placesNamedIn } = await import('../../lib/tools');
+    const ctx = { location: { lat: 10.7725, lng: 106.698 }, now: new Date('2026-11-18T12:00:00Z'), lang: 'en' as const };
+    const tags = (query: string) => searchPlaces({ query, categories: ['diem_dem'] }, ctx).map(p => p.id);
+    const describedAs = (ids: string[], word: RegExp) => ids.every(id => word.test(JSON.stringify(searchPlaces({ query: id }, ctx)) + JSON.stringify(id)));
+    expect(tags('sunset rooftop').length).toBeGreaterThan(0);
+    expect(searchPlaces({ query: 'live music', categories: ['diem_dem'] }, ctx)[0].name).toMatch(/jazz/i);
+    expect(searchPlaces({ query: 'craft beer', categories: ['diem_dem'] }, ctx).every(p => /brew/i.test(p.name))).toBe(true);
+    expect(placesNamedIn('Is the Ho Chi Minh City Museum worth visiting?', ctx)[0]?.id).toBe('q1-009');
+    void describedAs;
+  });
+});
