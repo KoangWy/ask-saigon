@@ -123,7 +123,8 @@ These variables are in [`web/.env.example`](web/.env.example). They are server-s
 | `LLM_BASE_URL` | `https://opencode.ai/zen/go/v1` | OpenAI-compatible gateway URL |
 | `LLM_MODEL` | `deepseek-v4.1-flash` | Model sent to the gateway |
 | `AI_MODE` | `on` | Set to `off` to disable AI requests |
-| `AI_DAILY_CAP` | `300` | Per-process daily AI request cap |
+| `AI_DAILY_CAP` | `1000` | Daily live-AI answers across all visitors |
+| `AI_PER_BROWSER` / `AI_PER_IP` | `40` / `300` | Live-AI answers per browser / per IP in each 10-minute window |
 | `AGENT_TIMEOUT_MS` | `25000` | Agent turn deadline in milliseconds |
 
 ## Project structure
