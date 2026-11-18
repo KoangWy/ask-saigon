@@ -81,8 +81,10 @@ export function sanitizeReplyText(value: string, blocks: Block[] = []): string {
   const sentences = fragments
     .map(sentence => sentence.trim())
     .filter(sentence => sentence && !/^(?:source|sources|ngu[oő]n|checked|ki[eể]m)\s*:?\s*$/i.test(sentence))
-    .filter(sentence => sentence && (!hasPlaceCards || !/\b(address|opening hours|hours checked|hours not verified|source|sources|distance|open now|closed now)\b/i.test(sentence)))
-    .filter(sentence => !hasPlaceCards || !/\b\d+(?:[.,]\d+)?\s*(?:km|m|meters?|metres?)\b/i.test(sentence))
+    // A short sentence that only restates the card ("It is open now.", "About 300 m away.") goes; a longer
+    // one that uses the fact to say something ("open now and two minutes away, so go first") stays.
+    .filter(sentence => sentence && (!hasPlaceCards || /\b(source|sources|address)\b/i.test(sentence) === false || sentence.length > 200) && (!hasPlaceCards || sentence.length > 60 || !/\b(opening hours|hours checked|hours not verified|distance|open now|closed now)\b/i.test(sentence)))
+    .filter(sentence => !hasPlaceCards || sentence.length > 60 || !/\b\d+(?:[.,]\d+)?\s*(?:km|m|meters?|metres?)\b/i.test(sentence))
     .filter(sentence => {
       const lower = sentence.toLocaleLowerCase();
       return !details.some(detail => lower.includes(detail));

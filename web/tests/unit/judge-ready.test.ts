@@ -20,6 +20,9 @@ describe('judge-eval regressions', () => {
     const ctx = { location: state.location, now: new Date(state.now), lang: 'en' as const };
     expect(fastAnswer({ input: { kind: 'text', text: 'Is there a pharmacy nearby?' }, history: [], state } as ChatRequest, ctx, base)).toBeNull();
     expect(fastAnswer({ input: { kind: 'text', text: 'What is nearby?' }, history: [], state } as ChatRequest, ctx, base)).not.toBeNull();
+    // "chạy" (run) is not "chay" (vegetarian) even though both strip to the same letters.
+    expect(fastAnswer({ input: { kind: 'text', text: 'Metro chạy đến mấy giờ?' }, history: [], state } as ChatRequest, ctx, base)).toBeNull();
+    expect(fastAnswer({ input: { kind: 'text', text: 'quán chay gần đây' }, history: [], state } as ChatRequest, ctx, base)).not.toBeNull();
   });
 
   it('keeps the model sentences when card-detail filtering would leave only a question', () => {

@@ -53,7 +53,8 @@ export function fastAnswer(request: ChatRequest, ctx: Ctx, base: (text: string) 
     return r;
   }
   if (input.kind !== 'text') return null;
-  const text = input.text, q = normalizeText(text), words = q.replace(STOP, ' ').split(/\s+/).filter(Boolean).length;
+  // "chạy" (to run, as in "metro chạy đến mấy giờ") loses its accent to "chay", the vegetarian tag.
+  const text = input.text, q = normalizeText(text.replace(/chạy/gi, 'run')), words = q.replace(STOP, ' ').split(/\s+/).filter(Boolean).length;
   if (/https?:\/\//i.test(text) || OTHER.test(q) || routeIntent(text)) return null;
   // A wish with extra constraints or several requests cannot be reduced to a single search.
   if (EXTRA.test(q) || words > 6) return null;
