@@ -1,9 +1,19 @@
 import type { Block, Place } from '../schema';
+import rows from '../data/generated/dia_diem.json';
+
+const byId = new Map(rows.map(r => [r.id, r]));
 
 // The model needs ids and checked facts for its reply, not card-only fields (sources, maps,
 // photos, coordinates). Trim those before sending a tool result back, so every later round pays
 // less prefill. The full objects still feed the real blocks in index.ts.
-export function compactToolResult(name: string, result: unknown): unknown {
+function about(id: string, lang: 'en' | 'vi') {
+  const r = byId.get(id);
+  if (!r) return {};
+  const text = (lang === 'vi' ? r.mo_ta_vi || r.mo_ta_en : r.mo_ta_en || r.mo_ta_vi).trim();
+  return { ...(text ? { about: text } : {}), has_story: !!(r.cau_chuyen_vi || r.cau_chuyen_en) };
+}
+
+export function compactToolResult(name: string, result: unknown, lang: 'en' | 'vi' = 'en'): unknown {
   const place = (p: unknown): unknown => {
     if (!p || typeof p !== 'object' || !('id' in p) || !('category' in p)) return p;
     const q = p as Place;
@@ -13,6 +23,9 @@ export function compactToolResult(name: string, result: unknown): unknown {
       ...(q.distance_m != null ? { distance_m: q.distance_m } : {}),
       ...(q.status ? { status: q.status, status_note: q.status_note } : {}),
       source: q.source, checked_at: q.checked_at,
+      // A one-line description and whether a checked story exists let the model answer "what is it
+      // like / tell me about it" without another round for details or a story that isn't there.
+      ...about(q.id, lang),
     };
   };
   if (Array.isArray(result)) return result.map(place);

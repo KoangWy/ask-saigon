@@ -2,22 +2,23 @@ import { randomUUID } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { type Message } from '../llm/openai-compatible';
-import { fallbackConfig, primaryConfig } from '../llm/config';
+import { providerChain } from '../llm/config';
 import { FailoverProvider } from '../llm/failover';
 import { searchPlaces, checkPlaceLive, readTiktok, getPriceReference, planItinerary, getStory, getPlaceDetails, getWeather, findRoutes, travelEstimateBetween } from '../tools';
 import { type Block, type ChatRequest, type Place, type Reply } from '../schema';
 import { replyLanguage, outsideArea } from './language';
 import { sanitizeReplyText, compactToolResult } from './format';
 import { SYSTEM_PROMPT } from './prompt';
+import { doneLabel, stepLabel, stepSummary, thinkingLabel, type AgentStep } from './steps';
 import { defs, tools, type ToolName } from './tools';
 import { TIKTOK_FOUND_SAMPLE_URL } from '../tiktok-samples';
 import { priceAnswer } from '../fastpath';
 
-// Up to 4 tool rounds, with the last turn reserved for the model's final reply (no tools offered).
-const MAX_ROUNDS = 5;
+// Up to 3 tool rounds (each costs a full LLM turn), with the last turn reserved for the model's final reply (no tools offered).
+const MAX_ROUNDS = 4;
 const MAX_CARDS = 5;
 
-export type AgentEvent = { type: 'delta'; text: string } | { type: 'final'; reply: Reply };
+export type AgentEvent = { type: 'delta'; text: string } | { type: 'step'; step: AgentStep } | { type: 'final'; reply: Reply };
 
 function tiktokFoundReply(place: Place, lang: 'en' | 'vi') {
   const open = place.open_now === true ? (lang === 'vi' ? `đang mở${place.closes_at ? ` đến ${place.closes_at}` : ''}` : `open now${place.closes_at ? ` until ${place.closes_at}` : ''}`) : place.open_now === false ? (lang === 'vi' ? 'hiện đã đóng' : 'currently closed') : '';
@@ -82,7 +83,7 @@ export async function* streamAgent(request: ChatRequest): AsyncGenerator<AgentEv
   let unreadableTiktok: string | undefined;
   let checked: ReturnType<typeof checkPlaceLive> | undefined;
   // One turn-scoped provider: a failover before any streamed text applies to every later round.
-  const turn = new FailoverProvider(primaryConfig(), fallbackConfig());
+  const turn = new FailoverProvider(...providerChain());
   const session = zUuid(request.session_id);
   // One deadline for all rounds, kept below the route's 60s maxDuration.
   const imageInput = input.kind === 'image' || (input.kind === 'sample' && input.sample_id.startsWith('menu-'));
@@ -111,7 +112,9 @@ export async function* streamAgent(request: ChatRequest): AsyncGenerator<AgentEv
     return { reply_text: replyText, blocks, quick_replies: blocks.at(-1)?.type === 'itinerary' ? (lang === 'vi' ? ['Trời mưa', 'Chia sẻ với nhóm'] : ["It's raining", 'Share with group']) : replies, simulated: false, fallback: false, source: 'agent', meta: { provider: turn.label, model: turn.model, key: 'server' } };
   };
 
-  const runTool = async (call: { id: string; name: string; arguments: string }): Promise<Message> => {
+  // An id passes through; a name resolves through the same matcher as check_place_live.
+  const resolvePlaceId = (ref: string) => /^q\d+-\d+$/i.test(ref.trim()) ? ref.trim().toLowerCase() : checkPlaceLive({ name: ref }, ctx).place?.id ?? ref;
+  const runTool = async (call: { id: string; name: string; arguments: string }): Promise<{ message: Message; result: unknown; ok: boolean }> => {
     try {
       const name = call.name as ToolName;
       if (!(name in defs)) throw new Error('Unknown tool');
@@ -155,7 +158,7 @@ export async function* streamAgent(request: ChatRequest): AsyncGenerator<AgentEv
           break;
         }
         case 'get_story': {
-          const value = getStory(String(raw.place_id), ctx.lang);
+          const value = getStory(resolvePlaceId(String(raw.place_id)), ctx.lang);
           result = value;
           if (value) blocks.push(value);
           break;
@@ -168,7 +171,7 @@ export async function* streamAgent(request: ChatRequest): AsyncGenerator<AgentEv
           break;
         }
         case 'get_place_details': {
-          const value = getPlaceDetails(String(raw.place_id), ctx);
+          const value = getPlaceDetails(resolvePlaceId(String(raw.place_id)), ctx);
           result = value;
           if (value.found) blocks.push({ type: 'place_cards', places: [value.place] });
           break;
@@ -187,9 +190,9 @@ export async function* streamAgent(request: ChatRequest): AsyncGenerator<AgentEv
           break;
         }
       }
-      return { role: 'tool' as const, tool_call_id: call.id, content: JSON.stringify(compactToolResult(name, result)) };
+      return { message: { role: 'tool' as const, tool_call_id: call.id, content: JSON.stringify(compactToolResult(name, result, lang)) }, result, ok: true };
     } catch {
-      return { role: 'tool' as const, tool_call_id: call.id, content: JSON.stringify({ error: 'Invalid or unavailable tool result' }) };
+      return { message: { role: 'tool' as const, tool_call_id: call.id, content: JSON.stringify({ error: 'Invalid or unavailable tool result' }) }, result: null, ok: false };
     }
   };
 
@@ -202,10 +205,17 @@ export async function* streamAgent(request: ChatRequest): AsyncGenerator<AgentEv
       const maxTokens = messages.at(-1)?.role === 'tool' ? 500 : 1200;
       // On the last turn remove tools so a model that kept searching must write the final reply.
       const stream = turn.stream(messages, round === MAX_ROUNDS - 1 ? [] : tools, session, AbortSignal.timeout(Math.max(1000, deadline - Date.now())), maxTokens);
+      // After a tool round the model is silent for a second or two before it writes; show that
+      // it is working, and drop the line as soon as it produces anything.
+      const thinking = round > 0 ? `think-${round}` : null;
+      if (thinking) yield { type: 'step', step: { id: thinking, label: thinkingLabel(lang), status: 'running', ephemeral: true } };
+      let quiet = !!thinking;
       for await (const event of stream) {
+        if (quiet && (event.type === 'delta' || event.type === 'tool_call')) { quiet = false; yield { type: 'step', step: { id: thinking!, label: thinkingLabel(lang), status: 'done', ephemeral: true } }; }
         if (event.type === 'delta') { text += event.text; roundText += event.text; yield { type: 'delta', text: event.text }; }
         else if (event.type === 'tool_call') calls.push(event.call);
       }
+      if (quiet) yield { type: 'step', step: { id: thinking!, label: thinkingLabel(lang), status: 'done', ephemeral: true } };
     } catch (error) {
       // A timed-out final text turn still has cards from earlier rounds; return those, not a 500.
       if (blocks.length) { yield final(finalize(shortLine(blocks, lang))); return; }
@@ -213,7 +223,20 @@ export async function* streamAgent(request: ChatRequest): AsyncGenerator<AgentEv
     }
     messages.push({ role: 'assistant', content: roundText || null, tool_calls: calls.length ? calls.map(c => ({ id: c.id, type: 'function', function: { name: c.name, arguments: c.arguments } })) : undefined });
     if (!calls.length) { finalText = roundText; break; }
-    const results = await Promise.all(calls.map(runTool));
+    // Every call gets a "running" line now and its result line as soon as it finishes; the tool
+    // messages still go back to the model in call order.
+    const args = (call: { arguments: string }) => { try { const v = JSON.parse(call.arguments); return v && typeof v === 'object' ? v as Record<string, unknown> : {}; } catch { return {}; } };
+    for (const call of calls) yield { type: 'step', step: { id: call.id, label: stepLabel(call.name, args(call), lang), status: 'running', lang } };
+    const pending = new Map(calls.map((call, i) => [i, runTool(call).then(outcome => ({ i, outcome }))]));
+    const results: Message[] = new Array(calls.length);
+    while (pending.size) {
+      const { i, outcome } = await Promise.race(pending.values());
+      pending.delete(i);
+      results[i] = outcome.message;
+      const call = calls[i];
+      const label = stepLabel(call.name, args(call), lang);
+      yield { type: 'step', step: { id: call.id, label: outcome.ok ? doneLabel(label) : label, status: outcome.ok ? 'done' : 'error', summary: outcome.ok ? stepSummary(call.name, outcome.result, lang) : undefined, lang } };
+    }
     messages.push(...results);
     if (blocks.some(b => b.type === 'menu_translation')) {
       // The photo is already in the first message; another text turn would resend the image.

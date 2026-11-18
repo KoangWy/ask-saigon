@@ -8,7 +8,7 @@ export const maxDuration = 60;
 const encoder = new TextEncoder();
 const send = (controller: ReadableStreamDefaultController<Uint8Array>, event: unknown) => controller.enqueue(encoder.encode(`data: ${JSON.stringify(event)}\n\n`));
 
-// SSE path: token deltas as they arrive, then one authoritative final Reply. Fast/rules/canned
+// SSE path: token deltas and tool progress steps as they happen, then one authoritative final Reply. Fast/rules/canned
 // answers emit no deltas and are sent only as the final event. The JSON path below is unchanged.
 function streamChat(request: ChatRequest, ip: string, start: number): Response {
   const stream = new ReadableStream<Uint8Array>({
@@ -17,10 +17,9 @@ function streamChat(request: ChatRequest, ip: string, start: number): Response {
         let sentText = false;
         let reply: Reply | undefined;
         try {
-          reply = await routeChat(request, ip, text => {
-            if (!text) return;
-            sentText = true;
-            send(controller, { type: 'delta', text });
+          reply = await routeChat(request, ip, event => {
+            if (event.type === 'delta') { if (!event.text) return; sentText = true; }
+            send(controller, event);
           });
           // Partial streamed text followed by a rule/canned answer means the agent broke mid-reply.
           if (sentText && reply.source !== 'agent') send(controller, { type: 'error', message: 'Live answer interrupted' });

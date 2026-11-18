@@ -29,6 +29,33 @@ describe('streaming agent', () => {
     expect(reply.blocks.some(b => b.type === 'place_cards')).toBe(true);
     expect(reply.meta).toMatchObject({ provider: 'opencode-go', model: 'deepseek-v4.1-flash' });
   });
+
+  it('emits a running and a finished step per tool call, then a thinking line that drops when text starts', async () => {
+    vi.stubGlobal('fetch', vi.fn()
+      .mockResolvedValueOnce(sse([text('Let me look. '), call('a', 'search_places', { query: 'Ben Thanh' }), JSON.stringify({ choices: [{ delta: {}, finish_reason: 'tool_calls' }] })]))
+      .mockResolvedValueOnce(sse([text('Done.'), JSON.stringify({ choices: [{ delta: {}, finish_reason: 'stop' }] })])));
+    const order: string[] = [];
+    const steps: { id: string; label: string; status: string; summary?: string; ephemeral?: boolean }[] = [];
+    for await (const e of streamAgent(base)) {
+      if (e.type === 'step') { steps.push(e.step); order.push(`step:${e.step.id}:${e.step.status}`); }
+      else order.push(e.type === 'delta' ? `delta:${e.text}` : 'final');
+    }
+    expect(order).toEqual(['delta:Let me look. ', 'step:a:running', 'step:a:done', 'step:think-1:running', 'step:think-1:done', 'delta:Done.', 'final']);
+    expect(steps[0]).toMatchObject({ label: 'Searching places: Ben Thanh', status: 'running' });
+    expect(steps[1]).toMatchObject({ label: 'Searched places: Ben Thanh', lang: 'en' });
+    expect(steps[1].summary).toMatch(/^Found \d+ place/);
+    expect(steps[2]).toMatchObject({ ephemeral: true });
+  });
+
+  it('labels steps in Vietnamese and reports a failed tool as an error step', async () => {
+    vi.stubGlobal('fetch', vi.fn()
+      .mockResolvedValueOnce(sse([call('w', 'get_story', { place_id: 42 }), JSON.stringify({ choices: [{ delta: {}, finish_reason: 'tool_calls' }] })]))
+      .mockResolvedValueOnce(sse([text('Xin lỗi.'), JSON.stringify({ choices: [{ delta: {}, finish_reason: 'stop' }] })])));
+    const steps: { id: string; label: string; status: string }[] = [];
+    for await (const e of streamAgent({ ...base, input: { kind: 'text', text: 'Kể chuyện chỗ này' }, state: { ...base.state, lang: 'vi' } })) if (e.type === 'step' && e.step.id === 'w') steps.push(e.step);
+    expect(steps.map(s => s.status)).toEqual(['running', 'error']);
+    expect(steps[0].label).toBe('Đang mở câu chuyện của địa điểm');
+  });
 });
 
 describe('chat route SSE', () => {

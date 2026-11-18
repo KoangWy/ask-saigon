@@ -29,3 +29,10 @@ export function fallbackConfig(): ProviderConfig | null {
     idleMs: idleMs(),
   };
 }
+
+// Which provider a chat turn tries first. Default: OpenCode Go, then Mistral if its key is set.
+// LLM_PRIMARY=mistral swaps them (Mistral first, OpenCode Go as the fallback).
+export function providerChain(): [ProviderConfig, ProviderConfig | null] {
+  const opencode = primaryConfig(), mistral = fallbackConfig();
+  return process.env.LLM_PRIMARY === 'mistral' && mistral ? [mistral, opencode.apiKey ? opencode : null] : [opencode, mistral];
+}

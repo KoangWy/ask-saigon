@@ -1,6 +1,6 @@
 // Minimal SSE reader for POST responses (EventSource cannot POST). Each `data:` frame is parsed
 // as JSON and handed to onEvent; aborting the fetch aborts the reader too.
-export type ChatStreamEvent = { type: 'delta' | 'final' | 'error'; text?: string; reply?: unknown; message?: string };
+export type ChatStreamEvent = { type: 'delta' | 'step' | 'final' | 'error'; text?: string; step?: { id: string; label: string; status: 'running' | 'done' | 'error'; summary?: string; ephemeral?: boolean; lang?: 'en' | 'vi' }; reply?: unknown; message?: string };
 
 export async function readChatStream(response: Response, onEvent: (event: ChatStreamEvent) => void): Promise<void> {
   if (!response.body) throw new Error('No response body');
