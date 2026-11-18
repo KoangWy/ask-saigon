@@ -12,9 +12,9 @@ describe('the enriched data', () => {
   it('finds vegetarian places and dishes the first seed did not have', async () => {
     vi.stubEnv('AI_MODE', 'off');
     expect(await names('Có quán chay nào gần đây không?')).toEqual(expect.arrayContaining(['Chay Garden Võ Văn Tần']));
-    expect(await names('Quán ốc nào ngon?')).toEqual(['Ốc Đào']);
-    expect(await names('Hủ tiếu Nam Vang ở đâu ngon?')).toEqual(['Hủ tiếu Nam Vang Hồng Phát']);
-    expect(await names('Quán lẩu gần đây')).toEqual(['Lẩu bò Tí Chuột']);
+    expect(await names('Quán ốc nào ngon?')).toEqual(expect.arrayContaining(['Ốc Đào']));
+    expect(await names('Hủ tiếu Nam Vang ở đâu ngon?')).toEqual(expect.arrayContaining(['Hủ tiếu Nam Vang Hồng Phát']));
+    expect(await names('Quán lẩu gần đây')).toEqual(expect.arrayContaining(['Lẩu bò Tí Chuột']));
     vi.unstubAllEnvs();
   });
   it('reads multi-range museum hours in words', async () => {

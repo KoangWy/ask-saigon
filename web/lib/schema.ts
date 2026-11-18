@@ -38,6 +38,8 @@ export const BlockSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("price_check"), item: z.string(), reference_min: z.number(), reference_max: z.number(), user_price: z.number(), verdict: z.enum(["fair", "a_bit_high", "too_high"]), tip: z.string(), source: z.string(), checked_at: z.string(), label: SourceLabelSchema.optional(), sources: z.array(SourceLineSchema).optional() }),
   z.object({ type: z.literal("route_cards"), routes: z.array(RouteSchema) }),
   z.object({ type: z.literal("context_prompt"), question: z.string(), options: z.array(z.string()) }),
+  z.object({ type: z.literal("live_info"), kind: z.string(), title: z.string(), lines: z.array(z.string()), source: SourceLineSchema }),
+  z.object({ type: z.literal("data_gap"), question: z.string() }),
   z.object({ type: z.literal("tips"), items: z.array(z.object({ id: z.string(), topic: z.string(), text: z.string(), source: SourceLineSchema })) }),
   z.object({ type: z.literal("story"), place_id: z.string(), title: z.string(), script: z.string(), look_for: z.string(), source: z.string() }),
   z.object({ type: z.literal("replan"), reason: z.string(), before: z.array(StopSchema), after: z.array(StopSchema), dropped: z.array(StopSchema) }),

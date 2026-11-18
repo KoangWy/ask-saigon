@@ -7,11 +7,12 @@ import { FailoverProvider } from '../llm/failover';
 import { searchPlaces, checkPlaceLive, readTiktok, getPriceReference, planItinerary, getStory, getPlaceDetails, getWeather, findRoutes, travelEstimateBetween, getTravelTips } from '../tools';
 import { type Block, type ChatRequest, type Place, type Reply } from '../schema';
 import { replyLanguage, outsideArea } from './language';
-import { sanitizeReplyText, compactToolResult } from './format';
+import { sanitizeReplyText, compactToolResult, saysNotInData } from './format';
 import { SYSTEM_PROMPT } from './prompt';
 import { doneLabel, stepLabel, stepSummary, thinkingLabel, type AgentStep } from './steps';
 import { defs, tools, type ToolName } from './tools';
 import { TIKTOK_FOUND_SAMPLE_URL } from '../tiktok-samples';
+import { exchangeRates, operaShows } from '../live';
 import { priceAnswer } from '../fastpath';
 
 // Up to 3 tool rounds (each costs a full LLM turn), with the last turn reserved for the model's final reply (no tools offered).
@@ -110,6 +111,9 @@ export async function* streamAgent(request: ChatRequest): AsyncGenerator<AgentEv
     const tiktokFinding = blocks.find((block): block is Extract<Block, { type: 'tiktok_result' }> => block.type === 'tiktok_result' && block.status === 'found' && !!block.place);
     const tiktokLead = tiktokFinding?.place ? sanitizeReplyText(tiktokFoundReply(tiktokFinding.place, lang)) : null;
     const replyText = tiktokLead ?? (sanitizeReplyText(answer, blocks) || (lang === 'vi' ? 'Đây là những gì tôi tìm được.' : "Here's what I found."));
+    // An honest "not in my checked data" gets a way forward: the traveller can ask for it to be added.
+    // Only when the reply leads with it: a good answer that mentions one missing detail later isn't a gap.
+    if (userText && saysNotInData(replyText.split(/(?<=[.!?])\s+/)[0])) blocks.push({ type: 'data_gap', question: userText.slice(0, 200) });
     return { reply_text: replyText, blocks, quick_replies: blocks.at(-1)?.type === 'itinerary' ? (lang === 'vi' ? ['Trời mưa', 'Chia sẻ với nhóm'] : ["It's raining", 'Share with group']) : replies, simulated: false, fallback: false, source: 'agent', meta: { provider: turn.label, model: turn.model, key: 'server' } };
   };
 
@@ -178,6 +182,12 @@ export async function* streamAgent(request: ChatRequest): AsyncGenerator<AgentEv
           break;
         }
         case 'get_weather': result = await getWeather(ctx.now); break;
+        case 'get_live_info': {
+          const value = raw.kind === 'opera_shows' ? await operaShows(ctx.lang) : await exchangeRates(Array.isArray(raw.currencies) && raw.currencies.length ? raw.currencies.map(String) : undefined, ctx.lang);
+          result = value;
+          if (value.found) blocks.push({ type: 'live_info', kind: value.kind, title: value.title, lines: value.lines, source: value.source });
+          break;
+        }
         case 'get_travel_tips': {
           const value = getTravelTips(raw as Parameters<typeof getTravelTips>[0], ctx.lang);
           result = value;

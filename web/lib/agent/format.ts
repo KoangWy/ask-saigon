@@ -81,13 +81,22 @@ export function sanitizeReplyText(value: string, blocks: Block[] = []): string {
   const sentences = fragments
     .map(sentence => sentence.trim())
     .filter(sentence => sentence && !/^(?:source|sources|ngu[oő]n|checked|ki[eể]m)\s*:?\s*$/i.test(sentence))
-    .filter(sentence => sentence && (!hasPlaceCards || !/\b(address|opening hours|hours checked|hours not verified|source|sources|distance|open now|closed now)\b/i.test(sentence)))
-    .filter(sentence => !hasPlaceCards || !/\b\d+(?:[.,]\d+)?\s*(?:km|m|meters?|metres?)\b/i.test(sentence))
+    // A short sentence that only restates the card ("It is open now.", "About 300 m away.") goes; a longer
+    // one that uses the fact to say something ("open now and two minutes away, so go first") stays.
+    .filter(sentence => sentence && (!hasPlaceCards || /\b(source|sources|address)\b/i.test(sentence) === false || sentence.length > 200) && (!hasPlaceCards || sentence.length > 60 || !/\b(opening hours|hours checked|hours not verified|distance|open now|closed now)\b/i.test(sentence)))
+    .filter(sentence => !hasPlaceCards || sentence.length > 60 || !/\b\d+(?:[.,]\d+)?\s*(?:km|m|meters?|metres?)\b/i.test(sentence))
     .filter(sentence => {
       const lower = sentence.toLocaleLowerCase();
       return !details.some(detail => lower.includes(detail));
     })
     .slice(0, 4);
 
+  // The filters above drop sentences that repeat card details; if that leaves nothing but a question
+  // ("Want details on either?"), the reply has lost its point, so keep the model's own sentences.
+  if (!sentences.some(sentence => !/\?\s*$/.test(sentence))) return fragments.map(f => f.trim()).filter(Boolean).slice(0, 4).join(' ');
   return sentences.join(' ');
 }
+
+// The agent's ways of saying the checked data has no answer (see the prompt's OUT OF SCOPE rule).
+const NOT_IN_DATA = /(không có trong dữ liệu|chưa có trong dữ liệu|chưa có .{0,40}(đã kiểm|trong dữ liệu)|chưa nằm trong dữ liệu|không nằm trong dữ liệu|not in my checked|isn't in my|aren't in my|don't have .{0,40}(checked|verified|data)|no checked|not something in my|not in the checked)/i;
+export const saysNotInData = (text: string) => NOT_IN_DATA.test(text);

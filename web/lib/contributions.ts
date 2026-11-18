@@ -10,7 +10,7 @@ import type { SourceLine } from './schema';
 // traveller. Nothing reaches a card until a reviewer approves it; approved lines keep the
 // submitter's label and the approval date. "Report a mistake" uses the same queue.
 export const SubmissionInput = z.object({
-  kind: z.enum(['update', 'report']),
+  kind: z.enum(['update', 'report', 'request']),
   role: z.enum(['chinh_thuc', 'doanh_nghiep', 'ca_nhan']),
   place_id: z.string().max(20).optional(), price_id: z.string().max(80).optional(),
   field: z.enum(['hours', 'price', 'closed', 'info', 'other']),
@@ -22,7 +22,8 @@ export type Submission = z.infer<typeof SubmissionInput> & { id: string; name: s
 const placeName = (id?: string) => places.find(p => p.id === id)?.ten_vi;
 const priceName = (id?: string) => prices.find(p => p.id === id || p.hang_muc === id)?.hang_muc;
 export async function submit(input: z.infer<typeof SubmissionInput>): Promise<Submission | null> {
-  const name = placeName(input.place_id) ?? priceName(input.price_id);
+  // A request names something the data lacks ("craft beer in District 1"), so it has no place or price id.
+  const name = input.kind === 'request' ? (input.value?.trim() ? `Đề xuất bổ sung: ${input.value.trim()}` : undefined) : placeName(input.place_id) ?? priceName(input.price_id);
   if (!name) return null;
   if (input.field === 'hours' && input.value) { try { parseHours(input.value); } catch { return null; } }
   const item: Submission = { ...input, id: `s-${crypto.randomUUID().slice(0, 8)}`, name, status: 'pending', created_at: new Date().toISOString() };
