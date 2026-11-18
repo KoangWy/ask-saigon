@@ -1,6 +1,7 @@
 import { BlockSchema, type ChatRequest, type Reply } from './schema';
 import { canned, sampleItinerary } from './canned';
 import { runAgent, streamAgent, type AgentEvent } from './agent';
+import { hasLlmKey } from './llm/config';
 // Everything the agent streams before its final Reply: text deltas and tool progress lines.
 export type StreamEvent=Exclude<AgentEvent,{type:'final'}>;
 import { getStory, planItinerary, searchPlaces, checkPlaceLive, getPriceReference, placesNamedIn, placeSummary, eveningPlaces } from './tools';
@@ -32,7 +33,7 @@ export async function routeChat(request:ChatRequest,ip:string,emit?:(event:Strea
  if(input.kind==='text' && outsideArea(input.text)){return base(lang==='vi'?'Demo chỉ hỗ trợ Quận 1 và Quận 3 TP.HCM. Bạn muốn khám phá khu vực này không?':'This demo only covers District 1 and District 3 in Ho Chi Minh City. Would you like suggestions there?');}
 
  const fast=fastAnswer(request,ctx,base);if(fast)return fast;
- if(!state.offline&&process.env.AI_MODE!=='off'&&process.env.LLM_API_KEY&&await allowAi({ip,client:request.client_id})){try{const result=await agentReply(request,emit);if(input.kind==='sample'){const expected=input.sample_id.startsWith('tiktok-')?'tiktok_result':input.sample_id.startsWith('menu-')?'menu_translation':input.sample_id==='price-cyclo'?'price_check':input.sample_id==='nearby-benthanh'?'place_cards':'itinerary';if(!result.blocks.some(b=>b.type===expected))return canned(input.sample_id);}return result;}catch{/* fallback */}}
+ if(!state.offline&&process.env.AI_MODE!=='off'&&hasLlmKey()&&await allowAi({ip,client:request.client_id})){try{const result=await agentReply(request,emit);if(input.kind==='sample'){const expected=input.sample_id.startsWith('tiktok-')?'tiktok_result':input.sample_id.startsWith('menu-')?'menu_translation':input.sample_id==='price-cyclo'?'price_check':input.sample_id==='nearby-benthanh'?'place_cards':'itinerary';if(!result.blocks.some(b=>b.type===expected))return canned(input.sample_id);}return result;}catch{/* fallback */}}
  if(input.kind==='sample'){const result=canned(input.sample_id);if(lang==='vi'){result.reply_text='Đây là câu trả lời mẫu được lưu sẵn.';result.quick_replies=quick;}return result;}
  const prefix=state.offline?(lang==='vi'?'Đây là chế độ demo lưu sẵn.':'This is the offline demo mode.'):(lang==='vi'?'AI trực tiếp đang bận; đây là câu trả lời có thể cung cấp ngay.':'Live AI is busy right now; here are answers I can give instantly.');
  const r=base(prefix);r.fallback=true;

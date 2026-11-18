@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { SYSTEM_PROMPT } from '../lib/agent/prompt';
 import { tools } from '../lib/agent/tools';
-import { fallbackConfig, primaryConfig } from '../lib/llm/config';
+import { mistralConfig, opencodeConfig } from '../lib/llm/config';
 import { streamChat } from '../lib/llm/openai-compatible';
 import type { ProviderConfig } from '../lib/llm/types';
 
@@ -61,8 +61,8 @@ async function benchmark(label: string, config: ProviderConfig | null) {
 
 async function main() {
   console.log(`Benchmark: ${runs} runs per provider, identical prompt + ${tools.length} tools.\n`);
-  await benchmark('primary  ', primaryConfig());
+  await benchmark('mistral  ', mistralConfig());
   console.log('');
-  await benchmark('fallback ', fallbackConfig());
+  await benchmark('opencode ', opencodeConfig());
 }
 void main();

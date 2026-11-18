@@ -1,4 +1,4 @@
-import { primaryConfig } from './config';
+import { providerChain } from './config';
 import { buildBody, flattenContent, parseChunk, parseCompletion, ToolCallAccumulator } from './normalize';
 import { readSseData } from './sse';
 import { kindForStatus, ProviderError, type ProviderConfig, type ProviderEvent } from './types';
@@ -15,8 +15,8 @@ export class OpenAICompatible implements LlmProvider {
     const result = await response.json(); const choice = result.choices?.[0]; if (!choice?.message) throw new Error('Invalid provider response'); const msg = choice.message; return { text: typeof msg.content === 'string' ? msg.content : '', toolCalls: (msg.tool_calls ?? []).map((c: { id: string; function: { name: string; arguments: string } }) => ({ id: c.id, name: c.function.name, arguments: c.function.arguments })), raw: { role: 'assistant' as const, content: msg.content ?? null, tool_calls: msg.tool_calls }, refusal: !!msg.refusal || (choice.finish_reason === 'content_filter' || choice.finish_reason === 'refusal') };
   }
 
-  streamTurn(messages: Message[], tools: unknown[], sessionId: string, signal: AbortSignal, maxTokens = 1200, config: ProviderConfig = primaryConfig()): AsyncGenerator<ProviderEvent> {
-    return streamChat(config, messages, tools, sessionId, signal, maxTokens);
+  streamTurn(messages: Message[], tools: unknown[], sessionId: string, signal: AbortSignal, maxTokens = 1200, config?: ProviderConfig): AsyncGenerator<ProviderEvent> {
+    return streamChat(config ?? providerChain()[0], messages, tools, sessionId, signal, maxTokens);
   }
 }
 

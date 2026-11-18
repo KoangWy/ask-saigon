@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { streamChat, OpenAICompatible } from '../../lib/llm/openai-compatible';
-import { primaryConfig } from '../../lib/llm/config';
+import { opencodeConfig } from '../../lib/llm/config';
+const primaryConfig = opencodeConfig;
 import { flattenContent, ToolCallAccumulator } from '../../lib/llm/normalize';
 import type { ProviderEvent } from '../../lib/llm/types';
 

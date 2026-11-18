@@ -1,19 +1,19 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { FailoverProvider } from '../../lib/llm/failover';
-import { fallbackConfig, primaryConfig } from '../../lib/llm/config';
+import { mistralConfig, opencodeConfig } from '../../lib/llm/config';
 import type { ProviderEvent } from '../../lib/llm/types';
 
 const sse = (frames: string[]) => new Response(frames.map(f => `data: ${f}\n\n`).join(''), { status: 200, headers: { 'content-type': 'text/event-stream' } });
 const textFrame = (t: string) => JSON.stringify({ choices: [{ delta: { content: t } }] });
 const done = JSON.stringify({ choices: [{ delta: {}, finish_reason: 'stop' }] });
 const collect = async (gen: AsyncGenerator<ProviderEvent>) => { const out: ProviderEvent[] = []; for await (const e of gen) out.push(e); return out; };
-const turn = () => new FailoverProvider(primaryConfig(), fallbackConfig());
+const turn = () => new FailoverProvider(opencodeConfig(), mistralConfig());
 afterEach(() => { vi.unstubAllGlobals(); vi.unstubAllEnvs(); });
 
 describe('fallback provider', () => {
   it('is disabled without a fallback key', () => {
     vi.stubEnv('LLM_FALLBACK_API_KEY', '');
-    expect(fallbackConfig()).toBeNull();
+    vi.stubEnv('MISTRAL_API_KEY', ''); expect(mistralConfig()).toBeNull();
     expect(turn().label).toBe('opencode-go');
   });
 
@@ -82,5 +82,19 @@ describe('fallback provider', () => {
     vi.stubGlobal('fetch', fetchMock);
     await expect(collect(turn().stream([], [], 's', controller.signal, 500))).rejects.toMatchObject({ kind: 'timeout' });
     expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('provider order', () => {
+  it('tries Mistral first with OpenCode Go as the fallback, and honours LLM_PRIMARY=opencode', async () => {
+    const { providerChain } = await import('../../lib/llm/config');
+    vi.stubEnv('LLM_API_KEY', 'oc'); vi.stubEnv('MISTRAL_API_KEY', 'mi');
+    expect(providerChain().map(c => c?.label)).toEqual(['mistral', 'opencode-go']);
+    vi.stubEnv('LLM_PRIMARY', 'opencode');
+    expect(providerChain().map(c => c?.label)).toEqual(['opencode-go', 'mistral']);
+    vi.stubEnv('LLM_PRIMARY', ''); vi.stubEnv('LLM_API_KEY', '');
+    expect(providerChain().map(c => c?.label)).toEqual(['mistral', undefined]);
+    vi.stubEnv('MISTRAL_API_KEY', ''); vi.stubEnv('LLM_FALLBACK_API_KEY', 'old-name');
+    expect(providerChain()[0].label).toBe('mistral');
   });
 });
