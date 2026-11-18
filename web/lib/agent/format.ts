@@ -67,7 +67,8 @@ export function sanitizeReplyText(value: string, blocks: Block[] = []): string {
     .replace(/https?:\/\/[^\s)]+/gi, '')
     // History markers are internal plumbing; a small model sometimes echoes them into its reply.
     .replace(/\[showed places:[^\]]*\]/gi, '')
-    .replace(/\b(?:[a-z0-9-]+\.)+[a-z]{2,}(?:\/[^\s)]*)?/gi, '')
+    // Bare domains go (the source is on the card), but not capitalised abbreviations like "TP.HCM".
+    .replace(/\b(?:[a-z0-9-]+\.)+[a-z]{2,}(?:\/[^\s)]*)?/gi, match => /[A-Z]/.test(match) && !match.includes('/') ? match : '')
     .replace(/\(\s*(?:source\s*)?\)/gi, '')
     .replace(/\s+([.!?])/g, '$1')
     .replace(/\s+/g, ' ')
@@ -75,7 +76,7 @@ export function sanitizeReplyText(value: string, blocks: Block[] = []): string {
 
   const details = cardDetails(blocks).map(detail => detail.toLocaleLowerCase());
   const hasPlaceCards = blocks.some(block => block.type === 'place_cards');
-  const protectedText = text.replace(/\b(?:Mr|Mrs|Ms|Dr|Prof|St|vs|e\.g|i\.e)\./gi, match => match.replaceAll('.', '\u2024')).replace(/(?<=\d)\.(?=\d)/g, '\u2024');
+  const protectedText = text.replace(/\b(?:Mr|Mrs|Ms|Dr|Prof|St|vs|e\.g|i\.e)\./gi, match => match.replaceAll('.', '\u2024')).replace(/(?<=\d)\.(?=\d)/g, '\u2024').replace(/(?<=\p{Lu})\.(?=\p{Lu})/gu, '\u2024');
   const fragments = (protectedText.match(/[^.!?]+(?:[.!?]+|$)/g) ?? []).map(fragment => fragment.replaceAll('\u2024', '.'));
   const sentences = fragments
     .map(sentence => sentence.trim())

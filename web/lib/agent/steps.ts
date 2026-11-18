@@ -22,6 +22,7 @@ export function stepLabel(name: string, args: Record<string, unknown>, lang: Lan
     case 'show_menu_translation': return vi ? 'Đang dịch thực đơn' : 'Translating the menu';
     case 'get_place_details': return vi ? 'Đang xem chi tiết địa điểm' : 'Reading place details';
     case 'get_weather': return vi ? 'Đang xem dự báo mưa' : 'Checking the rain forecast';
+    case 'get_travel_tips': return withArg(vi ? 'Đang tra mẹo du lịch đã kiểm' : 'Looking up checked travel tips', clip(args.query));
     case 'find_routes': return withArg(vi ? 'Đang tìm lộ trình cộng đồng' : 'Finding community routes', clip(args.query));
     case 'travel_estimate': { const from = clip(args.from, 24), to = clip(args.to, 24); return from && to ? `${vi ? 'Đang tính đường đi' : 'Estimating the trip'}: ${from} → ${to}` : (vi ? 'Đang tính đường đi' : 'Estimating the trip'); }
     default: return vi ? 'Đang tra cứu' : 'Looking it up';
@@ -44,6 +45,7 @@ export function stepSummary(name: string, result: unknown, lang: Lang): string |
     case 'show_menu_translation': { const n = (r.items as unknown[] | undefined)?.length ?? 0; return n ? count(n, vi, 'dish', 'dishes', 'món') : undefined; }
     case 'get_place_details': return r.found ? (r.place as { name?: string }).name : (vi ? 'Không tìm thấy' : 'Not found');
     case 'get_weather': { const w = r as { available?: boolean; rain?: { start: string; end: string } | null }; return !w.available ? (vi ? 'Chưa có dự báo' : 'Forecast unavailable') : w.rain ? (vi ? `Có thể mưa ${w.rain.start}–${w.rain.end}` : `Rain likely ${w.rain.start}–${w.rain.end}`) : (vi ? 'Không thấy mưa trong 12 giờ tới' : 'No rain in the next 12 hours'); }
+    case 'get_travel_tips': { const n = (r.tips as unknown[] | undefined)?.length ?? 0; return n ? count(n, vi, 'tip', 'tips', 'mẹo') : (vi ? 'Chưa có mẹo đã kiểm' : 'No checked tip'); }
     case 'find_routes': { const n = typeof r.count === 'number' ? r.count : 0; return n ? count(n, vi, 'route', 'routes', 'lộ trình') : (vi ? 'Chưa có lộ trình phù hợp' : 'No matching route'); }
     case 'travel_estimate': return r.found === false ? (vi ? 'Không xác định được điểm đi/đến' : 'Could not resolve the places') : undefined;
     default: return undefined;

@@ -31,3 +31,16 @@ describe('replyLanguage detects short questions with and without diacritics', ()
   ]) it(`English: ${text}`, () => expect(lang(text)).toBe('en'));
   it('keeps the state language when there is no signal', () => expect(lang('hello there', 'vi')).toBe('vi'));
 });
+
+describe('language edge cases from the travel-tips eval', () => {
+  it('answers an English question that uses "can" in English', async () => {
+    const { replyLanguage } = await import('../../lib/agent/language');
+    const state = { lang: 'vi' as const, location: { lat: 10.77, lng: 106.69, label: 'x', source: 'picked' as const }, now: '2026-11-18T02:00:00Z', offline: false };
+    expect(replyLanguage({ input: { kind: 'text', text: 'Can I drink tap water or have ice?' }, history: [], state })).toBe('en');
+    expect(replyLanguage({ input: { kind: 'text', text: 'can mua sim o dau' }, history: [], state })).toBe('vi');
+  });
+  it('keeps TP.HCM in a reply while removing bare domains', async () => {
+    const { sanitizeReplyText } = await import('../../lib/agent/format');
+    expect(sanitizeReplyText('Cả hai đều hoạt động ở TP.HCM. Xem vietnam.travel nhé.')).toBe('Cả hai đều hoạt động ở TP.HCM. Xem nhé.');
+  });
+});

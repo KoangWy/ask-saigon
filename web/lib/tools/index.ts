@@ -1,5 +1,6 @@
 import places from '../data/generated/dia_diem.json';
 import prices from '../data/generated/gia_tham_khao.json';
+import tips from '../data/generated/meo_du_lich.json';
 import { haversine, mapsUrl, travelEstimate, type Coordinates } from '../geo';
 import { openingStatus, parseHours } from '../hours';
 import { rainWindow } from '../weather';
@@ -114,4 +115,33 @@ export function travelEstimateBetween(from:string, to:string, context:{location:
   const km=leg.distance_m<1000?`${Math.round(leg.distance_m/10)*10} m`:`${(leg.distance_m/1000).toFixed(1)} km`;
   const summary=`${a.name} to ${b.name}: about ${km}, ${walk} min on foot${fare?`, taxi about ${fare[0]}–${fare[1]}k VND at the checked ${perKm!.join('–')}k/km fare`:''}. Estimate from distance only.`;
   return {found:true as const,from:{name:a.name,lat:a.lat,lng:a.lng},to:{name:b.name,lat:b.lat,lng:b.lng},distance_m:leg.distance_m,mode:leg.mode,minutes:leg.minutes,taxi_per_km:perKm,taxi_fare:fare,place:b.place,summary};
+}
+
+// General travel tips (etiquette, getting around, safety, money, food customs, weather). Every row
+// was checked against a verbatim quote from its source page; the agent answers general questions
+// from these instead of from memory. Plain word overlap is enough for ~50 short rows.
+export const TIP_TOPICS=['di_lai','an_toan','tien_te','ket_noi','phep_lich_su','an_uong','thoi_tiet','van_hoa'] as const;
+const TIP_STOP=new Set(['the','and','for','you','can','how','what','when','where','with','are','does','should','have','that','this','there','about','toi','minh','ban','khong','nhu','the nao','nao','gi','co','la','va','de','cho','khi','o','thi','nen','duoc','mot']);
+// Words are weighted by rarity across the tips (IDF), so "sim" outweighs "ở đâu". A question typed
+// with diacritics is matched with them ("mua" buy vs "mùa" season); one typed without matches either
+// way. Hits under 70% of the best score are dropped: the card should show the tip that answers, not
+// every tip that shares a word like "restaurant".
+const tipLower=(x:string)=>x.normalize('NFC').toLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim();
+const tipDocs=tips.map(t=>{const ask=` ${tipLower(t.cau_hoi_mau)} `,body=` ${tipLower(`${t.noi_dung_vi} ${t.noi_dung_en}`)} `;return {t,ask,body,askP:` ${norm(ask)} `,bodyP:` ${norm(body)} `};});
+export function getTravelTips(args:{query?:string;topic?:string;limit?:number},lang:'en'|'vi'='en') {
+ const words=[...new Set(tipLower(args.query??'').split(' ').filter(w=>w.length>=2&&!TIP_STOP.has(norm(w))))];
+ const typed=words.some(w=>norm(w)!==w);
+ // Vietnamese words are often two syllables ("nhà hàng"): match adjacent pairs as one term and give
+ // lone syllables of a Vietnamese question half weight, so "nhà… hàng quán" doesn't pass for "nhà hàng".
+ const sylls=tipLower(args.query??'').split(' ').filter(Boolean);
+ const pairs=typed?sylls.slice(1).map((w,i)=>`${sylls[i]} ${w}`):[];
+ const weight=(w:string)=>w.includes(' ')?1.5:typed&&w.length<=4?0.5:1;
+ const has=(hay:string,plain:string,w:string)=>typed?hay.includes(` ${w} `):plain.includes(` ${norm(w)} `)||(w.length>=4&&plain.includes(norm(w)));
+ const terms=[...words,...pairs];
+ const idf=new Map(terms.map(w=>[w,weight(w)*Math.log((tipDocs.length+1)/(1+tipDocs.filter(d=>has(d.ask+d.body,d.askP+d.bodyP,w)).length))]));
+ const scored=tipDocs.map(d=>({t:d.t,score:terms.reduce((n,w)=>n+idf.get(w)!*((has(d.ask,d.askP,w)?2:0)+(has(d.body,d.bodyP,w)?1:0)),0)+(args.topic&&d.t.chu_de===args.topic?3:0)}))
+  .filter(x=>x.score>0).sort((a,b)=>b.score-a.score);
+ const best=scored[0]?.score??0;
+ const kept=scored.filter(x=>x.score>=Math.max(1,best*0.7)).slice(0,Math.min(args.limit??2,5));
+ return {found:kept.length>0,tips:kept.map(({t})=>({id:t.id,topic:t.chu_de,text:lang==='vi'?t.noi_dung_vi:t.noi_dung_en,source:{label:t.nhan as SourceLabel,source:t.nguon,checked_at:t.ngay_kiem}}))};
 }

@@ -6,6 +6,8 @@ import { parseHours } from '../lib/hours';
 const placeColumns = 'id,ten_vi,ten_en,ten_khac,loai,khu,dia_chi,lat,lng,gio_mo,gia_tu,gia_den,mo_ta_vi,mo_ta_en,tag,thoi_gian_tham_quan,trang_thai,google_place_id,cau_chuyen_vi,cau_chuyen_en,nhin_ky_vi,nhin_ky_en,anh_url,anh_nguon,nhan,nguon,ngay_kiem,ghi_chu_vi,ghi_chu_en'.split(',');
 const priceColumns = 'id,hang_muc,ten_khac,don_vi,gia_tu,gia_den,meo_vi,meo_en,nhan,nguon,ngay_kiem'.split(',');
 const extraColumns = 'id,nhan,nguon,ngay_kiem,xac_nhan_vi,xac_nhan_en'.split(',');
+// General travel tips: each row keeps a verbatim quote from its source so the claim can be re-checked.
+const tipColumns = 'id,chu_de,cau_hoi_mau,noi_dung_vi,noi_dung_en,nhan,nguon,trich_dan,ngay_kiem'.split(',');
 const label = z.enum(['chinh_thuc','doanh_nghiep','ca_nhan','tham_khao']);
 const nonempty = z.string().min(1, 'required');
 const numeric = z.string().refine(v=>v!=='' && Number.isFinite(Number(v)), 'must be a number');
@@ -14,8 +16,9 @@ const schema = z.object({id:nonempty,nhan:label,nguon:z.url(),ngay_kiem:z.iso.da
 const placeSchema = schema.extend({ten_vi:nonempty,ten_en:nonempty,loai:z.enum(['di_tich','quan_an','ca_phe','diem_dem','trong_nha','giao_thong']),khu:z.enum(['Q1','Q3']),dia_chi:nonempty,lat:numeric,lng:numeric,gio_mo:z.string().refine(v=>{try {parseHours(v);return true;}catch{return false;}},'invalid hours grammar'),gia_tu:optionalNumber,gia_den:optionalNumber,thoi_gian_tham_quan:numeric,trang_thai:z.enum(['hoat_dong','tam_dong','dong_cua_vinh_vien'])});
 const priceSchema=schema.extend({hang_muc:nonempty,gia_tu:optionalNumber,gia_den:optionalNumber});
 const extraSchema=schema.extend({xac_nhan_vi:nonempty,xac_nhan_en:nonempty});
+const tipSchema=schema.extend({chu_de:z.enum(['di_lai','an_toan','tien_te','ket_noi','phep_lich_su','an_uong','thoi_tiet','van_hoa']),noi_dung_vi:nonempty,noi_dung_en:nonempty,trich_dan:nonempty});
 const known=new Set<string>();
-for (const [name, columns, validator] of [['dia_diem',placeColumns,placeSchema],['gia_tham_khao',priceColumns,priceSchema],['nguon_bo_sung',extraColumns,extraSchema]] as const) {
+for (const [name, columns, validator] of [['dia_diem',placeColumns,placeSchema],['gia_tham_khao',priceColumns,priceSchema],['nguon_bo_sung',extraColumns,extraSchema],['meo_du_lich',tipColumns,tipSchema]] as const) {
  const filename=`data/${name}.csv`; const raw=readFileSync(filename,'utf8');let records:{record:Record<string,string>;info:{lines:number}}[];try{const header=parse(raw,{to_line:1,bom:true})[0] as string[]|undefined;for(const column of columns)if(!header?.includes(column))throw new Error(`${filename} line 1 › ${column}: missing column`);records=parse(raw,{columns:true,skip_empty_lines:true,info:true,bom:true}) as typeof records;}catch(error){if(error instanceof Error&&error.message.startsWith(filename))throw error;const detail=error as {lines?:number;message?:string};throw new Error(`${filename} line ${detail.lines??1} › csv: ${detail.message??'invalid CSV'}`);} if(!records.length)throw new Error(`${filename} line 2 › csv: at least one row required`);const output=[]; const ids=new Set<string>();
  for (const {record,info} of records) {
   for (const column of columns) if (!(column in record)) throw new Error(`${filename} line 1 › ${column}: missing column`);

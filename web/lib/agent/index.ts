@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { type Message } from '../llm/openai-compatible';
 import { providerChain } from '../llm/config';
 import { FailoverProvider } from '../llm/failover';
-import { searchPlaces, checkPlaceLive, readTiktok, getPriceReference, planItinerary, getStory, getPlaceDetails, getWeather, findRoutes, travelEstimateBetween } from '../tools';
+import { searchPlaces, checkPlaceLive, readTiktok, getPriceReference, planItinerary, getStory, getPlaceDetails, getWeather, findRoutes, travelEstimateBetween, getTravelTips } from '../tools';
 import { type Block, type ChatRequest, type Place, type Reply } from '../schema';
 import { replyLanguage, outsideArea } from './language';
 import { sanitizeReplyText, compactToolResult } from './format';
@@ -33,6 +33,7 @@ function shortLine(blocks: Block[], lang: 'en' | 'vi'): string {
   if (has('itinerary')) return lang === 'vi' ? 'Đây là lịch trình đề xuất, xếp theo giờ mở cửa đã kiểm.' : 'Here is a suggested plan, built around checked opening times.';
   if (has('story')) return lang === 'vi' ? 'Đây là câu chuyện về địa điểm này.' : 'Here is the story behind this place.';
   if (has('price_check')) return lang === 'vi' ? 'Đây là mức giá tham khảo có nguồn.' : 'Here is the reference price and where it comes from.';
+  if (has('tips')) return lang === 'vi' ? 'Đây là các mẹo đã kiểm, kèm nguồn.' : 'Here are checked tips, each with its source.';
   if (has('route_cards')) return lang === 'vi' ? 'Đây là các lộ trình do người đã đi đăng.' : 'Here are routes posted by travellers who walked them.';
   return lang === 'vi' ? 'Đây là những gì mình tìm được trong dữ liệu đã kiểm.' : 'Here is what I found in the checked data.';
 }
@@ -177,6 +178,12 @@ export async function* streamAgent(request: ChatRequest): AsyncGenerator<AgentEv
           break;
         }
         case 'get_weather': result = await getWeather(ctx.now); break;
+        case 'get_travel_tips': {
+          const value = getTravelTips(raw as Parameters<typeof getTravelTips>[0], ctx.lang);
+          result = value;
+          if (value.found) blocks.push({ type: 'tips', items: value.tips });
+          break;
+        }
         case 'find_routes': {
           const value = await findRoutes(String(raw.query ?? ''), ctx.lang, request.client_id);
           result = value;

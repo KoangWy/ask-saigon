@@ -1,5 +1,7 @@
 import type { ChatRequest } from '../schema';
-const EN = /\b(where|what|when|how|why|is|are|can|could|find|recommend|please|want|worth|open|closed|ticket|price|near|time|does|do|tell me|show me|i am|i'm)\b/gi;
+// "can" is also unaccented "cần", so a question needs a second English word to count as English;
+// common function words (the, my, have, or…) supply it.
+const EN = /\b(where|what|when|how|why|is|are|can|could|find|recommend|please|want|worth|open|closed|ticket|price|near|time|does|do|tell me|show me|i am|i'm|the|my|your|have|has|or|and|with|for|should|need|drink|safe|you)\b/gi;
 const ACCENTED_VI = /[\u0102\u0103\u0110\u0111\u0128\u0129\u0168\u0169\u01a0\u01a1\u01af\u01b0\u1ea0-\u1ef9àáâãèéêìíòóôõùúý]/i;
 const STRONG_VI = /\b(tôi|mình|muốn|không|hãy|mấy|giờ|đâu|sao|gì|đang|nhé|ạ)\b/i;
 // Short questions typed without diacritics still have Vietnamese function words: use them before
