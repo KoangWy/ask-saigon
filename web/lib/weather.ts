@@ -4,17 +4,21 @@ type Forecast = { times: string[]; probability: number[]; precipitation: number[
 export type RainWindow = { date: string; start: string; end: string; probability: number; source: string; checked_at: string };
 const URL = 'https://api.open-meteo.com/v1/forecast?latitude=10.7769&longitude=106.7009&hourly=precipitation_probability,precipitation&timezone=Asia%2FHo_Chi_Minh&forecast_days=2';
 let cache: { at: number; data: Forecast } | null = null;
+// A failed fetch is remembered briefly: the chat agent calls this mid-answer, and waiting out the
+// timeout on every question while Open-Meteo is down would add seconds to each reply.
+let failedAt = 0;
 
 async function forecast(): Promise<Forecast | null> {
   if (cache && Date.now() - cache.at < 900000) return cache.data;
+  if (Date.now() - failedAt < 120000) return null;
   try {
-    const response = await fetch(URL, { signal: AbortSignal.timeout(4000) });
-    if (!response.ok) return null;
+    const response = await fetch(URL, { signal: AbortSignal.timeout(2500) });
+    if (!response.ok) { failedAt = Date.now(); return null; }
     const json = await response.json();
     const data = { times: json.hourly.time, probability: json.hourly.precipitation_probability, precipitation: json.hourly.precipitation };
     cache = { at: Date.now(), data };
     return data;
-  } catch { return null; }
+  } catch { failedAt = Date.now(); return null; }
 }
 // First stretch in the next `hours` hours where rain is likely (probability or measurable rain).
 export function findRain(f: Forecast, now: Date, threshold = 60, hours = 12): RainWindow | null {
